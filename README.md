@@ -15,7 +15,7 @@ JSON 포맷형태의 REST API를 지원합니다.
 
 # Dependencies
 
-데이터 수집기인 [Redis](https://github.com/NodeRedis/node_redis) 설치가 필요합니다.
+데이터 수집기인 [Redis](https://github.com/NodeRedis/node_redis) 설치 및 활용이 필요합니다.
 
 # Version
 
