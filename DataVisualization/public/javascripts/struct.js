@@ -2,7 +2,7 @@
  * Created by JAY on 2016. 7. 14..
  */
 
-$("#btnREST").click(function(){
+$("#btnREST").click(function () {
 
     document.getElementById('jsonChart').innerHTML = "";
 

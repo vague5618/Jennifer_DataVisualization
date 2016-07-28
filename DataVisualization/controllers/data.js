@@ -3,7 +3,7 @@
  */
 var request = require('request');
 
-module.exports.index = function(req, res) {
+module.exports.index = function (req, res) {
 
     var obj = req.body;
 
@@ -15,8 +15,8 @@ module.exports.index = function(req, res) {
         url: url,
         qs: obj,
         method: 'GET',
-    }, function(error, response, body){
-        if(error) {
+    }, function (error, response, body) {
+        if (error) {
             console.log(error);
         } else {
             res.send(body);

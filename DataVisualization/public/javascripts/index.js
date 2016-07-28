@@ -7,14 +7,14 @@ var form_data = new Object();
 var token = "1af00d7e-c633-34c8-8b67-e0dcbc2db964";
 
 form_data = {
-    appKey : token,
-    version : 1,
-    page : 1,
-    count : 10
+    appKey: token,
+    version: 1,
+    page: 1,
+    count: 10
 };
 
 
-$(document).ready(function() {
+$(document).ready(function () {
 
     //Add header
 
@@ -58,14 +58,37 @@ $(document).ready(function() {
         });
     });
 
+    //Add JSONPath
 
-    //Click A tag
+    $("#btnJSON").click(function () {
 
-    $("#inputPost").click(function()
-    {
+        if ($("#groupJSON input:last-child").val()=="$..path")
+        {
+            // skip AddInput
+        }
+
+        else
+        {
+            var row = '<input type="text" class="form-control" name="inputJSONPath" value="$..path" style="margin-top: 5px">';
+
+            $("#groupJSON").append(row);
+        }
+    });
+
+    //Submit Draw
+
+    $("#inputPost").click(function () {
+
         $('<input type="hidden" name="formData"/>').val(JSON.stringify(form_data)).appendTo('#formPost');
 
         $('#formPost').submit();
+    });
+
+
+    //Setting
+
+    $("#aChart").click(function () {
+        $('#modalChart .modal-body').html($('#groupJSON').clone());
     });
 
 });

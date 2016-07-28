@@ -6,6 +6,7 @@ var bodyParser = require('body-parser');
 var app = express();
 var collect  = require('./util/collect.js');
 var redis = require('./util/redis.js');
+var mongo = require('./util/mongo.js');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -24,5 +25,6 @@ require('./routes/routes')(app);
 
 redis.getConnection("127.0.0.1");
 collect.startCollect();
+mongo.connect("127.0.0.1");
 
 module.exports = app;

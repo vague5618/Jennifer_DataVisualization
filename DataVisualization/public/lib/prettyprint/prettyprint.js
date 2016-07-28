@@ -152,7 +152,7 @@ var prettyPrint = (function(){
 
 						path = "$" + path;
 
-						$('#inputJSONPath').val(path);
+						$("#groupJSON input:last-child").val(path);
 					}
 
 				}
