@@ -7,6 +7,9 @@ var form_data = new Object();
 var token = "1af00d7e-c633-34c8-8b67-e0dcbc2db964";
 
 form_data = {
+    title : "Sample",
+    interval: 300,
+    timeCheck: true,
     appKey: token,
     version: 1,
     page: 1,
@@ -43,6 +46,17 @@ $(document).ready(function () {
     //Save header
 
     $("#btnSave").click(function () {
+
+        form_data = new Object();
+
+        var title = $("#inputTitle").val();
+        var interVal = $("#inputInterval").val();
+        var timeCheck = $("#inputTimeCheck").is(":checked");
+
+        form_data['title'] = title;
+        form_data['interval'] = interVal;
+        form_data['timeCheck'] = timeCheck;
+
         $("#tbodyTable").children('tr').each(function () {
 
             var _key, _value = null;
@@ -85,10 +99,25 @@ $(document).ready(function () {
     });
 
 
-    //Setting
+    //Setting Chart
 
     $("#aChart").click(function () {
         $('#modalChart .modal-body').html($('#groupJSON').clone());
     });
 
+
+    //Struct JSON
+
+    $("#btnREST").click(function () {
+
+        document.getElementById('jsonChart').innerHTML = "";
+
+        var url = $('#inputUrl').val();
+
+        var data = getData(url, form_data);
+
+        var ppTable = prettyPrint(data);
+
+        document.getElementById('jsonChart').appendChild(ppTable);
+    });
 });

@@ -24,7 +24,6 @@ require('./routes/routes')(app);
 //trigger
 
 redis.getConnection("127.0.0.1");
-collect.startCollect();
 mongo.connect("127.0.0.1");
 
 module.exports = app;

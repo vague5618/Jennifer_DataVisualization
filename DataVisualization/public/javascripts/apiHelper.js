@@ -39,14 +39,14 @@ function getMelonInfo() {
     });
 }
 
-function getData(url, form_data) {
+function getData(url, formData) {
     var ret = null;
 
     form_data['url'] = url;
 
     $.ajax({
-        url: "http://localhost:3000/data",
-        data: form_data,
+        url: "http://localhost:3000/register",
+        data: formData,
         method: 'POST',
         dataType: "json",
         async: false

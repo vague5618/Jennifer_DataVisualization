@@ -4,20 +4,28 @@
 
 var dataDTO = require('../DTO/dataDTO');
 
-module.exports.save = function(data) {
+module.exports.save = function(title, data, timeCheck) {
 
     var newData = new dataDTO();
+
+    newData.title = title;
+
     newData.value = data;
-    newData.collectTime = Date.now();
+
+    if(timeCheck==false)
+        newData.collectTime = Date.now();
+
     newData.save();
 };
 
 module.exports.find = function(callback) {
     dataDTO.find({}, function (err, result) {
 
-        console.log(result[0].collectTime);
-
     });
 }
 
-
+module.exports.findOne = function(title, callback) {
+    dataDTO.findOne({title : title}, function (err, result) {
+            callback(result);
+    });
+}

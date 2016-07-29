@@ -3,7 +3,7 @@
  */
 
 var redis = require('../util/redis.js');
-//var url = "http://support.jennifersoft.com:8000/api/realtime/domain";
+var collect = require('../util/collect.js');
 
 module.exports.index = function (req, res) {
 
@@ -11,24 +11,25 @@ module.exports.index = function (req, res) {
     var url = json.url;
     var formData = JSON.parse(json.formData);
 
-    redis.existKey(url, function (check) {
-        //존재하지 않는다면 등록
-        if (check == false) {
-            redis.setValue(url, "", formData);
-
-            redis.setExpire(url, 300);
-        }
-
-        redis.getValue(url, function (result) {
-
-            var obj = JSON.parse(result);
-
-            if (obj.value == "")
-                res.status(200).send(false);
-            else
-                res.send(JSON.parse(obj.value));
-        });
-    });
+    //
+    //redis.existKey(url, function (check) {
+    //    //존재하지 않는다면 등록
+    //    if (check == false) {
+    //        redis.setValue(url, "", formData);
+    //
+    //        redis.setExpire(url, 300);
+    //    }
+    //
+    //    redis.getValue(url, function (result) {
+    //
+    //        var obj = JSON.parse(result);
+    //
+    //        if (obj.value == "")
+    //            res.status(200).send(false);
+    //        else
+    //            res.send(JSON.parse(obj.value));
+    //    });
+    //});
 };
 
 

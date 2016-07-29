@@ -5,6 +5,7 @@ var mongoose = require('mongoose');
 
 var dataSchema = mongoose.Schema(
     {
+        title : String,
         value: JSON,
         collectTime : Number
     }

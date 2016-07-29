@@ -4,9 +4,9 @@
 var redis = require('../util/redis.js');
 var dataDAO = require('../models/DAO/dataDAO.js');
 var request = require('request');
+var recordIntervals = {};
 
-
-module.exports.startCollect = function () {
+module.exports.checkCollect = function () {
 
     setInterval(function () {
         redis.getAll("127.0.0.1", function (keys) {
@@ -19,6 +19,7 @@ module.exports.startCollect = function () {
 collectData = function (value) {
 
     redis.getValue(value, function (data) {
+
         var obj = JSON.parse(data);
 
         request({
@@ -29,10 +30,36 @@ collectData = function (value) {
             if (error) {
                 console.error(error);
             } else {
-                dataDAO.save(body);
                 redis.updateValue(value, body, obj.formData);
             }
         });
     });
 };
 
+module.exports.collectURL = function (title, url, formData, interval, timeCheck) {
+
+    //수집기에 대한 중복 요청이 접근시에
+
+    if(recordIntervals[title]!=null)
+        recordIntervals[title]._idleTimeout = interval;
+
+    else {
+        recordIntervals[title] = setInterval(function (title, url, formData, timeCheck) {
+
+            request({
+                url: url,
+                qs: formData,
+                method: 'GET',
+            }, function (error, response, body) {
+                if (error) {
+                    console.error(error);
+                } else {
+                    //title, data, timeCheck
+                    dataDAO.save(title, body, timeCheck);
+
+                    //clearInterval(recordIntervals[title]);
+                }
+            });
+        }, interval, title, url, formData, timeCheck);
+    }
+};

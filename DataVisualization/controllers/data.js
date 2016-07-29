@@ -5,15 +5,19 @@ var request = require('request');
 
 module.exports.index = function (req, res) {
 
-    var obj = req.body;
+    console.log(req.body);
 
-    var url = obj.url;
+    var formData = req.body;
 
-    delete obj.url;
+    var url = formData.url;
+
+    delete formData.url;
+    delete formData.timeCheck;
+    delete formData.interval;
 
     request({
         url: url,
-        qs: obj,
+        qs: formData,
         method: 'GET',
     }, function (error, response, body) {
         if (error) {
