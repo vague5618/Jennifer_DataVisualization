@@ -7,6 +7,7 @@ var app = express();
 var collect  = require('./util/collect.js');
 var redis = require('./util/redis.js');
 var mongo = require('./util/mongo.js');
+var mysql = require('./util/mysql.js');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -23,7 +24,8 @@ require('./routes/routes')(app);
 
 //trigger
 
-redis.getConnection("127.0.0.1");
+//redis.getConnection("127.0.0.1");
 mongo.connect("127.0.0.1");
+//mysql.connect("192.168.0.202");
 
 module.exports = app;

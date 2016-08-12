@@ -207,7 +207,7 @@ jui.define("chart.draw", [ "util.base" ], function(_) {
         /**
          * @method on
          *
-         * chart.on() 을 쉽게 사용 할 수 있게 해주는 유틸리티 함수
+         * chartClass.on() 을 쉽게 사용 할 수 있게 해주는 유틸리티 함수
          *
          * @param {String} type event name
          * @param {Function} callback
@@ -874,7 +874,7 @@ jui.define("chart.axis", [ "util.base" ], function(_) {
             c: null,
             /** @cfg {chart.map.core} [map=null] Sets a map on the Map axis */
             map : null,
-            /** @cfg {Array} [data=[]]  Sets the row set data which constitute a chart.  */
+            /** @cfg {Array} [data=[]]  Sets the row set data which constitute a chartClass.  */
             data: [],
             /** @cfg {Array} [origin=[]]  [Fore read only] Original data initially set. */
             origin: [],
@@ -895,9 +895,9 @@ jui.define("chart.axis", [ "util.base" ], function(_) {
                 left: 0,
                 right: 0
             },
-            /** @cfg {Number} [buffer=10000] Limits the number of elements shown on a chart.  */
+            /** @cfg {Number} [buffer=10000] Limits the number of elements shown on a chartClass.  */
             buffer: 10000,
-            /** @cfg {Number} [shift=1]  Data shift count for the 'prev' or 'next' method of the chart builder.  */
+            /** @cfg {Number} [shift=1]  Data shift count for the 'prev' or 'next' method of the chartClass builder.  */
             shift: 1,
 
             /** @cfg {Number} [page=1]  Page number of the data currently drawn. */
@@ -907,7 +907,7 @@ jui.define("chart.axis", [ "util.base" ], function(_) {
             /** @cfg {Number} [end=0] */
             end: 0,
             /**
-             * @cfg  {Object} Set degree of 3d chart
+             * @cfg  {Object} Set degree of 3d chartClass
              * @cfg  {Number} [degree.x=0] axis's x-degree
              * @cfg  {Number} [degree.y=0] axis's y-degree
              * @cfg  {Number} [degree.z=0] axis's z-degree
@@ -917,9 +917,9 @@ jui.define("chart.axis", [ "util.base" ], function(_) {
                 y: 0,
                 z: 0
             },
-            /** @cfg {Number} [depth=0]  Set depth of 3d chart  */
+            /** @cfg {Number} [depth=0]  Set depth of 3d chartClass  */
             depth: 0,
-            /** @cfg {Number} [perspective=0.9]  Set perspective values in the 3d chart  */
+            /** @cfg {Number} [perspective=0.9]  Set perspective values in the 3d chartClass  */
             perspective: 0.9
         }
     }
@@ -1440,7 +1440,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
                 y: _padding.top
             };
 
-            // chart 크기가 마이너스일 경우 (엘리먼트가 hidden 상태)
+            // chartClass 크기가 마이너스일 경우 (엘리먼트가 hidden 상태)
             if(_chart.width < 0) _chart.width = 0;
             if(_chart.height < 0) _chart.height = 0;
 
@@ -2023,7 +2023,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
         }
 
         /**
-         * Gets a calculated value for a chart area (type: width, height, x, y, x2, y2)).
+         * Gets a calculated value for a chartClass area (type: width, height, x, y, x2, y2)).
          *
          * @param {String} key
          * @return {Number/Object}
@@ -2143,15 +2143,15 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
         /**
          * @method theme
          *
-         * Gets a value for the theme element applied to the current chart.
+         * Gets a value for the theme element applied to the current chartClass.
          *
          * ```
          *      // get all theme property
-         *      var theme = chart.theme();
+         *      var theme = chartClass.theme();
          *      // get a part of theme
-         *      var fontColor = chart.theme("fontColor");
+         *      var fontColor = chartClass.theme("fontColor");
          *      // get selected value of theme
-         *      chart.theme(isSelected, "selectedFontColor", "fontColor");  // if isSelected is true, return 'selectedFontColor' else return 'fontColor'
+         *      chartClass.theme(isSelected, "selectedFontColor", "fontColor");  // if isSelected is true, return 'selectedFontColor' else return 'fontColor'
          * ```
          */
         this.theme = function(key, value, value2) {
@@ -2249,10 +2249,10 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
             // SVG 메인 리셋
             this.svg.reset(isAll);
 
-            // chart 이벤트 초기화 (삭제 대상)
+            // chartClass 이벤트 초기화 (삭제 대상)
             resetCustomEvent(this, isAll);
 
-            // chart 영역 계산
+            // chartClass 영역 계산
             calculate(this);
 
             // Canvas 초기 설정
@@ -2264,7 +2264,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
                 }
             }
 
-            // chart 관련된 요소 draw
+            // chartClass 관련된 요소 draw
             drawBefore(this);
             drawAxis(this);
             drawBrush(this);
@@ -2376,7 +2376,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
         }
 
         /**
-         * Changes a chart to a specified theme and renders the chart again.
+         * Changes a chartClass to a specified theme and renders the chartClass again.
          *
          * @param {String/Object} theme
          */
@@ -2386,7 +2386,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
         }
 
         /**
-         * Changes the size of a chart to the specified area and height then performs rendering.
+         * Changes the size of a chartClass to the specified area and height then performs rendering.
          *
          * @param {Number} width
          * @param {Number} height
@@ -2415,7 +2415,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
         }
 
         /**
-         * Returns true if the horizontal or vertical size of the chart is 100%.
+         * Returns true if the horizontal or vertical size of the chartClass is 100%.
          *
          * @return {Boolean}
          */
@@ -2427,7 +2427,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
         }
 
         /**
-         * Resize the chart to fit the screen width.
+         * Resize the chartClass to fit the screen width.
          *
          */
         this.resize = function() {
@@ -2441,7 +2441,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
         }
 
         /**
-         * Returns the values of rendering options and, if the rendering option is false, does not render the chart again when a method is called.
+         * Returns the values of rendering options and, if the rendering option is false, does not render the chartClass again when a method is called.
          *
          * @return {Boolean}
          */
@@ -2452,16 +2452,16 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
 
     UI.setup = function() {
         return {
-            /** @cfg  {String/Number} [width="100%"] chart width */ 
+            /** @cfg  {String/Number} [width="100%"] chartClass width */
             width: "100%",
-            /** @cfg  {String/Number} [height="100%"] chart height */
+            /** @cfg  {String/Number} [height="100%"] chartClass height */
             height: "100%",
             /** 
-             * @cfg  {Object} padding chart padding 
-             * @cfg  {Number} [padding.top=50] chart padding 
-             * @cfg  {Number} [padding.bottom=50] chart padding
-             * @cfg  {Number} [padding.left=50] chart padding
-             * @cfg  {Number} [padding.right=50] chart padding
+             * @cfg  {Object} padding chartClass padding
+             * @cfg  {Number} [padding.top=50] chartClass padding
+             * @cfg  {Number} [padding.bottom=50] chartClass padding
+             * @cfg  {Number} [padding.left=50] chartClass padding
+             * @cfg  {Number} [padding.right=50] chartClass padding
              */
             padding: {
                 top: 50,
@@ -2470,26 +2470,26 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
                 right: 50
             },
 
-            /** @cfg  {String} [theme=jennifer] chart theme  */
+            /** @cfg  {String} [theme=jennifer] chartClass theme  */
             theme: "jennifer",
-            /** @cfg  {Object} style chart custom theme  */
+            /** @cfg  {Object} style chartClass custom theme  */
             style: {},
-            /** @cfg {Array} brush Determines a brush to be added to a chart. */
+            /** @cfg {Array} brush Determines a brush to be added to a chartClass. */
             brush: [],
-            /** @cfg {Array} widget Determines a widget to be added to a chart. */
+            /** @cfg {Array} widget Determines a widget to be added to a chartClass. */
             widget: [],
-            /** @cfg {Array} [axis=[]] Determines a axis to be added to a chart. */
+            /** @cfg {Array} [axis=[]] Determines a axis to be added to a chartClass. */
             axis: [],
 
             /** @cfg {Object} [bind=null] Sets a component objects to be bind.*/
             bind: null,
             /** @cfg {Function} [format=null] Sets a format callback function to be used in a grid/brush/widget. */
             format: null,
-            /** @cfg {Boolean} [render=true] Does not render a chart when a rendering-related method is called with false (although the render method is not included). */
+            /** @cfg {Boolean} [render=true] Does not render a chartClass when a rendering-related method is called with false (although the render method is not included). */
             render: true,
 
             /**
-             * @cfg {Object} icon Icon-related settings available in the chart.
+             * @cfg {Object} icon Icon-related settings available in the chartClass.
              * @cfg {String} [icon.type="jennifer"]
              * @cfg {String} [icon.path=null]
              */
@@ -8092,7 +8092,7 @@ jui.define("chart.brush.core", [ "util.base", "util.dom" ], function(_, $) {
         /**
          * @method getValue
          *
-         * chart.axis.getValue alias
+         * chartClass.axis.getValue alias
          *
          * @param {Object} data row data
          * @param {String} fieldString 필드 이름
@@ -8281,7 +8281,7 @@ jui.define("chart.brush.core", [ "util.base", "util.dom" ], function(_, $) {
         /**
          * @method color
          *  
-         * chart.color() 를 쉽게 사용할 수 있게 만든 유틸리티 함수 
+         * chartClass.color() 를 쉽게 사용할 수 있게 만든 유틸리티 함수
          *  
          * @param {Number} key1  브러쉬에서 사용될 컬러 Index
          * @param {Number} key2  브러쉬에서 사용될 컬러 Index
@@ -8351,7 +8351,7 @@ jui.define("chart.brush.core", [ "util.base", "util.dom" ], function(_, $) {
             axis: 0,
             /** @cfg {Integer} [index=null] [Read Only] Sequence index on which brush is drawn. */
             index: null,
-            /** @cfg {boolean} [clip=true] If the brush is drawn outside of the chart, cut the area. */
+            /** @cfg {boolean} [clip=true] If the brush is drawn outside of the chartClass, cut the area. */
             clip: true,
             /** @cfg {boolean} [useEvent=true] If you do not use a brush events, it gives better performance. */
             useEvent: true
@@ -9507,7 +9507,7 @@ jui.define("chart.brush.circle", ["util.base"], function(_) {
 
     CircleBrush.setup = function() {
         return {
-            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
+            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
             clip: false,
 
             /** @cfg {Number} [size=1] set gauge stroke width  */
@@ -11456,7 +11456,7 @@ jui.define("chart.brush.pie", [ "util.base", "util.math", "util.color" ], functi
 
     PieBrush.setup = function() {
         return {
-            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
+            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
             clip: false,
             /** @cfg {String} [showText=null] Set the text appear. (outside or inside)  */
             showText: null,
@@ -12024,7 +12024,7 @@ jui.define("chart.brush.scatter", [ "util.base" ], function(_) {
             activeEvent: null,
             /** @cfg {"max"/"min"/"all"} [display=null]  Shows a tooltip on the scatter for the minimum/maximum value.  */
             display: null,
-            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
+            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
             clip: false
         };
     }
@@ -12247,7 +12247,7 @@ jui.define("chart.brush.circlegauge", [], function() {
 
     CircleGaugeBrush.setup = function() {
         return {
-            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
+            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
             clip: false
         }
     }
@@ -14017,7 +14017,7 @@ jui.define("chart.brush.topologynode",
 
     TopologyNode.setup = function() {
         return {
-            /** @cfg {Boolean} [clip=true] If the brush is drawn outside of the chart, cut the area. */
+            /** @cfg {Boolean} [clip=true] If the brush is drawn outside of the chartClass, cut the area. */
             clip: true,
 
             // topology options
@@ -14227,7 +14227,7 @@ jui.define("chart.brush.pin", [ "util.base" ], function(_) {
             split: 0,
             /** @cfg {Function} [format=null] */
             format: null,
-            /** @cfg {boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
+            /** @cfg {boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
             clip : false
         };
     }
@@ -15095,7 +15095,7 @@ jui.define("chart.brush.pyramid", [ "util.base" ], function(_) {
 
     PyramidBrush.setup = function() {
         return {
-            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
+            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
             clip: false,
             /** @cfg {Boolean} [showText=false] Set the text appear. */
             showText: false,
@@ -15932,7 +15932,7 @@ jui.define("chart.brush.polygon.scatter3d",
 		return {
 			/** @cfg {Number} [size=7]  Determines the size of a starter. */
 			size: 7,
-			/** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
+			/** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
 			clip: false
 		};
 	}
@@ -16021,7 +16021,7 @@ jui.define("chart.brush.polygon.column3d",
 			height: 0,
 			/** @cfg {Number} [padding=20] Determines the outer margin of a bar.  */
 			padding: 20,
-			/** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
+			/** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
 			clip: false
 		};
 	}
@@ -16103,7 +16103,7 @@ jui.define("chart.brush.polygon.line3d",
 		return {
 			/** @cfg {Number} [padding=20] Determines the outer margin of a bar.  */
 			padding: 10,
-			/** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
+			/** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
 			clip: false
 		};
 	}
@@ -17022,9 +17022,9 @@ jui.define("chart.widget.title", [], function() {
             align: "center",
             /** @cfg {String} [text=""] Sets the title message. */
             text: "",
-            /** @cfg {Number} [dx=0] Moves the x coordinate by a set value from the location where the chart is drawn.  */
+            /** @cfg {Number} [dx=0] Moves the x coordinate by a set value from the location where the chartClass is drawn.  */
             dx: 0,
-            /** @cfg {Number} [dy=0] Moves the y coordinate by a set value from the location where the chart is drawn. */
+            /** @cfg {Number} [dy=0] Moves the y coordinate by a set value from the location where the chartClass is drawn. */
             dy: 0,
             /** @cfg {Number} [size=null] Sets the title message size. */
             size: null,

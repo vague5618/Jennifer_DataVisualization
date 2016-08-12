@@ -271,7 +271,7 @@ jui.define("chart.brush.scatter", [ "util.base" ], function(_) {
             activeEvent: null,
             /** @cfg {"max"/"min"/"all"} [display=null]  Shows a tooltip on the scatter for the minimum/maximum value.  */
             display: null,
-            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
+            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
             clip: false
         };
     }

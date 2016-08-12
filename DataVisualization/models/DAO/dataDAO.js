@@ -3,29 +3,213 @@
  */
 
 var dataDTO = require('../DTO/dataDTO');
+var async = require('async');
+require('datejs');
 
-module.exports.save = function(title, data, timeCheck) {
 
-    var newData = new dataDTO();
+module.exports.save = function (title, data, timeCheck) {
+
+    var newData = new dataDTO(data);
 
     newData.title = title;
 
-    newData.value = data;
+    if (timeCheck == 'false' || data['time'] == null) {
+        newData.time = new Date().getTime();
+    }
 
-    if(timeCheck==false)
-        newData.collectTime = Date.now();
+
+    //만약 time객체가 Date라면 -> timestamp
+
+    if(typeof(data['time'])=="object")
+        newData.time = data['time'].getTime();
 
     newData.save();
 };
 
-module.exports.find = function(callback) {
-    dataDTO.find({}, function (err, result) {
+module.exports.find = function (title, timeColumn, getTime, callback) {
 
+    var query = {};
+    query["title"] = title;
+    query[timeColumn] = {$gt: new Date(Date.now() - getTime * 1000).getTime()};
+
+    dataDTO.find(query, function (err, result) {
+
+        callback(result);
     });
 }
 
-module.exports.findOne = function(title, callback) {
-    dataDTO.findOne({title : title}, function (err, result) {
-            callback(result);
+module.exports.findOne = function (title, callback) {
+    dataDTO.findOne({title: title}, function (err, result) {
+        callback(result);
     });
 }
+
+module.exports.getTitle = function (callback) {
+
+    dataDTO.distinct("title", function (err, result) {
+        callback(result);
+    });
+}
+
+module.exports.getHourData = function (title, timeColumn, valueColumn, callback) {
+
+    var ret = [];
+
+    async.waterfall([
+            function (callback) {
+                //get TodayData
+                //title, timeColumn, valueColumn, start, end, howLong, ret, callback
+
+                query(title, timeColumn, valueColumn,
+                    Date.today().getTime(), (0).day().fromNow().getTime(), 5, ret, callback);
+            },
+
+            function (callback) {
+                //get YesterdayData
+                //title, timeColumn, valueColumn, start, end, howLong, ret, callback
+                query(title, timeColumn, valueColumn,
+                    (-1).day().fromNow().getTime(), Date.today().getTime(), 5, ret, callback);
+            }],
+
+        function (err, result) {
+            while (ret.length < 288)
+                ret[ret.length] = null;
+
+            console.log("1day length : " + ret.length);
+
+            callback(ret);
+        }
+    );
+}
+
+
+module.exports.getFiveData = function (title, timeColumn, valueColumn, callback) {
+
+    var ret = [];
+
+    async.waterfall([
+            function (callback) {
+                //get TodayData
+                //title, timeColumn, valueColumn, start, end, howLong, ret, callback
+                query(title, timeColumn, valueColumn,
+                    (0).day().fromNow().addMinutes(-5).getTime(), (0).day().fromNow().getTime(), 5, ret, callback);
+            }],
+        function (err, result) {
+
+            console.log("5mintueMean length : "+ret.length);
+
+            for(var i=0; i<ret.length; i++) {
+                if (ret[i] != null) {
+                    callback(ret[i]);
+                    break;
+                }
+            }
+        }
+    );
+}
+
+
+module.exports.createData = function () {
+    var start = (-1).day().fromNow();
+    var current = (0).day().fromNow().addHours(10);
+
+    while (start < current) {
+        var obj = new Object();
+
+        obj['tps'] = [Math.random()];
+
+        var newData = new dataDTO(obj);
+
+        newData.title = "createTEST";
+
+        newData.time = start.addMinutes(1).getTime();
+
+        newData.save();
+    }
+}
+
+module.exports.removeData = function () {
+    dataDTO.remove({}, function () {
+    });
+}
+
+function query(title, timeColumn, valueColumn, start, end, howLong, ret, callback)
+{
+    dataDTO.aggregate([
+        {
+            $match : {title : title, time: {$lt: end , $gt: start}}
+        },
+        {
+            "$project": {
+                "date": { "$add": [new Date(0), "$"+timeColumn] },
+                "list": "$"+valueColumn
+            }
+        },
+        {
+            $group : {
+                "_id": {
+                    "hour" : {
+                        $hour : "$date"
+                    },
+                    "minute" : {
+                        $subtract:
+                            [
+                                {
+                                    $minute: '$date'
+                                },
+                                {
+                                    $mod : [{$minute : '$date'}, howLong]
+                                }
+                            ]
+                    }
+                },
+
+                "list": {$push: '$list'}
+            }
+        },
+        {
+            $sort: {
+                "_id.hour": 1,
+                "_id.minute": 1
+            }
+        }
+    ], function (err, result) {
+
+        for (var i = 0; i < result.length; i++) {
+
+            var tempIndex = getTimeToIndex((result[i]._id.hour + 9) % 24, result[i]._id.minute);
+
+            var tempMean = mean(result[i].list);
+
+            ret[tempIndex] = tempMean;
+        }
+
+        callback(null);
+    });
+}
+
+function mean(arr) {
+
+    var ret = [];
+
+    console.log(typeof(ret[0]));
+
+    for (var i = 0; i < arr[0].length; i++) {
+        var sum = 0;
+
+        for (var j = 0; j < arr.length; j++) {
+            sum += arr[j][i];
+        }
+
+        ret.push(sum / arr.length);
+    }
+
+    return ret;
+}
+
+function getTimeToIndex(tempHour, tempMinute) {
+    return tempHour * 12 + tempMinute / 5;
+}
+
+this.removeData();
+//this.createData();

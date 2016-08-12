@@ -79,7 +79,7 @@ jui.define("chart.brush.polygon.column3d",
 			height: 0,
 			/** @cfg {Number} [padding=20] Determines the outer margin of a bar.  */
 			padding: 20,
-			/** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
+			/** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
 			clip: false
 		};
 	}

@@ -37,15 +37,17 @@ policies, either expressed or implied, of James Padolsey.
 
 */
 
+var targetObj = null;
+
 var prettyPrint = (function(){
 	
 	/* These "util" functions are not part of the core
 	   functionality but are  all necessary - mostly DOM helpers */
-	
+
 	var util = {
-		
+
 		el: function(type, attrs) {
-			
+
 			/* Create new element */
 			var el = document.createElement(type), attr;
 
@@ -86,7 +88,7 @@ var prettyPrint = (function(){
 		},
 		
 		row: function(cells, type, cellType) {
-			
+
 			/* Creates new <tr> */
 			cellType = cellType || 'td';
 			
@@ -152,7 +154,10 @@ var prettyPrint = (function(){
 
 						path = "$" + path;
 
+						//console.log(typeof(jsonPath(targetObj,path)[0]));
+
 						$("#groupJSON input:last-child").val(path);
+
 					}
 
 				}
@@ -449,7 +454,9 @@ var prettyPrint = (function(){
 		 *	  obj :: Object to be printed					
 		 *  options :: Options (merged with config)
 		 */
-		
+
+		targetObj = obj;
+
 		options = options || {};
 		
 		var settings = util.merge( {}, prettyPrintThis.config, options ),

@@ -59,7 +59,7 @@ jui.define("chart.brush.polygon.scatter3d",
 		return {
 			/** @cfg {Number} [size=7]  Determines the size of a starter. */
 			size: 7,
-			/** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
+			/** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
 			clip: false
 		};
 	}

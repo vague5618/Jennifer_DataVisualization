@@ -5,34 +5,34 @@ var css = require("css"),
 module.exports = function(grunt) {
 
     var chart_src = [
-        // chart (core)
+        // chartClass (core)
         "js/vector.js",
         "js/draw.js",
         "js/axis.js",
         "js/map.js",
         "js/builder.js",
 
-        // chart.theme
+        // chartClass.theme
         "js/theme/jennifer.js",
         "js/theme/gradient.js", // jennifer gradient style
         "js/theme/dark.js",
         "js/theme/pastel.js",
         "js/theme/pattern.js",
 
-        // chart.pattern
+        // chartClass.pattern
         "js/pattern/jennifer.js",
 
-        // chart.icon
+        // chartClass.icon
         "js/icon/jennifer.js",
 
-        // chart.polygon
+        // chartClass.polygon
         "js/polygon/core.js",
         "js/polygon/grid.js",
         "js/polygon/line.js",
         "js/polygon/point.js",
         "js/polygon/cube.js",
 
-        // chart.grid
+        // chartClass.grid
         "js/grid/draw2d.js",
         "js/grid/draw3d.js",
         "js/grid/core.js",
@@ -50,7 +50,7 @@ module.exports = function(grunt) {
         "js/grid/topologytable.js",
         "js/grid/grid3d.js",
 
-        // chart.brush
+        // chartClass.brush
         "js/brush/core.js",
         "js/brush/imagebar.js",
         "js/brush/imagecolumn.js",
@@ -135,7 +135,7 @@ module.exports = function(grunt) {
         "js/brush/canvas/scatter3d.js",
         "js/brush/canvas/model3d.js",
 
-        // chart.widget
+        // chartClass.widget
         "js/widget/core.js",
         "js/widget/tooltip.js",
         "js/widget/title.js",
@@ -180,16 +180,16 @@ module.exports = function(grunt) {
             all: [ "test/*.html", "test/*/*.html" ]
         },
         concat : {
-            // jui chart
+            // jui chartClass
             dist : {
                 src : chart_src,
-                dest : "dist/chart.js"
+                dest : "dist/chartClass.js"
             }
         },
         uglify: {
             dist : {
                 files : {
-                    "dist/chart.min.js" : [ "dist/chart.js" ]
+                    "dist/chart.min.js" : [ "dist/chartClass.js" ]
                 }
             }
         },
@@ -235,7 +235,7 @@ module.exports = function(grunt) {
             list[filename] = obj;
         })
 
-        var str = 'jui.define("chart.pattern.jennifer", [], function() {\n' + '\treturn ' + JSON.stringify(list, null, 4)+ "\n" + "});";
+        var str = 'jui.define("chartClass.pattern.jennifer", [], function() {\n' + '\treturn ' + JSON.stringify(list, null, 4)+ "\n" + "});";
 
         fs.writeFileSync(grunt.config("pattern.dist"), new Buffer(str));
 
@@ -266,7 +266,7 @@ module.exports = function(grunt) {
             }
         })
 
-        var str = 'jui.define("chart.icon.jennifer", [], function() {\n' +
+        var str = 'jui.define("chartClass.icon.jennifer", [], function() {\n' +
             '\treturn ' +
             "{\n" + icons.join(",\r\n") + "\n\t}\n" +
             "});";

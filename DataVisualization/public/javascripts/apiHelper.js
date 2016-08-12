@@ -45,6 +45,43 @@ function getData(url, formData) {
     form_data['url'] = url;
 
     $.ajax({
+        url: "http://localhost:3000/data",
+        data: formData,
+        method: 'POST',
+        dataType: "json",
+        async: false
+    }).then(function (data) {
+        ret = data;
+    });
+
+    return ret;
+}
+
+function getTitle(formData) {
+
+    var ret = null;
+
+    form_data['type'] = "title";
+
+    $.ajax({
+        url: "http://localhost:3000/find",
+        data: formData,
+        method: 'POST',
+        dataType: "json",
+        async: false
+    }).then(function (data) {
+        ret = data;
+    });
+
+    return ret;
+}
+
+
+function setRegister(formData) {
+
+    var ret = null;
+
+    $.ajax({
         url: "http://localhost:3000/register",
         data: formData,
         method: 'POST',
@@ -58,3 +95,39 @@ function getData(url, formData) {
 }
 
 
+function getKeys(title) {
+
+    var ret = null;
+
+    form_data['title'] = title;
+    form_data['type'] = "keys";
+
+    $.ajax({
+        url: "http://localhost:3000/find",
+        data : form_data,
+        method: 'POST',
+        dataType: "json",
+        async: false
+    }).then(function (data) {
+        ret = data;
+    });
+
+    return ret;
+}
+
+function getConnectDB(form_data) {
+
+    var ret = null;
+
+    $.ajax({
+        url: "http://localhost:3000/db",
+        data : form_data,
+        method: 'POST',
+        dataType: "json",
+        async: false
+    }).then(function (data) {
+        ret = data;
+    });
+
+    return ret;
+}

@@ -607,7 +607,7 @@ jui.define("chart.axis", [ "util.base" ], function(_) {
             c: null,
             /** @cfg {chart.map.core} [map=null] Sets a map on the Map axis */
             map : null,
-            /** @cfg {Array} [data=[]]  Sets the row set data which constitute a chart.  */
+            /** @cfg {Array} [data=[]]  Sets the row set data which constitute a chartClass.  */
             data: [],
             /** @cfg {Array} [origin=[]]  [Fore read only] Original data initially set. */
             origin: [],
@@ -628,9 +628,9 @@ jui.define("chart.axis", [ "util.base" ], function(_) {
                 left: 0,
                 right: 0
             },
-            /** @cfg {Number} [buffer=10000] Limits the number of elements shown on a chart.  */
+            /** @cfg {Number} [buffer=10000] Limits the number of elements shown on a chartClass.  */
             buffer: 10000,
-            /** @cfg {Number} [shift=1]  Data shift count for the 'prev' or 'next' method of the chart builder.  */
+            /** @cfg {Number} [shift=1]  Data shift count for the 'prev' or 'next' method of the chartClass builder.  */
             shift: 1,
 
             /** @cfg {Number} [page=1]  Page number of the data currently drawn. */
@@ -640,7 +640,7 @@ jui.define("chart.axis", [ "util.base" ], function(_) {
             /** @cfg {Number} [end=0] */
             end: 0,
             /**
-             * @cfg  {Object} Set degree of 3d chart
+             * @cfg  {Object} Set degree of 3d chartClass
              * @cfg  {Number} [degree.x=0] axis's x-degree
              * @cfg  {Number} [degree.y=0] axis's y-degree
              * @cfg  {Number} [degree.z=0] axis's z-degree
@@ -650,9 +650,9 @@ jui.define("chart.axis", [ "util.base" ], function(_) {
                 y: 0,
                 z: 0
             },
-            /** @cfg {Number} [depth=0]  Set depth of 3d chart  */
+            /** @cfg {Number} [depth=0]  Set depth of 3d chartClass  */
             depth: 0,
-            /** @cfg {Number} [perspective=0.9]  Set perspective values in the 3d chart  */
+            /** @cfg {Number} [perspective=0.9]  Set perspective values in the 3d chartClass  */
             perspective: 0.9
         }
     }

@@ -5,8 +5,6 @@ var request = require('request');
 
 module.exports.index = function (req, res) {
 
-    console.log(req.body);
-
     var formData = req.body;
 
     var url = formData.url;
@@ -22,6 +20,7 @@ module.exports.index = function (req, res) {
     }, function (error, response, body) {
         if (error) {
             console.log(error);
+            res.send(null);
         } else {
             res.send(body);
         }

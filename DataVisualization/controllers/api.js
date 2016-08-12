@@ -2,34 +2,36 @@
  * Created by JAY on 2016. 7. 18..
  */
 
-var redis = require('../util/redis.js');
-var collect = require('../util/collect.js');
+var dataDAO = require('../models/DAO/dataDAO.js');
 
 module.exports.index = function (req, res) {
 
-    var json = req.body;
-    var url = json.url;
-    var formData = JSON.parse(json.formData);
+    var json = req.query;
+    var title = json.title;
+    var timeColumn = json.timeColumn;
+    var time = json.time;
+    var value = json.value;
+    var type = json.type;
 
-    //
-    //redis.existKey(url, function (check) {
-    //    //존재하지 않는다면 등록
-    //    if (check == false) {
-    //        redis.setValue(url, "", formData);
-    //
-    //        redis.setExpire(url, 300);
-    //    }
-    //
-    //    redis.getValue(url, function (result) {
-    //
-    //        var obj = JSON.parse(result);
-    //
-    //        if (obj.value == "")
-    //            res.status(200).send(false);
-    //        else
-    //            res.send(JSON.parse(obj.value));
-    //    });
-    //});
+    if (type == "5minute") {    //title, timeColumn, minutes, callback
+        dataDAO.find(title, timeColumn, time, function (result) {
+            res.send(result);
+        });
+    }
+
+    if (type == "1day") {
+        dataDAO.getHourData(title, timeColumn, value, function (result) {
+            res.send(result);
+        });
+    }
+
+    if (type == "5minuteMean") {
+
+        //title, timeColumn, valueColumn
+        dataDAO.getFiveData(title, timeColumn, value, function (result) {
+            res.send(result);
+        });
+    }
 };
 
 

@@ -149,7 +149,7 @@ jui.define("chart.draw", [ "util.base" ], function(_) {
         /**
          * @method on
          *
-         * chart.on() 을 쉽게 사용 할 수 있게 해주는 유틸리티 함수
+         * chartClass.on() 을 쉽게 사용 할 수 있게 해주는 유틸리티 함수
          *
          * @param {String} type event name
          * @param {Function} callback

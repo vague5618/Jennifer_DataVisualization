@@ -68,7 +68,7 @@ module.exports = function(grunt) {
         copy: {
             publish: {
                 files: [
-                    { expand: true, flatten: true, src: [ "dist/*" ], dest: "../jui-chart/lib", filter: "isFile" },
+                    { expand: true, flatten: true, src: [ "dist/*" ], dest: "../jui-chartClass/lib", filter: "isFile" },
                     { expand: true, flatten: true, src: [ "dist/*" ], dest: "../jui/lib", filter: "isFile" },
                     { expand: true, flatten: true, src: [ "dist/*" ], dest: "../jui-grid/lib", filter: "isFile" }
                 ]

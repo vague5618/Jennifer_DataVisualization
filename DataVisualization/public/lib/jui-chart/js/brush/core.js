@@ -230,7 +230,7 @@ jui.define("chart.brush.core", [ "util.base", "util.dom" ], function(_, $) {
         /**
          * @method getValue
          *
-         * chart.axis.getValue alias
+         * chartClass.axis.getValue alias
          *
          * @param {Object} data row data
          * @param {String} fieldString 필드 이름
@@ -419,7 +419,7 @@ jui.define("chart.brush.core", [ "util.base", "util.dom" ], function(_, $) {
         /**
          * @method color
          *  
-         * chart.color() 를 쉽게 사용할 수 있게 만든 유틸리티 함수 
+         * chartClass.color() 를 쉽게 사용할 수 있게 만든 유틸리티 함수
          *  
          * @param {Number} key1  브러쉬에서 사용될 컬러 Index
          * @param {Number} key2  브러쉬에서 사용될 컬러 Index
@@ -489,7 +489,7 @@ jui.define("chart.brush.core", [ "util.base", "util.dom" ], function(_, $) {
             axis: 0,
             /** @cfg {Integer} [index=null] [Read Only] Sequence index on which brush is drawn. */
             index: null,
-            /** @cfg {boolean} [clip=true] If the brush is drawn outside of the chart, cut the area. */
+            /** @cfg {boolean} [clip=true] If the brush is drawn outside of the chartClass, cut the area. */
             clip: true,
             /** @cfg {boolean} [useEvent=true] If you do not use a brush events, it gives better performance. */
             useEvent: true

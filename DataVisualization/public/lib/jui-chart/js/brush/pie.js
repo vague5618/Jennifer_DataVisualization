@@ -290,7 +290,7 @@ jui.define("chart.brush.pie", [ "util.base", "util.math", "util.color" ], functi
 
     PieBrush.setup = function() {
         return {
-            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
+            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
             clip: false,
             /** @cfg {String} [showText=null] Set the text appear. (outside or inside)  */
             showText: null,

@@ -59,7 +59,7 @@ jui.define("chart.brush.pin", [ "util.base" ], function(_) {
             split: 0,
             /** @cfg {Function} [format=null] */
             format: null,
-            /** @cfg {boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
+            /** @cfg {boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
             clip : false
         };
     }

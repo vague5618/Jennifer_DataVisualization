@@ -94,9 +94,9 @@ jui.define("chart.widget.title", [], function() {
             align: "center",
             /** @cfg {String} [text=""] Sets the title message. */
             text: "",
-            /** @cfg {Number} [dx=0] Moves the x coordinate by a set value from the location where the chart is drawn.  */
+            /** @cfg {Number} [dx=0] Moves the x coordinate by a set value from the location where the chartClass is drawn.  */
             dx: 0,
-            /** @cfg {Number} [dy=0] Moves the y coordinate by a set value from the location where the chart is drawn. */
+            /** @cfg {Number} [dy=0] Moves the y coordinate by a set value from the location where the chartClass is drawn. */
             dy: 0,
             /** @cfg {Number} [size=null] Sets the title message size. */
             size: null,

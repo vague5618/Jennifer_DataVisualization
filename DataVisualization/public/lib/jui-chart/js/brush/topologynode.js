@@ -656,7 +656,7 @@ jui.define("chart.brush.topologynode",
 
     TopologyNode.setup = function() {
         return {
-            /** @cfg {Boolean} [clip=true] If the brush is drawn outside of the chart, cut the area. */
+            /** @cfg {Boolean} [clip=true] If the brush is drawn outside of the chartClass, cut the area. */
             clip: true,
 
             // topology options

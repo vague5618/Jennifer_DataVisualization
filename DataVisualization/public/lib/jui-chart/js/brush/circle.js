@@ -100,7 +100,7 @@ jui.define("chart.brush.circle", ["util.base"], function(_) {
 
     CircleBrush.setup = function() {
         return {
-            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
+            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
             clip: false,
 
             /** @cfg {Number} [size=1] set gauge stroke width  */

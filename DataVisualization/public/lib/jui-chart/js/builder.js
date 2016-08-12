@@ -43,7 +43,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
                 y: _padding.top
             };
 
-            // chart 크기가 마이너스일 경우 (엘리먼트가 hidden 상태)
+            // chartClass 크기가 마이너스일 경우 (엘리먼트가 hidden 상태)
             if(_chart.width < 0) _chart.width = 0;
             if(_chart.height < 0) _chart.height = 0;
 
@@ -626,7 +626,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
         }
 
         /**
-         * Gets a calculated value for a chart area (type: width, height, x, y, x2, y2)).
+         * Gets a calculated value for a chartClass area (type: width, height, x, y, x2, y2)).
          *
          * @param {String} key
          * @return {Number/Object}
@@ -746,15 +746,15 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
         /**
          * @method theme
          *
-         * Gets a value for the theme element applied to the current chart.
+         * Gets a value for the theme element applied to the current chartClass.
          *
          * ```
          *      // get all theme property
-         *      var theme = chart.theme();
+         *      var theme = chartClass.theme();
          *      // get a part of theme
-         *      var fontColor = chart.theme("fontColor");
+         *      var fontColor = chartClass.theme("fontColor");
          *      // get selected value of theme
-         *      chart.theme(isSelected, "selectedFontColor", "fontColor");  // if isSelected is true, return 'selectedFontColor' else return 'fontColor'
+         *      chartClass.theme(isSelected, "selectedFontColor", "fontColor");  // if isSelected is true, return 'selectedFontColor' else return 'fontColor'
          * ```
          */
         this.theme = function(key, value, value2) {
@@ -852,10 +852,10 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
             // SVG 메인 리셋
             this.svg.reset(isAll);
 
-            // chart 이벤트 초기화 (삭제 대상)
+            // chartClass 이벤트 초기화 (삭제 대상)
             resetCustomEvent(this, isAll);
 
-            // chart 영역 계산
+            // chartClass 영역 계산
             calculate(this);
 
             // Canvas 초기 설정
@@ -867,7 +867,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
                 }
             }
 
-            // chart 관련된 요소 draw
+            // chartClass 관련된 요소 draw
             drawBefore(this);
             drawAxis(this);
             drawBrush(this);
@@ -979,7 +979,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
         }
 
         /**
-         * Changes a chart to a specified theme and renders the chart again.
+         * Changes a chartClass to a specified theme and renders the chartClass again.
          *
          * @param {String/Object} theme
          */
@@ -989,7 +989,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
         }
 
         /**
-         * Changes the size of a chart to the specified area and height then performs rendering.
+         * Changes the size of a chartClass to the specified area and height then performs rendering.
          *
          * @param {Number} width
          * @param {Number} height
@@ -1018,7 +1018,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
         }
 
         /**
-         * Returns true if the horizontal or vertical size of the chart is 100%.
+         * Returns true if the horizontal or vertical size of the chartClass is 100%.
          *
          * @return {Boolean}
          */
@@ -1030,7 +1030,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
         }
 
         /**
-         * Resize the chart to fit the screen width.
+         * Resize the chartClass to fit the screen width.
          *
          */
         this.resize = function() {
@@ -1044,7 +1044,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
         }
 
         /**
-         * Returns the values of rendering options and, if the rendering option is false, does not render the chart again when a method is called.
+         * Returns the values of rendering options and, if the rendering option is false, does not render the chartClass again when a method is called.
          *
          * @return {Boolean}
          */
@@ -1055,16 +1055,16 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
 
     UI.setup = function() {
         return {
-            /** @cfg  {String/Number} [width="100%"] chart width */ 
+            /** @cfg  {String/Number} [width="100%"] chartClass width */
             width: "100%",
-            /** @cfg  {String/Number} [height="100%"] chart height */
+            /** @cfg  {String/Number} [height="100%"] chartClass height */
             height: "100%",
             /** 
-             * @cfg  {Object} padding chart padding 
-             * @cfg  {Number} [padding.top=50] chart padding 
-             * @cfg  {Number} [padding.bottom=50] chart padding
-             * @cfg  {Number} [padding.left=50] chart padding
-             * @cfg  {Number} [padding.right=50] chart padding
+             * @cfg  {Object} padding chartClass padding
+             * @cfg  {Number} [padding.top=50] chartClass padding
+             * @cfg  {Number} [padding.bottom=50] chartClass padding
+             * @cfg  {Number} [padding.left=50] chartClass padding
+             * @cfg  {Number} [padding.right=50] chartClass padding
              */
             padding: {
                 top: 50,
@@ -1073,26 +1073,26 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
                 right: 50
             },
 
-            /** @cfg  {String} [theme=jennifer] chart theme  */
+            /** @cfg  {String} [theme=jennifer] chartClass theme  */
             theme: "jennifer",
-            /** @cfg  {Object} style chart custom theme  */
+            /** @cfg  {Object} style chartClass custom theme  */
             style: {},
-            /** @cfg {Array} brush Determines a brush to be added to a chart. */
+            /** @cfg {Array} brush Determines a brush to be added to a chartClass. */
             brush: [],
-            /** @cfg {Array} widget Determines a widget to be added to a chart. */
+            /** @cfg {Array} widget Determines a widget to be added to a chartClass. */
             widget: [],
-            /** @cfg {Array} [axis=[]] Determines a axis to be added to a chart. */
+            /** @cfg {Array} [axis=[]] Determines a axis to be added to a chartClass. */
             axis: [],
 
             /** @cfg {Object} [bind=null] Sets a component objects to be bind.*/
             bind: null,
             /** @cfg {Function} [format=null] Sets a format callback function to be used in a grid/brush/widget. */
             format: null,
-            /** @cfg {Boolean} [render=true] Does not render a chart when a rendering-related method is called with false (although the render method is not included). */
+            /** @cfg {Boolean} [render=true] Does not render a chartClass when a rendering-related method is called with false (although the render method is not included). */
             render: true,
 
             /**
-             * @cfg {Object} icon Icon-related settings available in the chart.
+             * @cfg {Object} icon Icon-related settings available in the chartClass.
              * @cfg {String} [icon.type="jennifer"]
              * @cfg {String} [icon.path=null]
              */

@@ -1,8 +1,7 @@
 /**
  * Created by JAY on 2016. 7. 27..
  */
-var mongoose    = require('mongoose');
-var test  = require('../models/DTO/dataDTO.js');
+var mongoose = require('mongoose');
 var db = mongoose.connection;
 
 // CONNECT TO MONGODB SERVER
