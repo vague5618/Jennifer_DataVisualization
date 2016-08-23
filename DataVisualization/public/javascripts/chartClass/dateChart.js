@@ -2,7 +2,7 @@
  * Created by JAY on 2016. 7. 29..
  */
 
-function dateChart(builder, time, domId, objSet) {
+function dateChart(builder, time, domId, objSet, movable) {
 
     var chart = null;
     var chartData = [];
@@ -13,8 +13,8 @@ function dateChart(builder, time, domId, objSet) {
     var chartValue =  objSet["chartValue"];
     var chartTime = objSet["chartTime"];
     var chartType = objSet["chartType"];
-    var initCycle = 60*5; //5분
-    var normalCycle = 5; // 5초
+    var initCycle = 60*6; //5분
+    var normalCycle = 3; // 5초
     var updateManage = true;
 
     //title
@@ -34,9 +34,10 @@ function dateChart(builder, time, domId, objSet) {
                     x: {
                         type: "date",
                         domain: getDomain(),
-                        interval: 1000 * 60,
                         format: "hh:mm",
-                        key: "time"
+                        key: "time",
+                        interval: 1,
+                        realtime: "minutes"
                     },
                     y: {
                         type: "range",
@@ -49,8 +50,8 @@ function dateChart(builder, time, domId, objSet) {
                                         ret = data[key];
                                 }
                             }
-                            return 1.2 * ret;
 
+                            return 1.2 * ret;
                         },
                         step: 4,
                         line: "solid"
@@ -64,7 +65,7 @@ function dateChart(builder, time, domId, objSet) {
                     area: {
                         width: "100%",
                         height: "100%"
-                    },
+                    }
                 }],
                 widget: [{
                     type: "title",
@@ -115,14 +116,13 @@ function dateChart(builder, time, domId, objSet) {
 
                 var domain = getDomain();
 
-
                 for (var i = 0; i < arg.length; i++) {
                     getData(chartData, domain, arg[i]);
                 }
 
-                chart.axis(0).update(chartData);
-
                 chart.axis(0).updateGrid("x", {domain: domain});
+
+                chart.axis(0).update(chartData);
 
                 console.log("take time : " + tookTime);
 
@@ -134,12 +134,13 @@ function dateChart(builder, time, domId, objSet) {
 
         chart.addWidget({type: "tooltip", brush: 0});
 
-        divSet(domId);
+        if(movable!=false)
+            divSet(domId);
 
         if (updateManage == true) {
             setTimeout(function () {
                 update(chartTitle, normalCycle, chartTime);
-            }, 5000 - tookTime);
+            }, 3000 - tookTime);
         }
     }
 
@@ -168,9 +169,9 @@ function dateChart(builder, time, domId, objSet) {
                     getData(chartData, domain, arg[i]);
                 }
 
-                chart.axis(0).update(chartData);
-
                 chart.axis(0).updateGrid("x", {domain: domain});
+
+                chart.axis(0).update(chartData);
 
                 console.log("take time : " + tookTime);
 
@@ -179,7 +180,7 @@ function dateChart(builder, time, domId, objSet) {
                 if(updateManage==true) {
                     setTimeout(function () {
                         update(title, normalCycle, timeColumn);
-                    }, 5000 - tookTime);
+                    }, 3000 - tookTime);
                 }
             }
         });
@@ -219,14 +220,19 @@ function dateChart(builder, time, domId, objSet) {
 
     function createObject(timestamp, keyList, valueList, obj) {
 
+
         var jsonObject = new Object();
         var pattern  = /\[[0-9]*\]/;
 
         for (var i = 0; i < keyList.length; i++) {
 
-            if(pattern.test(valueList[i])==false || obj[valueList[i]]!=null)
-                jsonObject[keyList[i]] = obj[valueList[i]][0];
-            else
+            if(pattern.test(valueList[i])==false || obj[valueList[i]]!=null) {
+
+                if(typeof(obj[valueList[i]])=='number')
+                    jsonObject[keyList[i]] = obj[valueList[i]];
+                else
+                    jsonObject[keyList[i]] = obj[valueList[i]][0];
+            }else
             {
                 var tempKey = valueList[i].split('[')[0];
                 var tempIndex = valueList[i].match(pattern)[0].replace("[","").replace("]","");
@@ -245,7 +251,11 @@ function dateChart(builder, time, domId, objSet) {
 
     function divSet(domId) {
 
-        $(domId).draggable();
+        $(domId).draggable({
+            stop: function( event, ui ) {
+                chart.render(true);
+            }
+        });
 
         $(domId).resizable({
             stop: function (event, ui) {
@@ -257,6 +267,13 @@ function dateChart(builder, time, domId, objSet) {
     this.destroy = function()
     {
         updateManage = false;
+    }
+
+    this.getInfo = function(){
+
+        objSet['type'] = "dateChart";
+
+        return objSet;
     }
 
     this.init();

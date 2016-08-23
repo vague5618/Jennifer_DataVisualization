@@ -35,9 +35,11 @@ module.exports.index = function (req, res) {
     if(type=="DB")
     {
         var table = formData.table;
+        var ip = formData.inputDB;
+        var timeType = formData.timeType;
 
-        //title, table, formData, interval, timeCheck, collectTarget
-        collect.collectDB(title, table, formData, interval, timeCheck, collectTarget);
+        //title, table, formData, interval, timeCheck, collectTarget, timeType
+        collect.collectDB(title, ip, table, formData, interval, timeCheck, collectTarget, timeType);
         res.send(null);
     }
 };

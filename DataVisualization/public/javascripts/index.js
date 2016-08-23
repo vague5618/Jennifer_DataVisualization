@@ -9,30 +9,64 @@ var token = "ba78f5af5afdf5eabfa4ec02609cbae0";
 var chartManage = [];
 
 form_data = {
-    title : "Jennifer",
+    title: "Jennifer",
     interval: 1000,
     timeCheck: false,
     apiKey: token,
     version: 1,
-    lat :  37.5714000000,
-    lon : 126.9658000000,
-    q : "Seoul"
+    lat: 37.5714000000,
+    lon: 126.9658000000,
+    q: "Seoul"
 };
 
 
 jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, time) {
 
+
+    function setColorpicker() {
+        $.each($('div[name=divColorpicker]'), function (index, value) {
+            $(value).colorpicker();
+        });
+    }
+
+    function setDroppable()
+    {
+        $('.panel-body').droppable({
+            drop: function (event, ui) {
+
+                var id = $(ui.draggable).attr("id");
+
+                var width = $(this).width();
+                var height = $(this).height();
+                var position = $(this).position();
+
+                $('#' + id).css({
+                    height: '100%',
+                    width: '100%',
+                    top: 0,
+                    left: 0
+                });
+
+
+                $("#" + id).prependTo($(this));
+            }
+        });
+    }
+
     //setting colorpicker
 
     setColorpicker();
 
-    function setColorpicker()
-    {
-        $.each($('div[name=divColorpicker]'),function(index, value)
-        {
-            $(value).colorpicker();
-        });
-    }
+    $('.dropdown-toggle').dropdown();
+
+
+    $('#aDB').click(function () {
+        $('.collapse').collapse('hide');
+    });
+
+    $('#aURL').click(function () {
+        $('.collapse').collapse('hide');
+    });
 
     //Add header
 
@@ -62,10 +96,10 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
 
     $("#btnSave").click(function () {
 
-       if($('#ulTabs .active').text()=="URL")
-           setURL();
-       else
-           setDB();
+        if ($('#ulTabs .active').text() == "URL")
+            setURL();
+        else
+            setDB();
 
     });
 
@@ -73,13 +107,11 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
 
     $("#btnJSON").click(function () {
 
-        if ($("#groupJSON input:last-child").val()=="$..path")
-        {
+        if ($("#groupJSON input:last-child").val() == "$..path") {
             // skip AddInput
         }
 
-        else
-        {
+        else {
             var row = '<input type="text" class="form-control" name="inputJSONPath" value="$..path" style="margin-top: 5px">';
 
             $("#groupJSON").append(row);
@@ -104,7 +136,9 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
 
         $('#inputKey').val("");
 
-        var trRow = $('#trRow').clone(false ,true);
+        var trRow = $('#trRow').clone(false, true);
+
+        trRow.show();
 
         $('#tbodyChartSet').empty();
 
@@ -114,10 +148,10 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
 
         var titleList = getTitle(form_data);
 
-        $.each(titleList, function(key, value) {
+        $.each(titleList, function (key, value) {
             $('#selectTitle').append($("<option></option>")
-                    .attr("value",value)
-                    .text(value));
+                .attr("value", value)
+                .text(value));
         });
 
         $('#selectTitle').change();
@@ -142,7 +176,7 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
 
     // Draw chart
 
-    $("#btnSaveChart").click(function(){
+    $("#btnSaveChart").click(function () {
 
         var colorList = [];
         var keyList = [];
@@ -151,25 +185,46 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         var brushType = $('#selectChartType').val();
         var title = $("#selectTitle").val();
         var howLong = $("#selectChartTime").val();
+        var type = $("#ulChartTab .active").text();
+        var distinct = $("#selectDistinct").val();
 
-        $.each($('input[name=inputColor]'),function(index, value)
-        {
-            colorList.push($(value).val());
+
+        $.each($('input[name=inputColor]'), function (index, value) {
+            if ($(value).val() == "")
+                return
+            else
+                colorList.push($(value).val());
         });
 
-        $.each($('input[name=inputKey]'),function(index, value)
-        {
-            keyList.push($(value).val());
+
+        if (type == "SnapShot") {
+
+            $.each($('input[name=inputKey]'), function (index, value) {
+                if ($(value).val() == "")
+                    return
+                else
+                    keyList.push($(value).val());
+            });
+        }
+
+        if (type == "Data") {
+            $.each($('select[name=selectKey]'), function (index, value) {
+                if ($(value).val() == "")
+                    return
+                else
+                    keyList.push($(value).val());
+            });
+        }
+
+        $.each($('select[name=selectValue]'), function (index, value) {
+            if ($(value).val() == "")
+                return
+            else
+                valueList.push($(value).val());
         });
 
-
-        $.each($('select[name=selectValue]'),function(index, value)
-        {
-            valueList.push($(value).val());
-        });
 
         var iDiv = document.createElement('div');
-
         iDiv.id = 'chartSection' + chartIndex;
 
         $("#divChart").append(iDiv);
@@ -182,11 +237,11 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         objSet["chartTime"] = timeColumn;
         objSet["chartType"] = brushType;
         objSet["chartColors"] = colorList;
-
+        objSet["chartDistinct"] = distinct;
 
         //iDiv, time, chartManage, chartIndex, objSet, howLong
 
-        setClass(builder, time, iDiv,chartManage, chartIndex, objSet, howLong);
+        setClass(builder, time, iDiv, chartManage, chartIndex, objSet, howLong, type);
 
         chartIndex++;
     });
@@ -194,35 +249,37 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
 
     // set Register
 
-    $("#btnRegister").click(function(){
+    $("#btnRegister").click(function () {
+
+        $('.collapse').collapse('hide');
 
         document.getElementById('tblFoot').innerHTML = "";
 
         $('#dbTblfoot').empty();
 
-        $.each($("#groupJSON input"), function(index, value) {
+        $.each($("#groupJSON input"), function (index, value) {
 
-            if(value.value=="$..path")
+            if (value.value == "$..path")
                 return;
 
             var row =
-            "<tr><td><input type='text' placeholder='Key' class='form-control'onClick='this.setSelectionRange(0, this.value.length)'/>"+
-            "<td><input type='text' placeholder='Key' class='form-control' onClick='this.setSelectionRange(0, this.value.length)'"
-                +" value = " + value.value+ " /></td></tr>";
+                "<tr><td><input type='text' placeholder='Key' class='form-control'onClick='this.setSelectionRange(0, this.value.length)'/>" +
+                "<td><input type='text' placeholder='Key' class='form-control' onClick='this.setSelectionRange(0, this.value.length)'"
+                + " value = " + value.value + " /></td></tr>";
 
             $("#tblFoot").append(row);
         });
+
 
     });
 
 
     // change Select
 
-    $('#selectTitle').change(function()
-    {
+    $('#selectTitle').change(function () {
         var obj = getKeys($('#selectTitle').val());
 
-        var trRow = $('#trRow').clone(false ,true);
+        var trRow = $('#trRow').clone(false, true).show();
 
         $('#tbodyChartSet').empty();
 
@@ -230,50 +287,51 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
 
         setColorpicker();
 
+        $('#selectDistinct').empty();
         $('#selectValue').empty();
         $('#selectTime').empty();
 
         for (var key in obj) {
-            if (obj.hasOwnProperty(key) && key!="_id" && key!="ttl" && key!='__v' && key!='title') {
+            if (obj.hasOwnProperty(key) && key != "_id" && key != "ttl" && key != '__v' && key != 'title') {
 
-                if(typeof(obj[key])=="object") {
+                if (typeof(obj[key]) == "object") {
 
-                    if(obj[key].length==1) {
+                    if (obj[key].length == 1) {
                         var option = document.createElement("option");
                         option.text = key;
                         option.value = key;
 
                         $('#selectValue').append(option);
                         $('#selectTime').append(option.cloneNode(true));
+                        $('#selectDistinct').append(option.cloneNode(true));
                     }
-                    else
-                    {
-                        for(var i=0; i<obj[key].length; i++) {
+                    else {
+                        for (var i = 0; i < obj[key].length; i++) {
                             var option = document.createElement("option");
-                            option.text = key+"["+i+"]";
-                            option.value = key+"["+i+"]";
+                            option.text = key + "[" + i + "]";
+                            option.value = key + "[" + i + "]";
                             $('#selectValue').append(option);
                             $('#selectTime').append(option.cloneNode(true));
+                            $('#selectDistinct').append(option.cloneNode(true));
                         }
                     }
                 }
-                else
-                {
+                else {
                     var option = document.createElement("option");
                     option.text = key;
                     option.value = key;
                     $('#selectValue').append(option);
                     $('#selectTime').append(option.cloneNode(true));
+                    $('#selectDistinct').append(option.cloneNode(true));
                 }
             }
         }
     });
 
-     //chart Column Add
+    //chart Column Add
 
-    $('#btnChartAdd').click(function()
-    {
-        $('#tbodyChartSet').append($('#trRow').clone());
+    $('#btnChartAdd').click(function () {
+        $('#tbodyChartSet').append($('#trRow').clone().show());
 
         setColorpicker();
     });
@@ -281,17 +339,15 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
 
     //chart Column Minus
 
-    $('#btnChartMinus').click(function()
-    {
-        if($("#tbodyChartSet > tr").length!=1)
+    $('#btnChartMinus').click(function () {
+        if ($("#tbodyChartSet > tr").length != 1)
             $("#tbodyChartSet > tr:last").remove();
 
         setColorpicker();
     });
 
 
-    function setURL()
-    {
+    function setURL() {
         form_data = new Object();
 
         var checkDup = false;
@@ -313,7 +369,7 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
                     _value = $(value).children('input').val();
             });
 
-            if(collectTarget[_key]!=null) {
+            if (collectTarget[_key] != null) {
 
                 alert("key중복 다시 설정해주세요");
                 checkDup = true;
@@ -330,16 +386,16 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         form_data['collectTarget'] = JSON.stringify(collectTarget);
         form_data['type'] = 'URL';
 
-        if(checkDup == false) {
+        if (checkDup == false) {
             setRegister(form_data);
         }
     }
 
-    $('#btnConnectDB').click(function(){
+    $('#btnConnectDB').click(function () {
 
         var obj = new Object();
 
-        obj['url'] = $('#inputUrl').val();
+        obj['url'] = $('#inputDB').val();
         obj['user'] = $('#inputUser').val();
         obj['password'] = $('#inputPassword').val();
         obj['port'] = $('#inputPort').val();
@@ -349,13 +405,13 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         var fields = getConnectDB(obj);
 
         var row = "<tr id='trDBrow'><th colspan='2'>" +
-            "<input id='inputDBKey' name='inputDBKey' class='form-control'/></th>"+
+            "<input id='inputDBKey' name='inputDBKey' class='form-control'/></th>" +
             "<th colspan='2'><select id='selectDBValue' name='selectDBValue' class='form-control'></select></th></tr>";
 
 
         $('#dbTblfoot').append(row);
 
-        for(var i=0; i<fields.length; i++) {
+        for (var i = 0; i < fields.length; i++) {
             $('#selectDBValue').append($("<option></option>")
                 .attr("value", fields[i])
                 .text(fields[i]));
@@ -363,40 +419,38 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
     });
 
 
-    $('#btnDBplus').click(function()
-    {
+    $('#btnDBplus').click(function () {
         $('#dbTblfoot').append($('#trDBrow').clone());
     });
 
 
-    $('#btnDBminus').click(function()
-    {
+    $('#btnDBminus').click(function () {
         $('#dbTblfoot > tr:last').remove();
     });
 
-    function setDB()
-    {
+    //DB Collect Register
+
+    function setDB() {
         var form_data = new Object();
 
-        var url = $('#inputUrl').val();
+        var url = $('#inputDB').val();
         var title = $('#inputDBTitle').val();
         var interVal = $("#inputDBInterval").val();
         var timeCheck = $("#inputDBTimeCheck").is(":checked");
         var table = $('#inputTable').val();
+        var timeType = $('#selectTimeType').val();
 
         var collectTarget = new Object();
 
         var keyList = [];
         var valueList = [];
 
-        $.each($('input[name=inputDBKey]'),function(index, value)
-        {
+        $.each($('input[name=inputDBKey]'), function (index, value) {
             keyList.push($(value).val());
         });
 
 
-        $.each($('select[name=selectDBValue]'),function(index, value)
-        {
+        $.each($('select[name=selectDBValue]'), function (index, value) {
             valueList.push($(value).val());
         });
 
@@ -406,12 +460,91 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         form_data['url'] = url;
         form_data['title'] = title;
         form_data['interval'] = interVal;
-        form_data['timeCheck'] = timeCheck
+        form_data['timeCheck'] = timeCheck;
         form_data['collectTarget'] = JSON.stringify(collectTarget);
         form_data['table'] = table;
         form_data['type'] = 'DB';
+        form_data['timeType'] = timeType;
 
         setRegister(form_data);
     }
+
+
+    //tabSnapShot Click
+
+    $('#tabSnapShot').click(function () {
+        var trRow = $('#trRow').clone(false, true).show();
+        $('#tbodyChartSet').empty();
+        $('#tbodyChartSet').append(trRow);
+        setColorpicker();
+        $('#selectDistinct').hide();
+        $('#selectChartTime').show();
+        $('#thChange').html('How long');
+        $('#inputKey').show();
+        $('#selectKey').hide();
+    });
+
+    //tabDataClick
+
+    $('#tabData').click(function () {
+        var trRow = $('#trRow').clone(false, true).show();
+        $('#tbodyChartSet').empty();
+        $('#tbodyChartSet').append(trRow);
+        setColorpicker();
+        $('#selectChartTime').hide();
+        $('#selectDistinct').show();
+        $('#thChange').html('Distinct');
+        $('#inputKey').hide();
+        $('#selectKey').show();
+    });
+
+
+    $('#selectDistinct').change(function () {
+        var obj = getField($('#selectDistinct').val());
+        $('#selectKey').empty();
+        for (var i = 0; i < obj.length; i++) {
+
+            var option = document.createElement("option");
+            option.text = obj[i];
+            option.value = obj[i];
+            $('#selectKey').append(option.cloneNode(true));
+        }
+    });
+
+    //btnClick Save
+    $("#aSave").click(function () {
+        var array = [];
+
+        for (var key in chartManage) {
+            if (chartManage.hasOwnProperty(key)) {
+
+                var objSet = chartManage[key].getInfo();
+
+                objSet['left'] = $('#' + key).position().left;
+                objSet['top'] = $('#' + key).position().top;
+                objSet['width'] = $('#' + key).width();
+                objSet['height'] = $('#' + key).height();
+
+                array.push(objSet);
+            }
+        }
+
+        location.href = saveDashboard(array);
+    });
+
+    $('#liLayout1').click(function () {
+
+        $('#divChart').load('./layout/easyLayout1.html',function()
+        {
+            setDroppable();
+        });
+    });
+
+
+
+
 });
+
+
+
 

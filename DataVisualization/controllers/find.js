@@ -28,6 +28,18 @@ module.exports.index = function (req, res) {
                 res.send(result);
         });
     }
+
+    if(req.body.type=="distinct")
+    {
+        var field = req.body.field;
+
+        dataDAO.getDistinct(field, function (result) {
+            if (result == null)
+                res.send(null);
+            else
+                res.send(result);
+        });
+    }
 };
 
 

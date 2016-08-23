@@ -2,7 +2,7 @@
  * Created by JAY on 2016. 7. 29..
  */
 
-function dayChart(builder, time, domId, objSet) {
+function dayChart(builder, time, domId, objSet, movable) {
 
     var chart = null;
     var tpsIndex = getTimeToIndex();
@@ -12,7 +12,9 @@ function dayChart(builder, time, domId, objSet) {
     var chartTitle = objSet["chartTitle"];
     var chartValue = objSet["chartValue"];
     var chartColors = objSet["chartColors"];
+    var chartHowlong = objSet["chartHowlong"];
 
+    chartHowlong = 5;
     //var chartType = objSet["chartType"];
     //var initCycle = 5; //5분
     //var normalCycle = 0.05; // 3초
@@ -30,14 +32,13 @@ function dayChart(builder, time, domId, objSet) {
         updateManage = true;
 
         chart = builder(domId, {
+            padding: 10,
             axis: [{
                 x: {
                     type: "dateblock",
                     domain: [new Date("2016/01/01"), new Date("2016/01/02")],
                     interval: time.HOUR,
-                    format: function (d, i) {
-                        return i;
-                    }
+                    format: "HH"
                 },
                 y: {
                     type: "range",
@@ -54,6 +55,16 @@ function dayChart(builder, time, domId, objSet) {
                     },
                     step: 4
                 },
+                padding: {
+                    left: 50,
+                    top: 50,
+                    right: 20,
+                    bottom: 25
+                },
+                area: {
+                    width: "100%",
+                    height: "100%"
+                },
 
                 data: chartData
             }],
@@ -68,21 +79,16 @@ function dayChart(builder, time, domId, objSet) {
                 {
                     type: "pin",
                     split: tpsIndex,
-                    axis: 0,
-                    format: function (d) {
-                        return time.format(d, "HH:mm");
-                    }
+                    axis: 0
                 }],
 
             widget: [{
                 type: "title",
+                size: 15,
                 text: chartTitle
             },
                 {
                     type: "cross",
-                    xFormat: function (d) {
-                        return time.format(d, "HH:mm");
-                    },
                     yFormat: function (d) {
                         return d.toFixed(2);
                     },
@@ -95,12 +101,16 @@ function dayChart(builder, time, domId, objSet) {
                 axisBorderWidth: 1.5,
                 axisBorderRadius: 5,
                 titleFontSize: 12,
-                titleFontWeight: 700,
-                lineSplitBorderColor: "#929292"
-            }
+                titleFontWeight: 700
+            },
+
+            render: false
+
         });
 
-        divSet(domId);
+        if (movable != false)
+            divSet(domId);
+
         initData();
     };
 
@@ -116,6 +126,9 @@ function dayChart(builder, time, domId, objSet) {
                 console.log(arg);
 
                 var index = getTimeToIndex();
+
+                console.log("length : " + arg.length);
+                console.log("index = " + index);
 
                 for (var i = 0; i < arg.length; i++) {
                     var obj = new Object();
@@ -142,7 +155,7 @@ function dayChart(builder, time, domId, objSet) {
                 if (updateManage == true) {
                     setTimeout(function () {
                         update();
-                    }, 1000);
+                    }, chartHowlong * 10000);
                 }
             }
         });
@@ -155,7 +168,7 @@ function dayChart(builder, time, domId, objSet) {
 
         $.ajax({
             url: "http://localhost:3000/api",
-            data: {title: chartTitle, timeColumn: chartTime, value: chartValue, type: "5minuteMean"},
+            data: {title: chartTitle, timeColumn: chartTime, value: chartValue, type: "minuteMean"},
             type: 'GET',
             dataType: "json",
             async: false,
@@ -169,8 +182,7 @@ function dayChart(builder, time, domId, objSet) {
 
                 tookTime = endTime - startTime;
 
-                for (var i = 0; i < arg.length; i++)
-                {
+                for (var i = 0; i < arg.length; i++) {
                     var obj = new Object();
 
                     obj[chartKey[i]] = arg[i];
@@ -182,7 +194,7 @@ function dayChart(builder, time, domId, objSet) {
 
                 console.log("take time : " + tookTime);
 
-                chart.updateBrush(0, {split: Math.round(index)});
+                chart.updateBrush(0, {split: index});
                 chart.updateBrush(1, {split: index});
 
                 chart.render();
@@ -190,7 +202,7 @@ function dayChart(builder, time, domId, objSet) {
                 if (updateManage == true) {
                     setTimeout(function () {
                         update();
-                    }, 5000);
+                    }, chartHowlong * 10000 - tookTime);
                 }
             }
         });
@@ -198,7 +210,11 @@ function dayChart(builder, time, domId, objSet) {
 
     function divSet(domId) {
 
-        $(domId).draggable();
+        $(domId).draggable({
+            stop: function (event, ui) {
+                chart.render(true);
+            }
+        });
 
         $(domId).resizable({
             stop: function (event, ui) {
@@ -213,7 +229,14 @@ function dayChart(builder, time, domId, objSet) {
 
     function getTimeToIndex() {
         var now = new Date();
-        return now.getHours() * 12 + now.getMinutes() / 5;
+        return now.getHours() * (60 / chartHowlong) + (now.getMinutes() / chartHowlong);
+    }
+
+    this.getInfo = function () {
+
+        objSet['type'] = "dayChart";
+
+        return objSet;
     }
 
     this.init();

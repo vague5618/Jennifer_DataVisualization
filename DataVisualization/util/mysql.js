@@ -4,7 +4,7 @@
 var mysql = require('mysql');
 var connection;
 
-module.exports.connect = function (obj) {
+module.exports.connect = function (obj, callback) {
 
     var url = obj.url;
     var port = obj.port;
@@ -26,8 +26,11 @@ module.exports.connect = function (obj) {
             console.error(err);
             throw err;
         }
-        else
+
+        else {
             console.log("mysql connection success");
+            callback(connection);
+        }
     });
 }
 

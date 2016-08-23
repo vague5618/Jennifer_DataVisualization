@@ -131,3 +131,43 @@ function getConnectDB(form_data) {
 
     return ret;
 }
+
+
+function getField(field) {
+
+    var ret = null;
+    form_data['field'] = field;
+    form_data['type'] = "distinct";
+
+    $.ajax({
+        url: "http://localhost:3000/find",
+        data : form_data,
+        method: 'POST',
+        dataType: "json",
+        async: false
+    }).then(function (data) {
+        ret = data;
+    });
+
+    return ret;
+}
+
+
+function saveDashboard(chartArray) {
+
+    var ret = null;
+
+    $.ajax({
+        url: "http://localhost:3000/dashboard/create",
+        data :{
+            chartArray : JSON.stringify(chartArray)},
+        method: 'POST',
+        dataType: "json",
+        async: false
+    }).then(function (data) {
+        ret = data;
+
+    });
+
+    return ret;
+}

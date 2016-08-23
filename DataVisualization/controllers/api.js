@@ -20,15 +20,21 @@ module.exports.index = function (req, res) {
     }
 
     if (type == "1day") {
-        dataDAO.getHourData(title, timeColumn, value, function (result) {
+        //title, timeColumn, valueColumn, howLong, callback
+        dataDAO.getHourData(title, timeColumn, value, 5, function (result) {
             res.send(result);
         });
     }
 
-    if (type == "5minuteMean") {
+    if (type == "minuteMean") {
+        //title, timeColumn, valueColumn, howLong
+        dataDAO.getMinuteData(title, timeColumn, value, 5, function (result) {
+            res.send(result);
+        });
+    }
 
-        //title, timeColumn, valueColumn
-        dataDAO.getFiveData(title, timeColumn, value, function (result) {
+    if(type == "snapEqual"){
+        dataDAO.getOne(title, timeColumn, time, function (result) {
             res.send(result);
         });
     }

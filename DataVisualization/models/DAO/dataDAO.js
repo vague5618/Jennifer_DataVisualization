@@ -17,11 +17,18 @@ module.exports.save = function (title, data, timeCheck) {
         newData.time = new Date().getTime();
     }
 
+    else
+    {
+        //수정필요
 
-    //만약 time객체가 Date라면 -> timestamp
+        //만약 time객체가 Date라면 -> timestamp
+        if (typeof(data['time'][0]) == "object")
+            newData.time = data['time'].getTime();
 
-    if(typeof(data['time'])=="object")
-        newData.time = data['time'].getTime();
+        //만약 time객체가 string이라면
+        else if (typeof(data['time'][0]) == "string")
+            newData.time = Number(data['time']);
+    }
 
     newData.save();
 };
@@ -30,13 +37,23 @@ module.exports.find = function (title, timeColumn, getTime, callback) {
 
     var query = {};
     query["title"] = title;
-    query[timeColumn] = {$gt: new Date(Date.now() - getTime * 1000).getTime()};
+    query[timeColumn] = {$gt: (0).day().fromNow().addSeconds(-1*getTime).getTime()};
 
     dataDTO.find(query, function (err, result) {
-
         callback(result);
     });
 }
+
+module.exports.getOne = function (title, timeColumn, getTime, callback) {
+
+    var query = {};
+    query[timeColumn] = -1;
+
+    dataDTO.findOne({title : title}).sort(query).exec(function(err, result) {
+        callback(result);
+    });
+}
+
 
 module.exports.findOne = function (title, callback) {
     dataDTO.findOne({title: title}, function (err, result) {
@@ -51,7 +68,13 @@ module.exports.getTitle = function (callback) {
     });
 }
 
-module.exports.getHourData = function (title, timeColumn, valueColumn, callback) {
+module.exports.getDistinct = function (field, callback) {
+    dataDTO.distinct(field, function (err, result) {
+        callback(result);
+    });
+}
+
+module.exports.getHourData = function (title, timeColumn, valueColumn, howLong, callback) {
 
     var ret = [];
 
@@ -61,21 +84,22 @@ module.exports.getHourData = function (title, timeColumn, valueColumn, callback)
                 //title, timeColumn, valueColumn, start, end, howLong, ret, callback
 
                 query(title, timeColumn, valueColumn,
-                    Date.today().getTime(), (0).day().fromNow().getTime(), 5, ret, callback);
+                    Date.today().getTime(), (0).day().fromNow().getTime(), howLong, ret, callback);
             },
 
             function (callback) {
                 //get YesterdayData
                 //title, timeColumn, valueColumn, start, end, howLong, ret, callback
                 query(title, timeColumn, valueColumn,
-                    (-1).day().fromNow().getTime(), Date.today().getTime(), 5, ret, callback);
+                    (-1).day().fromNow().getTime(), Date.today().getTime(), howLong, ret, callback);
             }],
 
         function (err, result) {
-            while (ret.length < 288)
-                ret[ret.length] = null;
 
             console.log("1day length : " + ret.length);
+
+            while (ret.length < (24*60/howLong))
+                ret[ret.length] = null;
 
             callback(ret);
         }
@@ -83,7 +107,7 @@ module.exports.getHourData = function (title, timeColumn, valueColumn, callback)
 }
 
 
-module.exports.getFiveData = function (title, timeColumn, valueColumn, callback) {
+module.exports.getMinuteData = function (title, timeColumn, valueColumn, howLong, callback) {
 
     var ret = [];
 
@@ -92,11 +116,11 @@ module.exports.getFiveData = function (title, timeColumn, valueColumn, callback)
                 //get TodayData
                 //title, timeColumn, valueColumn, start, end, howLong, ret, callback
                 query(title, timeColumn, valueColumn,
-                    (0).day().fromNow().addMinutes(-5).getTime(), (0).day().fromNow().getTime(), 5, ret, callback);
+                    (0).day().fromNow().addMinutes(-1*howLong).getTime(), (0).day().fromNow().getTime(), howLong, ret, callback);
             }],
         function (err, result) {
 
-            console.log("5mintueMean length : "+ret.length);
+            console.log("mintue Mean length : "+ret.length);
 
             for(var i=0; i<ret.length; i++) {
                 if (ret[i] != null) {
@@ -111,11 +135,22 @@ module.exports.getFiveData = function (title, timeColumn, valueColumn, callback)
 
 module.exports.createData = function () {
     var start = (-1).day().fromNow();
-    var current = (0).day().fromNow().addHours(10);
+    var current = (0).day().fromNow();
+    var lim = Date.today();
+
 
     while (start < current) {
         var obj = new Object();
 
+        //if(start < lim)
+        //{
+        //    obj['tps'] = 0;
+        //}
+        //else
+        //{
+        //    obj['tps'] = 1;
+        //}
+        //
         obj['tps'] = [Math.random()];
 
         var newData = new dataDTO(obj);
@@ -137,7 +172,7 @@ function query(title, timeColumn, valueColumn, start, end, howLong, ret, callbac
 {
     dataDTO.aggregate([
         {
-            $match : {title : title, time: {$lt: end , $gt: start}}
+            $match : {title : title, time: {$lte: end , $gt: start}}
         },
         {
             "$project": {
@@ -177,7 +212,7 @@ function query(title, timeColumn, valueColumn, start, end, howLong, ret, callbac
 
         for (var i = 0; i < result.length; i++) {
 
-            var tempIndex = getTimeToIndex((result[i]._id.hour + 9) % 24, result[i]._id.minute);
+            var tempIndex = getTimeToIndex((result[i]._id.hour + 9) % 24, result[i]._id.minute, howLong);
 
             var tempMean = mean(result[i].list);
 
@@ -192,13 +227,13 @@ function mean(arr) {
 
     var ret = [];
 
-    console.log(typeof(ret[0]));
+    if(typeof(arr)=='object');
+    {
+        for (var i = 0; i < arr.length; i++) {
 
-    for (var i = 0; i < arr[0].length; i++) {
-        var sum = 0;
+            var sum = 0;
 
-        for (var j = 0; j < arr.length; j++) {
-            sum += arr[j][i];
+            sum += arr[i];
         }
 
         ret.push(sum / arr.length);
@@ -207,9 +242,9 @@ function mean(arr) {
     return ret;
 }
 
-function getTimeToIndex(tempHour, tempMinute) {
-    return tempHour * 12 + tempMinute / 5;
+function getTimeToIndex(tempHour, tempMinute, howLong) {
+    return tempHour * (60 / howLong) + (tempMinute / howLong);
 }
 
 this.removeData();
-//this.createData();
+this.createData();

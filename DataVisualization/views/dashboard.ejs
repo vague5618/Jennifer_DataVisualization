@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>DashBoard</title>
+</head>
+
+<body>
+
+<div id="divChart" style="position : absolute; width:100%; height:100%">
+
+</div>
+
+</body>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type="text/javascript"></script>
+
+<script src="../lib/jui-core/dist/core.min.js"></script>
+<script src="../lib/jui/dist/ui.min.js"></script>
+<script src="../lib/jui-grid/dist/grid.min.js"></script>
+<script src="../lib/jui-core/dist/core.min.js"></script>
+<script src="../lib/jui-chart/dist/chart.min.js"></script>
+<script src="../lib/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js"></script>
+<script src="../lib/prettyprint/prettyprint.js" type="text/javascript"></script>
+<script src="../lib/jsonPath/jsonPath.js" type="text/javascript"></script>
+<script src="../lib/date/date.js"></script>
+
+
+<script src="../javascripts/index.js" type="text/javascript"></script>
+<script src="../javascripts/chartClass/dateChart.js" type="text/javascript"></script>
+<script src="../javascripts/chartClass/dayChart.js" type="text/javascript"></script>
+<script src="../javascripts/chartClass/dataChart.js" type="text/javascript"></script>
+<script src="../javascripts/chartClass/snapEqualChart.js" type="text/javascript"></script>
+
+<script src="../javascripts/chartHelper.js" type="text/javascript"></script>
+<script src="../javascripts/apiHelper.js" type="text/javascript"></script>
+
+
+
+<script>
+
+    jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, time) {
+
+        var chartIndex = 0;
+
+        $.get(window.location.href+"?type=getChartInfo", function( data ) {
+
+            //builder, time, iDiv, objSet
+
+            for(var i=0; i<data.length; i++)
+            {
+                var iDiv = document.createElement('div');
+                iDiv.id = 'chartSection' + chartIndex++;
+
+                $("#divChart").append(iDiv);
+
+
+                $("#"+iDiv.id).css("left",data[i].left);
+                $("#"+iDiv.id).css("top",data[i].top);
+                $("#"+iDiv.id).width(data[i].width);
+                $("#"+iDiv.id).height(data[i].height);
+
+                setChart(builder, time, iDiv, data[i], false);
+
+                $("#"+iDiv.id).css("position","absolute");
+
+            }
+        });
+
+    });
+
+
+</script>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

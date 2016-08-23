@@ -3,19 +3,29 @@
  */
 
 var mysql = require("../../util/mysql.js");
+var connectManager = new Object();
 
 module.exports.connection = function(req,res) {
-    mysql.connect(req.body);
+
+    mysql.connect(req.body, function(connection)
+    {
+        connectManager[req.body.url] = connection;
+    });
 };
 
-module.exports.query = function(query, callback) {
+module.exports.query = function(ip, query, callback) {
 
-    var connection = mysql.getConnection();
+    var connection = null;
 
-    connection.query(query,function(err,result)
-    {
-        callback(result);
-    });
+    if(connectManager[ip]!=null) {
+        connection = connectManager[ip];
+
+        connection.query(query, function (err, result) {
+            callback(result);
+        });
+    }
+    else
+        callback(null);
 };
 
 module.exports.getFields = function(query, callback) {

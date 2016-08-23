@@ -8,6 +8,7 @@ var collect  = require('./util/collect.js');
 var redis = require('./util/redis.js');
 var mongo = require('./util/mongo.js');
 var mysql = require('./util/mysql.js');
+var cors = require('cors');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -19,6 +20,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// use it before all route definitions
+app.use(cors());
 require('./routes/routes')(app);
 
 
