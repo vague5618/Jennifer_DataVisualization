@@ -21,9 +21,12 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
             $("#"+iDiv.id).width(data[i].width);
             $("#"+iDiv.id).height(data[i].height);
 
+<<<<<<< HEAD
             console.log("left : "+data[i].left);
             console.log("top : "+data[i].top);
 
+=======
+>>>>>>> cae767ffd30b09178c6ccac95a91ded195201544
             setChart(builder, time, iDiv, data[i], false);
 
             $("#"+iDiv.id).css("position","absolute");
