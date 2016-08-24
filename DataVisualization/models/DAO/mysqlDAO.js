@@ -18,6 +18,7 @@ module.exports.query = function(ip, query, callback) {
     var connection = null;
 
     if(connectManager[ip]!=null) {
+
         connection = connectManager[ip];
 
         connection.query(query, function (err, result) {

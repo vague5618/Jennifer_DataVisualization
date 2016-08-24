@@ -28,21 +28,21 @@ function setClass(builder, time, iDiv, chartManage, chartIndex, objSet, howLong,
 
     var targetDiv = "divClose" + chartIndex;
 
-    $('#' + iDiv.id).children('svg').each(function (index, value) {
 
-        $(value).mouseout(function () {
-            $("#" + targetDiv).hide();
-        });
+    $('#' + iDiv.id).mouseover(function () {
+        $("#" + targetDiv).show();
+    });
 
-        $('#' + iDiv.id).mouseover(function () {
-            $("#" + targetDiv).show();
-        });
+
+    $('#' + iDiv.id).mouseleave(function () {
+        $("#" + targetDiv).hide();
     });
 
     $("#" + targetDiv).click(function () {
         $('#' + iDiv.id).remove();
 
         chartManage[iDiv.id].destroy();
+        delete chartManage[iDiv.id];
     });
 }
 

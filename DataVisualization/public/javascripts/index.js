@@ -36,17 +36,12 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
 
                 var id = $(ui.draggable).attr("id");
 
-                var width = $(this).width();
-                var height = $(this).height();
-                var position = $(this).position();
-
                 $('#' + id).css({
                     height: '100%',
                     width: '100%',
                     top: 0,
                     left: 0
                 });
-
 
                 $("#" + id).prependTo($(this));
             }
@@ -187,6 +182,7 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         var howLong = $("#selectChartTime").val();
         var type = $("#ulChartTab .active").text();
         var distinct = $("#selectDistinct").val();
+        var setMean = $("#inputSetMean").val();
 
 
         $.each($('input[name=inputColor]'), function (index, value) {
@@ -238,7 +234,7 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         objSet["chartType"] = brushType;
         objSet["chartColors"] = colorList;
         objSet["chartDistinct"] = distinct;
-
+        objSet["chartSetMean"] = setMean;
         //iDiv, time, chartManage, chartIndex, objSet, howLong
 
         setClass(builder, time, iDiv, chartManage, chartIndex, objSet, howLong, type);
@@ -520,8 +516,8 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
 
                 var objSet = chartManage[key].getInfo();
 
-                objSet['left'] = $('#' + key).position().left;
-                objSet['top'] = $('#' + key).position().top;
+                objSet['left'] = $('#' + key).offset().left;
+                objSet['top'] = $('#' + key).offset().top;
                 objSet['width'] = $('#' + key).width();
                 objSet['height'] = $('#' + key).height();
 
@@ -538,6 +534,24 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         {
             setDroppable();
         });
+    });
+
+    $('#selectChartTime').change(function () {
+        var obj = $('#selectChartTime').val();
+
+        if(obj=="24hour")
+        {
+
+            $('#selectChartTime').css('float','left');
+            $('#selectChartTime').css('width','50%');
+            $('#inputSetMean').show();
+        }
+        else
+        {
+            $('#selectChartTime').css('float','');
+            $('#selectChartTime').css('width','100%');
+            $('#inputSetMean').hide();
+        }
     });
 
 
