@@ -4,9 +4,9 @@
 
 function dateChart(builder, time, domId, objSet, movable) {
 
+    var serverIp = "http://"+location.host;
     var chart = null;
     var chartData = [];
-
     var chartColors = objSet["chartColors"];
     var chartTitle = objSet["chartTitle"];
     var chartKey = objSet["chartKey"];
@@ -101,7 +101,7 @@ function dateChart(builder, time, domId, objSet, movable) {
             tookTime = null;
 
         $.ajax({
-            url: "http://localhost:3000/api",
+            url: serverIp+"/api",
             data: {title: chartTitle, timeColumn: chartTime, time: initCycle, type: "5minute"},
             type: 'GET',
             dataType: "json",
@@ -150,7 +150,7 @@ function dateChart(builder, time, domId, objSet, movable) {
             tookTime = null;
 
         $.ajax({
-            url: "http://localhost:3000/api",
+            url: serverIp+"/api",
             data: {title: title, timeColumn : timeColumn, time: timeForGet, type: "5minute"},
             type: 'GET',
             dataType: "json",

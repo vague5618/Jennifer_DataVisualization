@@ -4,6 +4,7 @@
 
 function dayChart(builder, time, domId, objSet, movable) {
 
+    var serverIp = "http://"+location.host;
     var chart = null;
     var tpsIndex = getTimeToIndex();
     var chartKey = objSet["chartKey"];
@@ -115,7 +116,7 @@ function dayChart(builder, time, domId, objSet, movable) {
 
     function initData() {
         $.ajax({
-            url: "http://localhost:3000/api",
+            url: serverIp+"/api",
             data: {title: chartTitle, timeColumn: chartTime, value: chartValue, type: "1day", setMean : chartSetMean},
             type: 'GET',
             dataType: "json",
@@ -166,7 +167,7 @@ function dayChart(builder, time, domId, objSet, movable) {
             tookTime = null;
 
         $.ajax({
-            url: "http://localhost:3000/api",
+            url: serverIp+"/api",
             data: {title: chartTitle, timeColumn: chartTime, value: chartValue, type: "minuteMean",  setMean : chartSetMean},
             type: 'GET',
             dataType: "json",

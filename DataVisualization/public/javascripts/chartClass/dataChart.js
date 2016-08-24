@@ -3,6 +3,7 @@
  */
 function dataChart(builder, time, domId, objSet, movable) {
 
+    var serverIp = "http://"+location.host;
     var chart = null;
     var chartData = [];
     var colors = new Object();
@@ -100,7 +101,7 @@ function dataChart(builder, time, domId, objSet, movable) {
             tookTime = null;
 
         $.ajax({
-            url: "http://localhost:3000/api",
+            url: serverIp+"/api",
             data: {title: chartTitle, timeColumn: chartTime, time: initCycle, type: "5minute"},
             type: 'GET',
             dataType: "json",
@@ -155,7 +156,7 @@ function dataChart(builder, time, domId, objSet, movable) {
             tookTime = null;
 
         $.ajax({
-            url: "http://localhost:3000/api",
+            url: serverIp+"/api",
             data: {title: title, timeColumn : timeColumn, time: timeForGet, type: "5minute"},
             type: 'GET',
             dataType: "json",
