@@ -514,7 +514,7 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         for (var key in chartManage) {
             if (chartManage.hasOwnProperty(key)) {
 
-                var objSet = chartManage[key].getInfo();
+                var objSet = [key].getInfo();
 
                 objSet['left'] = $('#' + key).offset().left;
                 objSet['top'] = $('#' + key).offset().top;
@@ -529,6 +529,8 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
     });
 
     $('#liLayout1').click(function () {
+
+        chartManage = [];
 
         $('#divChart').load('./layout/easyLayout1.html',function()
         {
