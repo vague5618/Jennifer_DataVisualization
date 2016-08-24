@@ -2,6 +2,8 @@
  * Created by JAY on 2016. 7. 11..
  */
 
+var serverIp = "http://192.168.0.246:3000";
+
 function getCommentApi() {
     var root = 'http://jsonplaceholder.typicode.com';
     var ret = null;
@@ -45,7 +47,7 @@ function getData(url, formData) {
     form_data['url'] = url;
 
     $.ajax({
-        url: "http://localhost:3000/data",
+        url: serverIp+"/data",
         data: formData,
         method: 'POST',
         dataType: "json",
@@ -64,7 +66,7 @@ function getTitle(formData) {
     form_data['type'] = "title";
 
     $.ajax({
-        url: "http://localhost:3000/find",
+        url: serverIp+"/find",
         data: formData,
         method: 'POST',
         dataType: "json",
@@ -82,7 +84,7 @@ function setRegister(formData) {
     var ret = null;
 
     $.ajax({
-        url: "http://localhost:3000/register",
+        url: serverIp+"/register",
         data: formData,
         method: 'POST',
         dataType: "json",
@@ -103,7 +105,7 @@ function getKeys(title) {
     form_data['type'] = "keys";
 
     $.ajax({
-        url: "http://localhost:3000/find",
+        url: serverIp+"/find",
         data : form_data,
         method: 'POST',
         dataType: "json",
@@ -120,7 +122,7 @@ function getConnectDB(form_data) {
     var ret = null;
 
     $.ajax({
-        url: "http://localhost:3000/db",
+        url: serverIp+"/db",
         data : form_data,
         method: 'POST',
         dataType: "json",
@@ -140,7 +142,7 @@ function getField(field) {
     form_data['type'] = "distinct";
 
     $.ajax({
-        url: "http://localhost:3000/find",
+        url: serverIp+"/find",
         data : form_data,
         method: 'POST',
         dataType: "json",
@@ -158,7 +160,7 @@ function saveDashboard(chartArray) {
     var ret = null;
 
     $.ajax({
-        url: "http://localhost:3000/dashboard/create",
+        url: serverIp+"/dashboard/create",
         data :{
             chartArray : JSON.stringify(chartArray)},
         method: 'POST',

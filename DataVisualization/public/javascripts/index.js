@@ -8,16 +8,16 @@ var chartIndex = 0;
 var token = "ba78f5af5afdf5eabfa4ec02609cbae0";
 var chartManage = [];
 
-form_data = {
-    title: "Jennifer",
-    interval: 1000,
-    timeCheck: false,
-    apiKey: token,
-    version: 1,
-    lat: 37.5714000000,
-    lon: 126.9658000000,
-    q: "Seoul"
-};
+//form_data = {
+//    title: "Jennifer",
+//    interval: 1000,
+//    timeCheck: false,
+//    apiKey: token,
+//    version: 1,
+//    lat: 37.5714000000,
+//    lon: 126.9658000000,
+//    q: "Seoul"
+//};
 
 
 jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, time) {
