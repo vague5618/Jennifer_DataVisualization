@@ -25,7 +25,12 @@ function snapEqualChart(builder, time, domId, objSet, movable) {
         updateManage = true;
 
         chart = builder(domId, {
-            padding: 10,
+            padding: {
+                left : 10,
+                top : 10,
+                right: 10,
+                bottom : 0
+            },
             axis: [{
                 x: {
                     type: "range",
@@ -42,24 +47,26 @@ function snapEqualChart(builder, time, domId, objSet, movable) {
                         return sum;
                     },
 
-                    padding: {
-                        left: 50,
-                        top: 50,
-                        right: 20,
-                        bottom: 25
-                    },
-                    area: {
-                        width: "100%",
-                        height: "100%"
-                    },
-
                     step: 5,
                     line: true
                 },
                 y: {
                     domain: [""],
                     line: true
-                }
+                },
+
+                padding: {
+                    left: 50,
+                    top: 50,
+                    right: 20,
+                    bottom: 50
+                },
+
+                area: {
+                    width: "100%",
+                    height: "100%"
+                },
+
             }],
 
             style: {
@@ -85,7 +92,9 @@ function snapEqualChart(builder, time, domId, objSet, movable) {
         chart.addWidget({
             type: "title",
             text: chartTitle,
-            align: "center"
+            size: 15,
+            dy: 20
+            //align: "center"
         });
 
         chart.addWidget({
@@ -94,7 +103,8 @@ function snapEqualChart(builder, time, domId, objSet, movable) {
 
         chart.addWidget({
             type: "legend",
-            filter : true
+            filter : true,
+            dy : -10
         });
 
 
@@ -224,13 +234,13 @@ function snapEqualChart(builder, time, domId, objSet, movable) {
 
         $(domId).draggable({
             stop: function (event, ui) {
-                chart.render();
+                chart.render(true);
             }
         });
 
         $(domId).resizable({
             stop: function (event, ui) {
-                chart.render();
+                chart.render(true);
             }
         });
     }

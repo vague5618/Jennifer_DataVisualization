@@ -207,7 +207,7 @@ jui.define("chart.draw", [ "util.base" ], function(_) {
         /**
          * @method on
          *
-         * chartClass.on() 을 쉽게 사용 할 수 있게 해주는 유틸리티 함수
+         * chart.on() 을 쉽게 사용 할 수 있게 해주는 유틸리티 함수
          *
          * @param {String} type event name
          * @param {Function} callback
@@ -874,7 +874,7 @@ jui.define("chart.axis", [ "util.base" ], function(_) {
             c: null,
             /** @cfg {chart.map.core} [map=null] Sets a map on the Map axis */
             map : null,
-            /** @cfg {Array} [data=[]]  Sets the row set data which constitute a chartClass.  */
+            /** @cfg {Array} [data=[]]  Sets the row set data which constitute a chart.  */
             data: [],
             /** @cfg {Array} [origin=[]]  [Fore read only] Original data initially set. */
             origin: [],
@@ -895,9 +895,9 @@ jui.define("chart.axis", [ "util.base" ], function(_) {
                 left: 0,
                 right: 0
             },
-            /** @cfg {Number} [buffer=10000] Limits the number of elements shown on a chartClass.  */
+            /** @cfg {Number} [buffer=10000] Limits the number of elements shown on a chart.  */
             buffer: 10000,
-            /** @cfg {Number} [shift=1]  Data shift count for the 'prev' or 'next' method of the chartClass builder.  */
+            /** @cfg {Number} [shift=1]  Data shift count for the 'prev' or 'next' method of the chart builder.  */
             shift: 1,
 
             /** @cfg {Number} [page=1]  Page number of the data currently drawn. */
@@ -907,7 +907,7 @@ jui.define("chart.axis", [ "util.base" ], function(_) {
             /** @cfg {Number} [end=0] */
             end: 0,
             /**
-             * @cfg  {Object} Set degree of 3d chartClass
+             * @cfg  {Object} Set degree of 3d chart
              * @cfg  {Number} [degree.x=0] axis's x-degree
              * @cfg  {Number} [degree.y=0] axis's y-degree
              * @cfg  {Number} [degree.z=0] axis's z-degree
@@ -917,9 +917,9 @@ jui.define("chart.axis", [ "util.base" ], function(_) {
                 y: 0,
                 z: 0
             },
-            /** @cfg {Number} [depth=0]  Set depth of 3d chartClass  */
+            /** @cfg {Number} [depth=0]  Set depth of 3d chart  */
             depth: 0,
-            /** @cfg {Number} [perspective=0.9]  Set perspective values in the 3d chartClass  */
+            /** @cfg {Number} [perspective=0.9]  Set perspective values in the 3d chart  */
             perspective: 0.9
         }
     }
@@ -1440,7 +1440,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
                 y: _padding.top
             };
 
-            // chartClass 크기가 마이너스일 경우 (엘리먼트가 hidden 상태)
+            // chart 크기가 마이너스일 경우 (엘리먼트가 hidden 상태)
             if(_chart.width < 0) _chart.width = 0;
             if(_chart.height < 0) _chart.height = 0;
 
@@ -2023,7 +2023,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
         }
 
         /**
-         * Gets a calculated value for a chartClass area (type: width, height, x, y, x2, y2)).
+         * Gets a calculated value for a chart area (type: width, height, x, y, x2, y2)).
          *
          * @param {String} key
          * @return {Number/Object}
@@ -2143,15 +2143,15 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
         /**
          * @method theme
          *
-         * Gets a value for the theme element applied to the current chartClass.
+         * Gets a value for the theme element applied to the current chart.
          *
          * ```
          *      // get all theme property
-         *      var theme = chartClass.theme();
+         *      var theme = chart.theme();
          *      // get a part of theme
-         *      var fontColor = chartClass.theme("fontColor");
+         *      var fontColor = chart.theme("fontColor");
          *      // get selected value of theme
-         *      chartClass.theme(isSelected, "selectedFontColor", "fontColor");  // if isSelected is true, return 'selectedFontColor' else return 'fontColor'
+         *      chart.theme(isSelected, "selectedFontColor", "fontColor");  // if isSelected is true, return 'selectedFontColor' else return 'fontColor'
          * ```
          */
         this.theme = function(key, value, value2) {
@@ -2249,10 +2249,10 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
             // SVG 메인 리셋
             this.svg.reset(isAll);
 
-            // chartClass 이벤트 초기화 (삭제 대상)
+            // chart 이벤트 초기화 (삭제 대상)
             resetCustomEvent(this, isAll);
 
-            // chartClass 영역 계산
+            // chart 영역 계산
             calculate(this);
 
             // Canvas 초기 설정
@@ -2264,7 +2264,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
                 }
             }
 
-            // chartClass 관련된 요소 draw
+            // chart 관련된 요소 draw
             drawBefore(this);
             drawAxis(this);
             drawBrush(this);
@@ -2376,7 +2376,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
         }
 
         /**
-         * Changes a chartClass to a specified theme and renders the chartClass again.
+         * Changes a chart to a specified theme and renders the chart again.
          *
          * @param {String/Object} theme
          */
@@ -2386,7 +2386,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
         }
 
         /**
-         * Changes the size of a chartClass to the specified area and height then performs rendering.
+         * Changes the size of a chart to the specified area and height then performs rendering.
          *
          * @param {Number} width
          * @param {Number} height
@@ -2415,7 +2415,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
         }
 
         /**
-         * Returns true if the horizontal or vertical size of the chartClass is 100%.
+         * Returns true if the horizontal or vertical size of the chart is 100%.
          *
          * @return {Boolean}
          */
@@ -2427,7 +2427,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
         }
 
         /**
-         * Resize the chartClass to fit the screen width.
+         * Resize the chart to fit the screen width.
          *
          */
         this.resize = function() {
@@ -2441,7 +2441,7 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
         }
 
         /**
-         * Returns the values of rendering options and, if the rendering option is false, does not render the chartClass again when a method is called.
+         * Returns the values of rendering options and, if the rendering option is false, does not render the chart again when a method is called.
          *
          * @return {Boolean}
          */
@@ -2452,16 +2452,16 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
 
     UI.setup = function() {
         return {
-            /** @cfg  {String/Number} [width="100%"] chartClass width */
+            /** @cfg  {String/Number} [width="100%"] chart width */ 
             width: "100%",
-            /** @cfg  {String/Number} [height="100%"] chartClass height */
+            /** @cfg  {String/Number} [height="100%"] chart height */
             height: "100%",
             /** 
-             * @cfg  {Object} padding chartClass padding
-             * @cfg  {Number} [padding.top=50] chartClass padding
-             * @cfg  {Number} [padding.bottom=50] chartClass padding
-             * @cfg  {Number} [padding.left=50] chartClass padding
-             * @cfg  {Number} [padding.right=50] chartClass padding
+             * @cfg  {Object} padding chart padding 
+             * @cfg  {Number} [padding.top=50] chart padding 
+             * @cfg  {Number} [padding.bottom=50] chart padding
+             * @cfg  {Number} [padding.left=50] chart padding
+             * @cfg  {Number} [padding.right=50] chart padding
              */
             padding: {
                 top: 50,
@@ -2470,26 +2470,26 @@ jui.defineUI("chart.builder", [ "util.base", "util.dom", "util.svg", "util.color
                 right: 50
             },
 
-            /** @cfg  {String} [theme=jennifer] chartClass theme  */
+            /** @cfg  {String} [theme=jennifer] chart theme  */
             theme: "jennifer",
-            /** @cfg  {Object} style chartClass custom theme  */
+            /** @cfg  {Object} style chart custom theme  */
             style: {},
-            /** @cfg {Array} brush Determines a brush to be added to a chartClass. */
+            /** @cfg {Array} brush Determines a brush to be added to a chart. */
             brush: [],
-            /** @cfg {Array} widget Determines a widget to be added to a chartClass. */
+            /** @cfg {Array} widget Determines a widget to be added to a chart. */
             widget: [],
-            /** @cfg {Array} [axis=[]] Determines a axis to be added to a chartClass. */
+            /** @cfg {Array} [axis=[]] Determines a axis to be added to a chart. */
             axis: [],
 
             /** @cfg {Object} [bind=null] Sets a component objects to be bind.*/
             bind: null,
             /** @cfg {Function} [format=null] Sets a format callback function to be used in a grid/brush/widget. */
             format: null,
-            /** @cfg {Boolean} [render=true] Does not render a chartClass when a rendering-related method is called with false (although the render method is not included). */
+            /** @cfg {Boolean} [render=true] Does not render a chart when a rendering-related method is called with false (although the render method is not included). */
             render: true,
 
             /**
-             * @cfg {Object} icon Icon-related settings available in the chartClass.
+             * @cfg {Object} icon Icon-related settings available in the chart.
              * @cfg {String} [icon.type="jennifer"]
              * @cfg {String} [icon.path=null]
              */
@@ -2699,9 +2699,14 @@ jui.define("chart.theme.jennifer", [], function() {
         pieOuterLineColor : "#a9a9a9",
         pieOuterLineSize : 8,
         pieOuterLineRate : 1.3,
+        pieOuterLineWidth : 0.7,
         pieInnerFontSize : 11,
         pieInnerFontColor : "#333",
         pieActiveDistance : 5,
+        pieNoDataBackgroundColor : "#E9E9E9",
+        pieTotalValueFontSize : 36,
+        pieTotalValueFontColor : "#dcdcdc",
+        pieTotalValueFontWeight : "bold",
     	areaBackgroundOpacity : 0.5,
         areaSplitBackgroundColor : "#929292",
         bubbleBackgroundOpacity : 0.5,
@@ -3033,9 +3038,14 @@ jui.define("chart.theme.gradient", [], function() {
         pieOuterLineColor : "#a9a9a9",
         pieOuterLineSize : 8,
         pieOuterLineRate : 1.3,
+        pieOuterLineWidth : 0.7,
         pieInnerFontSize : 11,
         pieInnerFontColor : "#333",
         pieActiveDistance : 5,
+        pieNoDataBackgroundColor : "#E9E9E9",
+        pieTotalValueFontSize : 36,
+        pieTotalValueFontColor : "#dcdcdc",
+        pieTotalValueFontWeight : "bold",
         areaBackgroundOpacity : 0.4,
         areaSplitBackgroundColor : "linear(top) #b3b3b3,0.9 #929292",
         bubbleBackgroundOpacity : 0.5,
@@ -3365,9 +3375,14 @@ jui.define("chart.theme.dark", [], function() {
         pieOuterLineColor : "#a9a9a9",
         pieOuterLineSize : 8,
         pieOuterLineRate : 1.3,
+        pieOuterLineWidth : 0.7,
         pieInnerFontSize : 11,
         pieInnerFontColor : "#868686",
         pieActiveDistance : 5,
+        pieNoDataBackgroundColor : "#E9E9E9",
+        pieTotalValueFontSize : 36,
+        pieTotalValueFontColor : "#dcdcdc",
+        pieTotalValueFontWeight : "bold",
         areaBackgroundOpacity : 0.5,
         areaSplitBackgroundColor : "#ebebeb",
         bubbleBackgroundOpacity : 0.5,
@@ -3694,9 +3709,14 @@ jui.define("chart.theme.pastel", [], function() {
         pieOuterLineColor : "#a9a9a9",
         pieOuterLineSize : 8,
         pieOuterLineRate : 1.3,
+		pieOuterLineWidth : 0.7,
 		pieInnerFontSize : 11,
 		pieInnerFontColor : "#333",
         pieActiveDistance : 5,
+		pieNoDataBackgroundColor : "#E9E9E9",
+		pieTotalValueFontSize : 36,
+		pieTotalValueFontColor : "#dcdcdc",
+		pieTotalValueFontWeight : "bold",
 		areaBackgroundOpacity : 0.4,
 		areaSplitBackgroundColor : "#ebebeb",
 		bubbleBackgroundOpacity : 0.5,
@@ -4022,9 +4042,14 @@ jui.define("chart.theme.pattern", [], function() {
         pieOuterLineColor : "#a9a9a9",
         pieOuterLineSize : 8,
         pieOuterLineRate : 1.3,
+        pieOuterLineWidth : 0.7,
         pieInnerFontSize : 11,
         pieInnerFontColor : "#333",
         pieActiveDistance : 5,
+        pieNoDataBackgroundColor : "#E9E9E9",
+        pieTotalValueFontSize : 36,
+        pieTotalValueFontColor : "#dcdcdc",
+        pieTotalValueFontWeight : "bold",
         areaBackgroundOpacity : 0.5,
         areaSplitBackgroundColor : "#929292",
         bubbleBackgroundOpacity : 0.5,
@@ -4487,6 +4512,12 @@ jui.define("chart.pattern.jennifer", [], function() {
 jui.define("chart.icon.jennifer", [], function() {
 	return {
 		"grip3" : "\ue998",
+		"clip" : "\ue999",
+		"scissors" : "\ue99a",
+		"topology" : "\ue99b",
+		"equalizer" : "\ue99c",
+		"idea" : "\ue99d",
+		"screenshot" : "\ue99e",
 		"tag" : "\ue993",
 		"all" : "\ue994",
 		"grip2" : "\ue995",
@@ -8073,6 +8104,14 @@ jui.define("chart.brush.core", [ "util.base", "util.dom" ], function(_, $) {
          * @returns {Array} axis.data
          */
         this.listData = function() {
+            if(!this.axis) {
+                return [];
+            } else {
+                if(!this.axis.data) {
+                    return [];
+                }
+            }
+
             return this.axis.data;
         }
 
@@ -8092,7 +8131,7 @@ jui.define("chart.brush.core", [ "util.base", "util.dom" ], function(_, $) {
         /**
          * @method getValue
          *
-         * chartClass.axis.getValue alias
+         * chart.axis.getValue alias
          *
          * @param {Object} data row data
          * @param {String} fieldString 필드 이름
@@ -8281,7 +8320,7 @@ jui.define("chart.brush.core", [ "util.base", "util.dom" ], function(_, $) {
         /**
          * @method color
          *  
-         * chartClass.color() 를 쉽게 사용할 수 있게 만든 유틸리티 함수
+         * chart.color() 를 쉽게 사용할 수 있게 만든 유틸리티 함수 
          *  
          * @param {Number} key1  브러쉬에서 사용될 컬러 Index
          * @param {Number} key2  브러쉬에서 사용될 컬러 Index
@@ -8351,7 +8390,7 @@ jui.define("chart.brush.core", [ "util.base", "util.dom" ], function(_, $) {
             axis: 0,
             /** @cfg {Integer} [index=null] [Read Only] Sequence index on which brush is drawn. */
             index: null,
-            /** @cfg {boolean} [clip=true] If the brush is drawn outside of the chartClass, cut the area. */
+            /** @cfg {boolean} [clip=true] If the brush is drawn outside of the chart, cut the area. */
             clip: true,
             /** @cfg {boolean} [useEvent=true] If you do not use a brush events, it gives better performance. */
             useEvent: true
@@ -9507,7 +9546,7 @@ jui.define("chart.brush.circle", ["util.base"], function(_) {
 
     CircleBrush.setup = function() {
         return {
-            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
+            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
             clip: false,
 
             /** @cfg {Number} [size=1] set gauge stroke width  */
@@ -11166,14 +11205,14 @@ jui.define("chart.brush.path", [], function() {
 
 jui.define("chart.brush.pie", [ "util.base", "util.math", "util.color" ], function(_, math, ColorUtil) {
 
-	/**
-	 * @class chart.brush.pie
+    /**
+     * @class chart.brush.pie
      * @extends chart.brush.core
-	 */
-	var PieBrush = function() {
+     */
+    var PieBrush = function() {
         var self = this, textY = 3;
-        var g;
-        var cache_active = {};
+        var preAngle = 0, preRate = 0, preOpacity = 1;
+        var g, cache_active = {};
 
         this.setActiveEvent = function(pie, centerX, centerY, centerAngle) {
             var dist = this.chart.theme("pieActiveDistance"),
@@ -11205,8 +11244,8 @@ jui.define("chart.brush.pie", [ "util.base", "util.math", "util.color" ], functi
             }
         }
 
-		this.drawPie = function(centerX, centerY, outerRadius, startAngle, endAngle, color) {
-			var pie = this.chart.svg.group();
+        this.drawPie = function(centerX, centerY, outerRadius, startAngle, endAngle, color) {
+            var pie = this.chart.svg.group();
 
             if (endAngle == 360) { // if pie is full size, draw a circle as pie brush
                 var circle = this.chart.svg.circle({
@@ -11222,60 +11261,60 @@ jui.define("chart.brush.pie", [ "util.base", "util.math", "util.color" ], functi
 
                 return pie;
             }
-            
+
             var path = this.chart.svg.path({
                 fill : color,
                 stroke : this.chart.theme("pieBorderColor") || color,
                 "stroke-width" : this.chart.theme("pieBorderWidth")
             });
 
-			// 바깥 지름 부터 그림
-			var obj = math.rotate(0, -outerRadius, math.radian(startAngle)),
-				startX = obj.x,
+            // 바깥 지름 부터 그림
+            var obj = math.rotate(0, -outerRadius, math.radian(startAngle)),
+                startX = obj.x,
                 startY = obj.y;
-			
-			// 시작 하는 위치로 옮김
-			path.MoveTo(startX, startY);
 
-			// outer arc 에 대한 지점 설정
-			obj = math.rotate(startX, startY, math.radian(endAngle));
+            // 시작 하는 위치로 옮김
+            path.MoveTo(startX, startY);
 
-			pie.translate(centerX, centerY);
+            // outer arc 에 대한 지점 설정
+            obj = math.rotate(startX, startY, math.radian(endAngle));
 
-			// arc 그림
-			path.Arc(outerRadius, outerRadius, 0, (endAngle > 180) ? 1 : 0, 1, obj.x, obj.y)
+            pie.translate(centerX, centerY);
+
+            // arc 그림
+            path.Arc(outerRadius, outerRadius, 0, (endAngle > 180) ? 1 : 0, 1, obj.x, obj.y)
                 .LineTo(0, 0)
                 .ClosePath();
 
             pie.append(path);
             pie.order = 1;
 
-			return pie;
-		}
+            return pie;
+        }
 
-		this.drawPie3d = function(centerX, centerY, outerRadius, startAngle, endAngle, color) {
-			var pie = this.chart.svg.group(),
-				path = this.chart.svg.path({
+        this.drawPie3d = function(centerX, centerY, outerRadius, startAngle, endAngle, color) {
+            var pie = this.chart.svg.group(),
+                path = this.chart.svg.path({
                     fill : color,
                     stroke : this.chart.theme("pieBorderColor") || color,
                     "stroke-width" : this.chart.theme("pieBorderWidth")
                 });
 
-			// 바깥 지름 부터 그림
-			var obj = math.rotate(0, -outerRadius, math.radian(startAngle)),
-				startX = obj.x,
+            // 바깥 지름 부터 그림
+            var obj = math.rotate(0, -outerRadius, math.radian(startAngle)),
+                startX = obj.x,
                 startY = obj.y;
 
-			// 시작 하는 위치로 옮김
-			path.MoveTo(startX, startY);
+            // 시작 하는 위치로 옮김
+            path.MoveTo(startX, startY);
 
-			// outer arc 에 대한 지점 설정
-			obj = math.rotate(startX, startY, math.radian(endAngle));
+            // outer arc 에 대한 지점 설정
+            obj = math.rotate(startX, startY, math.radian(endAngle));
 
-			pie.translate(centerX, centerY);
+            pie.translate(centerX, centerY);
 
-			// arc 그림
-			path.Arc(outerRadius, outerRadius, 0, (endAngle > 180) ? 1 : 0, 1, obj.x, obj.y)
+            // arc 그림
+            path.Arc(outerRadius, outerRadius, 0, (endAngle > 180) ? 1 : 0, 1, obj.x, obj.y)
 
             var y = obj.y + 10,
                 x = obj.x + 5,
@@ -11289,8 +11328,8 @@ jui.define("chart.brush.pie", [ "util.base", "util.math", "util.color" ], functi
             pie.append(path);
             pie.order = 1;
 
-			return pie;
-		}
+            return pie;
+        }
 
         this.drawText = function(centerX, centerY, centerAngle, outerRadius, text) {
             var g = this.svg.group({
@@ -11314,70 +11353,84 @@ jui.define("chart.brush.pie", [ "util.base", "util.math", "util.color" ], functi
                 g.append(text);
                 g.order = 2;
             } else {
-                var dist = this.chart.theme("pieOuterLineSize"),
-                    r = outerRadius * this.chart.theme("pieOuterLineRate"),
-                    cx = centerX + (Math.cos(math.radian(centerAngle)) * outerRadius),
-                    cy = centerY + (Math.sin(math.radian(centerAngle)) * outerRadius),
-                    tx = centerX + (Math.cos(math.radian(centerAngle)) * r),
-                    ty = centerY + (Math.sin(math.radian(centerAngle)) * r),
-                    ex = (isLeft) ? tx - dist : tx + dist;
+                // TODO: 각도가 좁을 때, 텍스트와 라인을 보정하는 코드 개선 필요
 
-                var path = this.svg.path({
-                    fill: "transparent",
-                    stroke: this.chart.theme("pieOuterLineColor"),
-                    "stroke-width": 0.7
-                });
+                var rate = this.chart.theme("pieOuterLineRate"),
+                    diffAngle = Math.abs(centerAngle - preAngle);
 
-                path.MoveTo(cx, cy)
-                    .LineTo(tx, ty)
-                    .LineTo(ex, ty);
+                if(diffAngle < 2) {
+                    if(preRate == 0) {
+                        preRate = rate;
+                    }
 
-                var text = this.chart.text({
-                    "font-size": this.chart.theme("pieOuterFontSize"),
-                    fill: this.chart.theme("pieOuterFontColor"),
-                    "text-anchor": (isLeft) ? "end" : "start",
-                    y: textY
-                }, text);
+                    var tick = rate * 0.05;
+                    preRate -= tick;
+                    preOpacity -= 0.25;
+                } else {
+                    preRate = rate;
+                    preOpacity = 1;
+                }
 
-                text.translate(ex + (isLeft ? -3 : 3), ty);
+                if(preRate > 1.2) {
+                    var dist = this.chart.theme("pieOuterLineSize"),
+                        r = outerRadius * preRate,
+                        cx = centerX + (Math.cos(math.radian(centerAngle)) * outerRadius),
+                        cy = centerY + (Math.sin(math.radian(centerAngle)) * outerRadius),
+                        tx = centerX + (Math.cos(math.radian(centerAngle)) * r),
+                        ty = centerY + (Math.sin(math.radian(centerAngle)) * r),
+                        ex = (isLeft) ? tx - dist : tx + dist;
 
-                g.append(text);
-                g.append(path);
-                g.order = 0;
+                    var path = this.svg.path({
+                        fill: "transparent",
+                        stroke: this.chart.theme("pieOuterLineColor"),
+                        "stroke-width": this.chart.theme("pieOuterLineWidth"),
+                        "stroke-opacity": preOpacity
+                    });
+
+                    path.MoveTo(cx, cy)
+                        .LineTo(tx, ty)
+                        .LineTo(ex, ty);
+
+                    var text = this.chart.text({
+                        "font-size": this.chart.theme("pieOuterFontSize"),
+                        "fill": this.chart.theme("pieOuterFontColor"),
+                        "fill-opacity": preOpacity,
+                        "text-anchor": (isLeft) ? "end" : "start",
+                        y: textY
+                    }, text);
+
+                    text.translate(ex + (isLeft ? -3 : 3), ty);
+
+                    g.append(text);
+                    g.append(path);
+                    g.order = 0;
+
+                    preAngle = centerAngle;
+                }
             }
 
             return g;
         }
 
-		this.drawUnit = function (index, data, g) {
-			var obj = this.axis.c(index);
+        this.drawUnit = function (index, data, g) {
+            var props = this.getProperty(index),
+                centerX = props.centerX,
+                centerY = props.centerY,
+                outerRadius = props.outerRadius;
 
-			var width = obj.width,
-                height = obj.height,
-                x = obj.x,
-                y = obj.y,
-                min = width;
-
-			if (height < min) {
-				min = height;
-			}
-
-			// center
-			var centerX = width / 2 + x,
-                centerY = height / 2 + y,
-                outerRadius = min / 2;
-
-			var target = this.brush.target,
+            var target = this.brush.target,
                 active = this.brush.active,
-				all = 360,
-				startAngle = 0,
-				max = 0;
+                all = 360,
+                startAngle = 0,
+                max = 0;
 
-			for (var i = 0; i < target.length; i++) {
-				max += data[target[i]];
-			}
+            for (var i = 0; i < target.length; i++) {
+                max += data[target[i]];
+            }
 
-			for (var i = 0; i < target.length; i++) {
+            for (var i = 0; i < target.length; i++) {
+                if(data[target[i]] == 0) continue;
+
                 var value = data[target[i]],
                     endAngle = all * (value / max);
 
@@ -11386,12 +11439,12 @@ jui.define("chart.brush.pie", [ "util.base", "util.math", "util.color" ], functi
                     g.append(pie3d);
                 }
 
-				startAngle += endAngle;
-			}
+                startAngle += endAngle;
+            }
 
             startAngle = 0;
 
-			for (var i = 0; i < target.length; i++) {
+            for (var i = 0; i < target.length; i++) {
                 var value = data[target[i]],
                     endAngle = all * (value / max),
                     centerAngle = startAngle + (endAngle / 2) - 90,
@@ -11437,26 +11490,56 @@ jui.define("chart.brush.pie", [ "util.base", "util.math", "util.color" ], functi
                 g.append(pie);
                 g.append(text);
 
-				startAngle += endAngle;
-			}
-		}
+                startAngle += endAngle;
+            }
+        }
+
+        this.drawNoData = function(g) {
+            var props = this.getProperty(0);
+
+            g.append(this.drawPie(props.centerX, props.centerY, props.outerRadius, 0, 360, this.chart.theme("pieNoDataBackgroundColor")));
+        }
 
         this.drawBefore = function() {
             g = this.chart.svg.group();
         }
 
-		this.draw = function() {
-			this.eachData(function(data, i) {
-				this.drawUnit(i, data, g);
-			});
+        this.draw = function() {
+            if(this.listData().length == 0) {
+                this.drawNoData(g);
+            } else {
+                this.eachData(function(data, i) {
+                    this.drawUnit(i, data, g);
+                });
+            }
 
             return g;
-		}
-	}
+        }
+
+        this.getProperty = function(index) {
+            var obj = this.axis.c(index);
+
+            var width = obj.width,
+                height = obj.height,
+                x = obj.x,
+                y = obj.y,
+                min = width;
+
+            if (height < min) {
+                min = height;
+            }
+
+            return {
+                centerX: width / 2 + x,
+                centerY: height / 2 + y,
+                outerRadius: min / 2
+            }
+        }
+    }
 
     PieBrush.setup = function() {
         return {
-            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
+            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
             clip: false,
             /** @cfg {String} [showText=null] Set the text appear. (outside or inside)  */
             showText: null,
@@ -11471,9 +11554,8 @@ jui.define("chart.brush.pie", [ "util.base", "util.math", "util.color" ], functi
         }
     }
 
-	return PieBrush;
+    return PieBrush;
 }, "chart.brush.core");
-
 jui.define("chart.brush.donut", [ "util.base", "util.math", "util.color" ], function(_, math, ColorUtil) {
 
     /**
@@ -11501,7 +11583,6 @@ jui.define("chart.brush.donut", [ "util.base", "util.math", "util.color" ], func
 				startX = obj.x,
 				startY = obj.y;
 
-
 			// 시작 하는 위치로 옮김
 			path.MoveTo(startX, startY);
 
@@ -11513,6 +11594,11 @@ jui.define("chart.brush.donut", [ "util.base", "util.math", "util.color" ], func
 
 			// outer arc 그림
 			path.Arc(outerRadius, outerRadius, 0, (endAngle > 180) ? 1 : 0, 1, obj.x, obj.y);
+
+            // 마우스 이벤트 빈공간 제외
+            path.css({
+                "pointer-events": "stroke"
+            });
 
 			g.append(path);
             g.order = 1;
@@ -11626,33 +11712,18 @@ jui.define("chart.brush.donut", [ "util.base", "util.math", "util.color" ], func
 		}
 
         this.drawUnit = function (index, data, g) {
-            var obj = this.axis.c(index);
-
-            var width = obj.width,
-                height = obj.height,
-                x = obj.x,
-                y = obj.y,
-                min = width;
-
-            if (height < min) {
-                min = height;
-            }
-          
-            if (this.brush.size >= min/2) {
-              this.brush.size = min/4;
-            }
-
-            // center
-            var centerX = width / 2 + x,
-                centerY = height / 2 + y,
-                outerRadius = min / 2 - this.brush.size / 2,
-                innerRadius = outerRadius - this.brush.size;
+            var props = this.getProperty(index),
+                centerX = props.centerX,
+                centerY = props.centerY,
+                innerRadius = props.innerRadius,
+                outerRadius = props.outerRadius;
 
             var target = this.brush.target,
                 active = this.brush.active,
                 all = 360,
                 startAngle = 0,
-                max = 0;
+                max = 0,
+                totalValue = 0;
 
             for (var i = 0; i < target.length; i++) {
                 max += data[target[i]];
@@ -11687,6 +11758,8 @@ jui.define("chart.brush.donut", [ "util.base", "util.math", "util.color" ], func
             startAngle = 0;
 
             for (var i = 0; i < target.length; i++) {
+                if(data[target[i]] == 0) continue;
+
                 var value = data[target[i]],
                     endAngle = all * (value / max),
                     centerAngle = startAngle + (endAngle / 2) - 90,
@@ -11737,6 +11810,68 @@ jui.define("chart.brush.donut", [ "util.base", "util.math", "util.color" ], func
                 g.append(text);
 
                 startAngle += endAngle;
+                totalValue += value;
+            }
+
+            // Show total value
+            if(this.brush.showValue) {
+                this.drawTotalValue(g, centerX, centerY, totalValue);
+            }
+        }
+
+        this.drawNoData = function(g) {
+            var props = this.getProperty(0);
+
+            g.append(this.drawDonut(props.centerX, props.centerY, props.innerRadius, props.outerRadius, 0, 360, {
+                stroke : this.chart.theme("pieNoDataBackgroundColor"),
+                fill : "transparent"
+            }));
+
+            // Show total value
+            if(this.brush.showValue) {
+                this.drawTotalValue(g, props.centerX, props.centerY, 0);
+            }
+        }
+
+        this.drawTotalValue = function(g, centerX, centerY, value) {
+            var size = this.chart.theme("pieTotalValueFontSize");
+
+            var text = this.chart.text({
+                "font-size": size,
+                "font-weight": this.chart.theme("pieTotalValueFontWeight"),
+                fill: this.chart.theme("pieTotalValueFontColor"),
+                "text-anchor": "middle",
+                dy: size / 3
+            }, this.format(value));
+
+            text.translate(centerX, centerY);
+            g.append(text)
+        }
+
+        this.getProperty = function(index) {
+            var obj = this.axis.c(index);
+
+            var width = obj.width,
+                height = obj.height,
+                x = obj.x,
+                y = obj.y,
+                min = width;
+
+            if (height < min) {
+                min = height;
+            }
+
+            if (this.brush.size >= min/2) {
+                this.brush.size = min/4;
+            }
+
+            var outerRadius = min / 2 - this.brush.size / 2;
+
+            return {
+                centerX : width / 2 + x,
+                centerY : height / 2 + y,
+                outerRadius : outerRadius,
+                innerRadius : outerRadius - this.brush.size
             }
         }
 	}
@@ -11744,7 +11879,9 @@ jui.define("chart.brush.donut", [ "util.base", "util.math", "util.color" ], func
 	DonutBrush.setup = function() {
 		return {
             /** @cfg {Number} [size=50] donut stroke width  */
-			size: 50
+			size: 50,
+            /** @cfg {Boolean} [showValue=false] donut stroke width  */
+            showValue: false
 		};
 	}
 
@@ -12024,7 +12161,7 @@ jui.define("chart.brush.scatter", [ "util.base" ], function(_) {
             activeEvent: null,
             /** @cfg {"max"/"min"/"all"} [display=null]  Shows a tooltip on the scatter for the minimum/maximum value.  */
             display: null,
-            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
+            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
             clip: false
         };
     }
@@ -12247,7 +12384,7 @@ jui.define("chart.brush.circlegauge", [], function() {
 
     CircleGaugeBrush.setup = function() {
         return {
-            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
+            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
             clip: false
         }
     }
@@ -14017,7 +14154,7 @@ jui.define("chart.brush.topologynode",
 
     TopologyNode.setup = function() {
         return {
-            /** @cfg {Boolean} [clip=true] If the brush is drawn outside of the chartClass, cut the area. */
+            /** @cfg {Boolean} [clip=true] If the brush is drawn outside of the chart, cut the area. */
             clip: true,
 
             // topology options
@@ -14227,7 +14364,7 @@ jui.define("chart.brush.pin", [ "util.base" ], function(_) {
             split: 0,
             /** @cfg {Function} [format=null] */
             format: null,
-            /** @cfg {boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
+            /** @cfg {boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
             clip : false
         };
     }
@@ -15095,7 +15232,7 @@ jui.define("chart.brush.pyramid", [ "util.base" ], function(_) {
 
     PyramidBrush.setup = function() {
         return {
-            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
+            /** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
             clip: false,
             /** @cfg {Boolean} [showText=false] Set the text appear. */
             showText: false,
@@ -15107,6 +15244,57 @@ jui.define("chart.brush.pyramid", [ "util.base" ], function(_) {
     }
 
     return PyramidBrush;
+}, "chart.brush.core");
+
+jui.define("chart.brush.rangearea", [], function() {
+
+    /**
+     * @class chart.brush.rangearea
+     * @extends chart.brush.core
+     */
+	var RangeAreaBrush = function() {
+
+		this.draw = function() {
+			var g = this.svg.group(),
+				targets = this.brush.target,
+				datas = this.axis.data,
+				isRangeY = (this.axis.y.type == "range");
+
+			for(var i = 0; i < targets.length; i++) {
+				var p = this.svg.polygon({
+					fill: this.color(i),
+					"fill-opacity": this.chart.theme("areaBackgroundOpacity"),
+					"stroke-width": 0
+				});
+
+				for(var j = 0; j < datas.length; j++) {
+					var value = datas[j][targets[i]];
+
+					if(isRangeY) {
+						p.point(this.axis.x(j), this.axis.y(value[0]));
+					} else {
+						p.point(this.axis.x(value[0]), this.axis.y(j));
+					}
+				}
+
+				for(var j = datas.length - 1; j >= 0; j--) {
+					var value = datas[j][targets[i]];
+
+					if(isRangeY) {
+						p.point(this.axis.x(j), this.axis.y(value[1]));
+					} else {
+						p.point(this.axis.x(value[1]), this.axis.y(j));
+					}
+				}
+
+				g.append(p);
+			}
+
+            return g;
+		}
+	}
+
+	return RangeAreaBrush;
 }, "chart.brush.core");
 
 jui.define("chart.brush.map.core", [], function() {
@@ -15932,7 +16120,7 @@ jui.define("chart.brush.polygon.scatter3d",
 		return {
 			/** @cfg {Number} [size=7]  Determines the size of a starter. */
 			size: 7,
-			/** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
+			/** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
 			clip: false
 		};
 	}
@@ -16021,7 +16209,7 @@ jui.define("chart.brush.polygon.column3d",
 			height: 0,
 			/** @cfg {Number} [padding=20] Determines the outer margin of a bar.  */
 			padding: 20,
-			/** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
+			/** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
 			clip: false
 		};
 	}
@@ -16103,7 +16291,7 @@ jui.define("chart.brush.polygon.line3d",
 		return {
 			/** @cfg {Number} [padding=20] Determines the outer margin of a bar.  */
 			padding: 10,
-			/** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chartClass, cut the area. */
+			/** @cfg {Boolean} [clip=false] If the brush is drawn outside of the chart, cut the area. */
 			clip: false
 		};
 	}
@@ -17022,9 +17210,9 @@ jui.define("chart.widget.title", [], function() {
             align: "center",
             /** @cfg {String} [text=""] Sets the title message. */
             text: "",
-            /** @cfg {Number} [dx=0] Moves the x coordinate by a set value from the location where the chartClass is drawn.  */
+            /** @cfg {Number} [dx=0] Moves the x coordinate by a set value from the location where the chart is drawn.  */
             dx: 0,
-            /** @cfg {Number} [dy=0] Moves the y coordinate by a set value from the location where the chartClass is drawn. */
+            /** @cfg {Number} [dy=0] Moves the y coordinate by a set value from the location where the chart is drawn. */
             dy: 0,
             /** @cfg {Number} [size=null] Sets the title message size. */
             size: null,
@@ -17278,12 +17466,14 @@ jui.define("chart.widget.legend", [ "util.base" ], function(_) {
                         }
                     }
                 }
-                
+
                 if (total_width > 0) {
                     total_widthes.push(total_width);
                 }
-                
-                total_width  = Math.max.apply(Math, total_widthes);
+
+                if (total_widthes.length > 0) {
+                    total_width = Math.max.apply(Math, total_widthes);
+                }
 
                 setLegendStatus(brush);
             }
@@ -17297,7 +17487,7 @@ jui.define("chart.widget.legend", [ "util.base" ], function(_) {
                 if (widget.align == "start") {
                     x = chart.area("x");
                 } else if (widget.align == "center") {
-                    x = chart.area("x") + (chart.area("width") / 2- total_width / 2);
+                    x = chart.area("x") + (chart.area("width")/2 - total_width / 2);
                 } else if (widget.align == "end") {
                     x = chart.area("x2") - total_width;
                 }
@@ -17314,8 +17504,8 @@ jui.define("chart.widget.legend", [ "util.base" ], function(_) {
                     y = chart.area("y2") - total_height;
                 }
             } 
-            
-            group.translate(Math.floor(x), Math.floor(y));
+
+            group.translate(Math.floor(x) + widget.dx, Math.floor(y) + widget.dy);
 
             return group;
         }
@@ -17331,6 +17521,10 @@ jui.define("chart.widget.legend", [ "util.base" ], function(_) {
             filter: false,
             /** @cfg {Function/String} [icon=null]   */
             icon: null,
+            /** @cfg {Number} [dx=0] Moves the x coordinate by a set value from the location where the chart is drawn.  */
+            dx: 0,
+            /** @cfg {Number} [dy=0] Moves the y coordinate by a set value from the location where the chart is drawn. */
+            dy: 0,
             /** @cfg {Array} [colors=null]   */
             colors: null,
             /** @cfg {Boolean} [brushSync=false] Applies all brushes equally when using a filter function. */

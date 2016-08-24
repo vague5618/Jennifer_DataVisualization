@@ -241,12 +241,14 @@ jui.define("chart.widget.legend", [ "util.base" ], function(_) {
                         }
                     }
                 }
-                
+
                 if (total_width > 0) {
                     total_widthes.push(total_width);
                 }
-                
-                total_width  = Math.max.apply(Math, total_widthes);
+
+                if (total_widthes.length > 0) {
+                    total_width = Math.max.apply(Math, total_widthes);
+                }
 
                 setLegendStatus(brush);
             }
@@ -260,7 +262,7 @@ jui.define("chart.widget.legend", [ "util.base" ], function(_) {
                 if (widget.align == "start") {
                     x = chart.area("x");
                 } else if (widget.align == "center") {
-                    x = chart.area("x") + (chart.area("width") / 2- total_width / 2);
+                    x = chart.area("x") + (chart.area("width")/2 - total_width / 2);
                 } else if (widget.align == "end") {
                     x = chart.area("x2") - total_width;
                 }
@@ -277,8 +279,8 @@ jui.define("chart.widget.legend", [ "util.base" ], function(_) {
                     y = chart.area("y2") - total_height;
                 }
             } 
-            
-            group.translate(Math.floor(x), Math.floor(y));
+
+            group.translate(Math.floor(x) + widget.dx, Math.floor(y) + widget.dy);
 
             return group;
         }
@@ -294,6 +296,10 @@ jui.define("chart.widget.legend", [ "util.base" ], function(_) {
             filter: false,
             /** @cfg {Function/String} [icon=null]   */
             icon: null,
+            /** @cfg {Number} [dx=0] Moves the x coordinate by a set value from the location where the chart is drawn.  */
+            dx: 0,
+            /** @cfg {Number} [dy=0] Moves the y coordinate by a set value from the location where the chart is drawn. */
+            dy: 0,
             /** @cfg {Array} [colors=null]   */
             colors: null,
             /** @cfg {Boolean} [brushSync=false] Applies all brushes equally when using a filter function. */

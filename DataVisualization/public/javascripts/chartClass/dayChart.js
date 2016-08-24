@@ -83,6 +83,7 @@ function dayChart(builder, time, domId, objSet, movable) {
             widget: [{
                 type: "title",
                 size: 15,
+                dy: 20,
                 text: chartTitle
             },
                 {

@@ -23,9 +23,7 @@
     "free",
     "MIT"
   ],
-  "author": {
-    "name": "seogi1004"
-  },
+  "author": "seogi1004",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/juijs/jui-chart/issues"
@@ -48,8 +46,8 @@
   ],
   "maintainers": [
     {
-      "name": "easylogic",
-      "email": "cyberuls@gmail.com"
+      "name": "Alvin",
+      "email": "alvin@jennifersoft.com"
     }
   ],
   "contributors": [
@@ -72,26 +70,5 @@
   },
   "dependencies": {
     "jsdom": "~7.2.2"
-  },
-  "gitHead": "3a4158b3af15c4a67dad958473f26d71ee0c0a0e",
-  "homepage": "https://github.com/juijs/jui-chart",
-  "_id": "jui-chart@2.0.4",
-  "_shasum": "788ad3f0119fb9af6f29fa32a5f493211b272afe",
-  "_from": "jui-chart@latest",
-  "_npmVersion": "2.7.5",
-  "_nodeVersion": "0.10.21",
-  "_npmUser": {
-    "name": "easylogic",
-    "email": "cyberuls@gmail.com"
-  },
-  "dist": {
-    "shasum": "788ad3f0119fb9af6f29fa32a5f493211b272afe",
-    "tarball": "https://registry.npmjs.org/jui-chart/-/jui-chart-2.0.4.tgz"
-  },
-  "_npmOperationalInternal": {
-    "host": "packages-16-east.internal.npmjs.com",
-    "tmp": "tmp/jui-chart-2.0.4.tgz_1463641385524_0.6964762031566352"
-  },
-  "directories": {},
-  "_resolved": "https://registry.npmjs.org/jui-chart/-/jui-chart-2.0.4.tgz"
+  }
 }
