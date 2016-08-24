@@ -25,6 +25,7 @@ function snapEqualChart(builder, time, domId, objSet, movable) {
         updateManage = true;
 
         chart = builder(domId, {
+            padding: 10,
             axis: [{
                 x: {
                     type: "range",
@@ -41,6 +42,17 @@ function snapEqualChart(builder, time, domId, objSet, movable) {
                         return sum;
                     },
 
+                    padding: {
+                        left: 50,
+                        top: 50,
+                        right: 20,
+                        bottom: 25
+                    },
+                    area: {
+                        width: "100%",
+                        height: "100%"
+                    },
+
                     step: 5,
                     line: true
                 },
@@ -48,7 +60,15 @@ function snapEqualChart(builder, time, domId, objSet, movable) {
                     domain: [""],
                     line: true
                 }
-            }]
+            }],
+
+            style: {
+                axisBorderColor: "#dcdcdc",
+                axisBorderWidth: 1.5,
+                axisBorderRadius: 5,
+                titleFontSize: 12,
+                titleFontWeight: 700
+            }
         });
 
         settingData();
@@ -65,7 +85,7 @@ function snapEqualChart(builder, time, domId, objSet, movable) {
         chart.addWidget({
             type: "title",
             text: chartTitle,
-            align: "end"
+            align: "center"
         });
 
         chart.addWidget({

@@ -14,7 +14,6 @@ module.exports.index = function (req, res) {
         res.json(urlManage[req.params.id]);
     }
 
-
     else if(urlManage[req.params.id]!=null)
     {
         res.render('dashboard');
@@ -27,15 +26,18 @@ module.exports.index = function (req, res) {
 
 module.exports.create = function (req, res) {
 
-    var timeBasedID = uuid.v1();
+    do{
+        var timeBasedID = uuid.v1();
 
-    var randomID = uuid.v4();
+        var randomID = uuid.v4();
 
-    var url = 'http://'+ip.address()+':3000/dashboard/' + randomID;
+        var url = 'http://' + ip.address() + ':3000/dashboard/' + randomID;
 
-    var chartInfo = JSON.parse(req.body['chartArray']);
+        var chartInfo = JSON.parse(req.body['chartArray']);
 
-    urlManage[randomID] = chartInfo;
+        urlManage[randomID] = chartInfo;
+
+    }while(urlManage[req.params.id]!=null);
 
     res.json(url);
 };

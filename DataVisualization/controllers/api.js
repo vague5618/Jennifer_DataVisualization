@@ -20,15 +20,19 @@ module.exports.index = function (req, res) {
     }
 
     if (type == "1day") {
+        var setMean = Number(json.setMean);
+
         //title, timeColumn, valueColumn, howLong, callback
-        dataDAO.getHourData(title, timeColumn, value, 5, function (result) {
+        dataDAO.getHourData(title, timeColumn, value, setMean, function (result) {
             res.send(result);
         });
     }
 
     if (type == "minuteMean") {
+        var setMean = Number(json.setMean);
+
         //title, timeColumn, valueColumn, howLong
-        dataDAO.getMinuteData(title, timeColumn, value, 5, function (result) {
+        dataDAO.getMinuteData(title, timeColumn, value, setMean, function (result) {
             res.send(result);
         });
     }

@@ -242,7 +242,6 @@ function dataChart(builder, time, domId, objSet, movable) {
 
         $(domId).draggable({
             stop: function( event, ui ) {
-                alert("==");
                 chart.render(true);
             }
         });

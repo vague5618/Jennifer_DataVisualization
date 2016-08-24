@@ -12,9 +12,7 @@ function dayChart(builder, time, domId, objSet, movable) {
     var chartTitle = objSet["chartTitle"];
     var chartValue = objSet["chartValue"];
     var chartColors = objSet["chartColors"];
-    var chartHowlong = objSet["chartHowlong"];
-
-    chartHowlong = 5;
+    var chartSetMean = objSet["chartSetMean"];
     //var chartType = objSet["chartType"];
     //var initCycle = 5; //5분
     //var normalCycle = 0.05; // 3초
@@ -117,7 +115,7 @@ function dayChart(builder, time, domId, objSet, movable) {
     function initData() {
         $.ajax({
             url: "http://localhost:3000/api",
-            data: {title: chartTitle, timeColumn: chartTime, value: chartValue, type: "1day"},
+            data: {title: chartTitle, timeColumn: chartTime, value: chartValue, type: "1day", setMean : chartSetMean},
             type: 'GET',
             dataType: "json",
             async: false,
@@ -155,7 +153,7 @@ function dayChart(builder, time, domId, objSet, movable) {
                 if (updateManage == true) {
                     setTimeout(function () {
                         update();
-                    }, chartHowlong * 10000);
+                    }, chartSetMean * 10000);
                 }
             }
         });
@@ -168,7 +166,7 @@ function dayChart(builder, time, domId, objSet, movable) {
 
         $.ajax({
             url: "http://localhost:3000/api",
-            data: {title: chartTitle, timeColumn: chartTime, value: chartValue, type: "minuteMean"},
+            data: {title: chartTitle, timeColumn: chartTime, value: chartValue, type: "minuteMean",  setMean : chartSetMean},
             type: 'GET',
             dataType: "json",
             async: false,
@@ -202,7 +200,7 @@ function dayChart(builder, time, domId, objSet, movable) {
                 if (updateManage == true) {
                     setTimeout(function () {
                         update();
-                    }, chartHowlong * 10000 - tookTime);
+                    }, chartSetMean * 10000 - tookTime);
                 }
             }
         });
@@ -229,7 +227,7 @@ function dayChart(builder, time, domId, objSet, movable) {
 
     function getTimeToIndex() {
         var now = new Date();
-        return now.getHours() * (60 / chartHowlong) + (now.getMinutes() / chartHowlong);
+        return now.getHours() * (60 / chartSetMean) + (now.getMinutes() / chartSetMean);
     }
 
     this.getInfo = function () {

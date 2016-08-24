@@ -44,6 +44,7 @@ collectData = function (value) {
 module.exports.collectURL = function (title, url, formData, interval, timeCheck, collectTarget) {
 
 
+
     //수집기에 대한 중복 요청이 접근시에
     if (recordIntervals[title] != null)
         recordIntervals[title]._idleTimeout = interval;
@@ -111,29 +112,32 @@ module.exports.collectDB = function (title, ip, table, formData, interval, timeC
 
         var pre_query = new Date().getTime();
 
-        console.log(tempQuery);
-
         mysqlDAO.query(ip, tempQuery, function (result) {
-
-            console.log(result);
 
             var post_query = new Date().getTime();
 
-            for (var i = 0; i < result.length; i++) {
-                var obj = new Object();
+            if(result!=null) {
 
-                for (var j = 0; j < keyList.length; j++) {
-                    obj[keyList[j]] = result[i][valueList[j]];
+                for (var i = 0; i < result.length; i++) {
+                    var obj = new Object();
+
+                    for (var j = 0; j < keyList.length; j++) {
+                        obj[keyList[j]] = result[i][valueList[j]];
+                    }
+
+                    dataDAO.save(title, obj, timeCheck);
                 }
-
-                dataDAO.save(title, obj, timeCheck);
             }
 
             tookTime = (post_query - pre_query);
 
             fromTime = nowTime;
 
-            setTimeout(collect(title), interval - tookTime);
+            console.log("took Time : "+tookTime);
+
+            console.log("interval : "+interval);
+
+            setTimeout(collect(title), 1000000 - tookTime);
         });
     }
 };
@@ -156,9 +160,10 @@ function getQuery(startTime, endTime, timeType, query, timeColumn) {
             " and " + timeColumn + " > " + startTime;
             break;
         case 'Date':
-            return query + " where " + timeColumn + " <= " + endTime +
-                " and " + moment(timeColumn).format("YYYY-MM-DD HH:mm:ss")
-                + " > " + moment(startTime).format("YYYY-MM-DD HH:mm:ss");
+            return query + " where " + timeColumn
+                + " <= '" + moment(endTime).format("YYYY-MM-DD HH:mm:ss")
+                + "' and " + timeColumn
+                + " > '" + moment(startTime).format("YYYY-MM-DD HH:mm:ss")+"'";
             break;
     }
 }
