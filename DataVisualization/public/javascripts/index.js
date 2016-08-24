@@ -514,7 +514,7 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         for (var key in chartManage) {
             if (chartManage.hasOwnProperty(key)) {
 
-                var objSet = [key].getInfo();
+                var objSet = chartManage[key].getInfo();
 
                 objSet['left'] = $('#' + key).offset().left;
                 objSet['top'] = $('#' + key).offset().top;
