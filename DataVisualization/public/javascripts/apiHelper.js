@@ -2,7 +2,7 @@
  * Created by JAY on 2016. 7. 11..
  */
 
-var serverIp = "http://192.168.0.246:3000";
+var serverIp = location.host;
 
 function getCommentApi() {
     var root = 'http://jsonplaceholder.typicode.com';
