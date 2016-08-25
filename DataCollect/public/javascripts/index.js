@@ -28,7 +28,7 @@ $(document).ready(function () {
     });
 
 
-//Minus header
+    //Minus header
     $("#btnMinus").click(function () {
         $("#tbodyTable > tr:last").remove();
     });
@@ -114,7 +114,6 @@ $(document).ready(function () {
             }
         }
 
-
         $("#tbodyTable").children('tr').each(function () {
 
             var _key, _value = null;
@@ -191,7 +190,7 @@ $(document).ready(function () {
         $('#dbTblfoot > tr:last').remove();
     });
 
-//DB Collect Register
+    //DB Collect Register
 
     function setDB() {
         var form_data = new Object();

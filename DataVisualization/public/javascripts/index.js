@@ -143,6 +143,7 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         setClass(builder, time, iDiv, chartManage, chartIndex, objSet, howLong, type);
 
         chartIndex++;
+
     });
 
 
@@ -172,7 +173,6 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
                         var option = document.createElement("option");
                         option.text = key;
                         option.value = key;
-
                         $('#selectValue').append(option);
                         $('#selectTime').append(option.cloneNode(true));
                         $('#selectDistinct').append(option.cloneNode(true));
@@ -198,6 +198,9 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
                 }
             }
         }
+
+
+        $('#selectTime').val("time").attr('selected','selected');
     });
 
     //chart Column Add
@@ -230,12 +233,14 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         $('#thChange').html('How long');
         $('#inputKey').show();
         $('#selectKey').hide();
+        $('#selectChartTime').val("5minute").attr("selected","selected");
     });
 
     //tabDataClick
 
     $('#tabData').click(function () {
         var trRow = $('#trRow').clone(false, true).show();
+        $('#inputSetMean').hide();
         $('#tbodyChartSet').empty();
         $('#tbodyChartSet').append(trRow);
         setColorpicker();
@@ -322,37 +327,38 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         );
 
         promise.then(
-            // 이행값 기록
             function (val) {
 
                 var chartInfo = val['value']['chartInfo'];
-                var chartLayout = val['value']['chartLayout'];
+                chartLayout = val['value']['chartLayout'];
 
-                drawLayout(chartLayout);
+                drawLayout(chartLayout,function()
+                {
+                    for (var i = 0; i < chartInfo.length; i++) {
+                        var iDiv = document.createElement('div');
+                        iDiv.id = 'chartSection' + chartIndex++;
 
-                for (var i = 0; i < chartInfo.length; i++) {
-                    var iDiv = document.createElement('div');
-                    iDiv.id = 'chartSection' + chartIndex++;
+                        $("#divChart").append(iDiv);
 
-                    $("#divChart").append(iDiv);
+                        $("#" + iDiv.id).css("left", chartInfo[i].left);
+                        $("#" + iDiv.id).css("top", chartInfo[i].top);
+                        $("#" + iDiv.id).width(chartInfo[i].width);
+                        $("#" + iDiv.id).height(chartInfo[i].height);
 
-                    $("#" + iDiv.id).css("left", chartInfo[i].left);
-                    $("#" + iDiv.id).css("top", chartInfo[i].top);
-                    $("#" + iDiv.id).width(chartInfo[i].width);
-                    $("#" + iDiv.id).height(chartInfo[i].height);
+                        setChart(builder, time, iDiv, chartInfo[i], true, chartManage, chartIndex);
 
-                    setChart(builder, time, iDiv, chartInfo[i], true, chartManage, chartIndex);
-
-                    $("#" + iDiv.id).css("position", "absolute");
-                }
+                        $("#" + iDiv.id).css("position", "absolute");
+                    }
+                });
             });
 
-        function drawLayout(target) {
+        function drawLayout(target, callback) {
             var html = null;
 
             switch (target) {
                 case "0":
-                    return;
+                    callback(null);
+                    break;
                 case "1":
                     html = './layout/easyLayout1.html';
                     break;
@@ -363,9 +369,18 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
 
             $('#divChart').load(html, function () {
                 setDroppable();
+                callback(null);
             });
         }
     }
+
+
+
+
+
+
+
+
 });
 
 

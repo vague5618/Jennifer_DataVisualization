@@ -20,8 +20,7 @@ function setClass(builder, time, iDiv, chartManage, chartIndex, objSet, howLong,
         chartManage[iDiv.id] = new dataChart(builder, time, "#" + iDiv.id, objSet, true);
     }
 
-    setMoveChart(iDiv, chartIndex, chartManage);
-
+    setMoveChart(iDiv, chartManage, chartIndex);
 }
 
 
@@ -45,7 +44,6 @@ function setChart(builder, time, iDiv, objSet, movable, chartManage, chartIndex)
             break;
     }
 
-
     if(movable==true)
         setMoveChart(iDiv,chartManage,chartIndex);
 }
@@ -61,11 +59,9 @@ function setMoveChart(iDiv, chartManage, chartIndex)
 
     var targetDiv = "divClose" + chartIndex;
 
-
     $('#' + iDiv.id).mouseover(function () {
         $("#" + targetDiv).show();
     });
-
 
     $('#' + iDiv.id).mouseleave(function () {
         $("#" + targetDiv).hide();
@@ -73,7 +69,6 @@ function setMoveChart(iDiv, chartManage, chartIndex)
 
     $("#" + targetDiv).click(function () {
         $('#' + iDiv.id).remove();
-
         chartManage[iDiv.id].destroy();
         delete chartManage[iDiv.id];
     });

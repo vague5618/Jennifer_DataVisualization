@@ -14,7 +14,7 @@ function dayChart(builder, time, domId, objSet, movable) {
     var chartValue = objSet["chartValue"];
     var chartColors = objSet["chartColors"];
     var chartSetMean = objSet["chartSetMean"];
-    //var chartType = objSet["chartType"];
+    var chartType = objSet["chartType"];
     //var initCycle = 5; //5분
     //var normalCycle = 0.05; // 3초
     var updateManage = true;
@@ -101,7 +101,9 @@ function dayChart(builder, time, domId, objSet, movable) {
                 axisBorderWidth: 1.5,
                 axisBorderRadius: 5,
                 titleFontSize: 12,
-                titleFontWeight: 700
+                titleFontWeight: 700,
+                lineSplitBorderColor: "#929292"
+
             },
 
             render: false
@@ -148,14 +150,14 @@ function dayChart(builder, time, domId, objSet, movable) {
                 chart.axis(0).update(chartData);
 
                 chart.updateBrush(0, {split: Math.round(index)});
-                chart.updateBrush(1, {split: index});
+                chart.updateBrush(1, {split: Math.round(index)});
 
                 chart.render();
 
                 if (updateManage == true) {
                     setTimeout(function () {
                         update();
-                    }, chartSetMean * 10000);
+                    }, chartSetMean * 1000);
                 }
             }
         });
@@ -194,15 +196,15 @@ function dayChart(builder, time, domId, objSet, movable) {
 
                 console.log("take time : " + tookTime);
 
-                chart.updateBrush(0, {split: index});
-                chart.updateBrush(1, {split: index});
+                chart.updateBrush(0, {split: Math.round(index)});
+                chart.updateBrush(1, {split: Math.round(index)});
 
                 chart.render();
 
                 if (updateManage == true) {
                     setTimeout(function () {
                         update();
-                    }, chartSetMean * 10000 - tookTime);
+                    }, 1000 - tookTime);
                 }
             }
         });

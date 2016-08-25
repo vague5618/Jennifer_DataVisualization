@@ -32,11 +32,12 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         if(chartLayout!=null) {
 
             $('#divChart').load(chartLayout, function () {
+
                 var data = result.chartInfo;
 
                 for (var i = 0; i < data.length; i++) {
                     var iDiv = document.createElement('div');
-                    iDiv.id = 'chartSection' + chartIndex;
+                    iDiv.id = 'chartSection' + chartIndex++;
 
                     $("#divChart").append(iDiv);
 
@@ -45,11 +46,9 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
                     $("#" + iDiv.id).width(data[i].width);
                     $("#" + iDiv.id).height(data[i].height);
 
-
                     setChart(builder, time, iDiv, data[i], false, chartManage, chartIndex);
 
                     $("#" + iDiv.id).css("position", "absolute");
-
                 }
             });
         }

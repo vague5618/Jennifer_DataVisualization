@@ -92,6 +92,7 @@
                                 <select id="selectChartType" class="form-control">
                                     <option>line</option>
                                     <option>scatter</option>
+                                    <option>column</option>
                                     <option>equalizerBar</option>
                                 </select>
                             </td>
@@ -133,7 +134,7 @@
                             <tr>
                                 <th>color</th>
                                 <th>key</th>
-                                <th>value</th>
+                                <th>alias</th>
                             </tr>
                             </thead>
                             <tbody id="tbodyChartSet">
@@ -146,15 +147,17 @@
                                         <span class="input-group-addon"><i></i></span>
                                     </div>
                                 </th>
+
+                                <th style="width : 30%">
+                                    <select id="selectValue" name="selectValue" class="form-control">
+                                    </select>
+                                </th>
+
                                 <th style="width : 30%">
                                     <input id="inputKey" name="inputKey" class="form-control">
                                     </input>
 
                                     <select id="selectKey" name="selectKey" class="form-control" style="display: none">
-                                    </select>
-                                </th>
-                                <th style="width : 30%">
-                                    <select id="selectValue" name="selectValue" class="form-control">
                                     </select>
                                 </th>
                             </tr>

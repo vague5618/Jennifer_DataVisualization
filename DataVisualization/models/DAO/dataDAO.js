@@ -78,6 +78,11 @@ module.exports.getHourData = function (title, timeColumn, valueColumn, howLong, 
 
     var ret = [];
 
+    for(var i=0; i<(24*60/howLong); i++)
+    {
+        ret[i] = 0;
+    }
+
     async.waterfall([
             function (callback) {
                 //get TodayData
@@ -97,9 +102,6 @@ module.exports.getHourData = function (title, timeColumn, valueColumn, howLong, 
         function (err, result) {
 
             console.log("1day length : " + ret.length);
-
-            while (ret.length < (24*60/howLong))
-                ret[ret.length] = null;
 
             callback(ret);
         }
@@ -122,12 +124,7 @@ module.exports.getMinuteData = function (title, timeColumn, valueColumn, howLong
 
             console.log("mintue Mean length : "+ret.length);
 
-            for(var i=0; i<ret.length; i++) {
-                if (ret[i] != null) {
-                    callback(ret[i]);
-                    break;
-                }
-            }
+            callback(ret[ret.length-1]);
         }
     );
 }
@@ -142,16 +139,16 @@ module.exports.createData = function () {
     while (start < current) {
         var obj = new Object();
 
-        //if(start < lim)
-        //{
-        //    obj['tps'] = 0;
-        //}
-        //else
-        //{
-        //    obj['tps'] = 1;
-        //}
-        //
-        obj['tps'] = [Math.random()];
+        if(start < lim)
+        {
+            obj['tps'] = 0;
+        }
+        else
+        {
+            obj['tps'] = 1;
+        }
+
+        //obj['tps'] = [Math.random()];
 
         var newData = new dataDTO(obj);
 
