@@ -3,8 +3,6 @@
 <head>
     <title>Test</title>
 
-    <% include drawer.ejs %>
-
     <% include indexHeader.html %>
 </head>
 
@@ -18,71 +16,6 @@
                     <a id='aEasy' data-toggle="modal" href="#modalEasy">Easy Layout
                         <span style="font-size:16px;"
                               class="pull-right hidden-xs showopacity glyphicon glyphicon-th-large"></span></a>
-                </li>
-
-                <li>
-                    <a id='aURL' data-toggle="collapse" href="#collapse1">URL SET
-                        <span style="font-size:16px;"
-                              class="pull-right hidden-xs showopacity glyphicon glyphicon-globe"></span></a>
-                    <div id="collapse1" class="panel-collapse collapse">
-                        <ul class="nav navbar-nav">
-                            <li>
-                                <div id="col_getJSON">
-                                    <!--value="http://support.jennifersoft.com:8000/api/realtime/domain"-->
-                                    <div class="input-group">
-                                        <input id="inputUrl" name="inputUrl" type="text" class="form-control"
-                                               value="http://support.jennifersoft.com:8000/api/realtime/domain"
-                                               onClick="this.setSelectionRange(0, this.value.length)">
-    				  <span class="input-group-btn">
-       					 <a id="btnREST" class="btn btn-default" data-toggle="drawer" href="#drawerStruct"
-                            type="button">
-                             <span class="glyphicon glyphicon-import"/>
-                         </a>
-     				 </span>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li>
-                                <a id="btnJSON">
-                                    JSONPath
-                                    <span class="pull-right glyphicon glyphicon-plus"/>
-                                </a>
-
-                                <div id="groupJSON" style="margin-top: 6px">
-                                    <input type="text" name="inputJSONPath" class="form-control" value="$..path">
-                                </div>
-                            </li>
-
-
-                        </ul>
-                    </div>
-                </li>
-
-                <li>
-                    <a id='aDB' data-toggle="collapse" href="#collapse2">DB SET
-                        <span style="font-size:16px;"
-                              class="pull-right hidden-xs showopacity glyphicon glyphicon glyphicon-tasks"></span></a>
-                    <div id="collapse2" class="panel-collapse collapse">
-                        <ul class="nav navbar-nav">
-
-                            <!--192.168.71.41-->
-                            <!--192.168.0.203-->
-                            <li>
-                                <input id="inputDB" type="text" class="form-control"
-                                       value="192.168.0.202"
-                                       onClick="this.setSelectionRange(0, this.value.length)">
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-
-                <li>
-                    <a id="btnRegister" href="#modalHeader" data-toggle="modal">
-                        Collect
-                        <span style="font-size:16px;"
-                              class="pull-right hidden-xs showopacity glyphicon glyphicon glyphicon-refresh"></span></a>
-                    </a>
                 </li>
 
                 <li>
@@ -114,191 +47,6 @@
 <div id="divChart" style="width:100%; height:100%; padding-left : 30px">
 </div>
 
-<!--setting Header modal-->
-
-<div class="modal fade" id="modalHeader">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 class="modal-title">Setting MetaData</h3>
-            </div>
-            <div class="modal-body">
-
-                <ul id="ulTabs" class="nav nav-tabs">
-                    <li class="active"><a href="#divURL" data-toggle="tab">URL</a></li>
-                    <li><a href="#divDB" data-toggle="tab">MySQL</a></li>
-                </ul>
-
-                <div class="tab-content clearfix">
-
-                    <div class="tab-pane active" id="divURL">
-
-                        <div align="center" style="font-weight:bold">Data Title</div>
-
-                        <input id="inputTitle" type="text" placeholder='String' class="form-control"
-                               onClick="this.setSelectionRange(0, this.value.length)"/>
-
-                        <table class="table table-striped" id="tblGrid">
-                            <thead id="tblHead">
-                            <tr>
-                                <th>Interval</th>
-                                <th>Exist TimeColumn</th>
-                            </tr>
-                            </thead>
-
-                            <tbody>
-
-                            <td>
-                                <input id="inputInterval" type="text" placeholder='Number' class="form-control"
-                                       onClick="this.setSelectionRange(0, this.value.length)"/>
-                            </td>
-                            <td>
-                                <div align="center">
-                                    <input id="inputTimeCheck" type="checkbox" style="width:30px; height:30px;"/>
-                                </div>
-
-                            </td>
-                            </tbody>
-
-                            <thead id="tblHead">
-                            <tr>
-                                <th>key</th>
-                                <th>value</th>
-                            </tr>
-                            </thead>
-
-                            <tbody id="tbodyTable">
-
-                            </tbody>
-                            <thead id="tblFoot">
-                            </thead>
-                        </table>
-
-                        <div class="form-group">
-
-                            <input id="btnMinus" type="button" class="btn btn-danger pull-right" value="-"
-                                   style="margin-left: 3px;">
-
-                            <input id="btnAdd" type="button" class="btn btn-warning pull-right" value="+">
-
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-
-                    <div class="tab-pane" id="divDB">
-
-                        <div align="center" style="font-weight:bold">Data Title</div>
-
-
-                        <input id="inputDBTitle" type="text" placeholder='String' class="form-control"
-                               onClick="this.setSelectionRange(0, this.value.length)"/>
-
-                        <table class="table table-striped" id="tblGrid">
-                            <thead id="tblHead">
-                            <tr>
-                                <th colspan="2">Interval</th>
-                                <th colspan="2">Exist TimeColumn</th>
-                            </tr>
-                            </thead>
-
-                            <tbody>
-
-                            <td colspan="2">
-                                <input id="inputDBInterval" type="text" placeholder='Number' class="form-control"
-                                       value="1000"
-                                       onClick="this.setSelectionRange(0, this.value.length)"/>
-                            </td>
-                            <td colspan="2">
-                                <input id="inputDBTimeCheck" type="checkbox"
-                                       style="float:left; margin-left:20px; width:30%; height:30px;"/>
-                                <select id="selectTimeType" class="form-control" style="width:50%;">
-                                    <option>Date</option>
-                                    <option>String</option>
-                                    <option>Timestamp</option>
-                                </select>
-                            </td>
-                            </tbody>
-
-                            <thead id="tblHead">
-                            <tr>
-                                <th>connectionId</th>
-                                <th>password</th>
-                                <th>port</th>
-                                <th>targetDB</th>
-                            </tr>
-                            </thead>
-
-                            <tbody>
-
-                            <td>
-                                <input id="inputUser" type="text" placeholder='id' class="form-control" value="root"
-                                       onClick="this.setSelectionRange(0, this.value.length)"/>
-                            </td>
-                            <td>
-                                <input id="inputPassword" type="password" placeholder='password' class="form-control"
-                                       value="111111"
-                                       onClick="this.setSelectionRange(0, this.value.length)"/>
-                            </td>
-                            <td>
-                                <input id="inputPort" type="number" placeholder='port' class="form-control" value="3306"
-                                       onClick="this.setSelectionRange(0, this.value.length)"/>
-                            </td>
-                            <td>
-                                <input id="inputDatabase" type="text" placeholder='name' class="form-control"
-                                       value="user_sample"
-                                       onClick="this.setSelectionRange(0, this.value.length)"/>
-                            </td>
-                            </tbody>
-
-                            <thead>
-                            <td colspan="3">
-                                <input id="inputTable" type="text" placeholder='Table' class="form-control"
-                                       value="sample3_os"
-                                       onClick="this.setSelectionRange(0, this.value.length)"/>
-                            </td>
-                            <td id="btnConnectDB" colspan="1" align="center">
-                                <button class="btn-primary">connection</button>
-                            </td>
-                            </thead>
-
-                            <thead id="tblHead">
-                            <tr>
-                                <th colspan="2">key</th>
-                                <th colspan="2">value</th>
-                            </tr>
-                            </thead>
-
-                            <tbody id="tbodyTable">
-
-                            </tbody>
-
-                            <thead id="dbTblfoot">
-
-                            </thead>
-                        </table>
-
-                        <div class="form-group">
-
-                            <input id="btnDBminus" type="button" class="btn btn-danger pull-right" value="-"
-                                   style="margin-left: 3px;">
-
-                            <input id="btnDBplus" type="button" class="btn btn-warning pull-right" value="+">
-
-                            <div class="clearfix"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
-                    <button id="btnSave" type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</div>
-
 <!--setting Chart modal-->
 
 <div class="modal fade" id="modalChart">
@@ -306,7 +54,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                <h3 class="modal-title">Setting Chart</h3>
+                <h3 class="modal-title">Draw Chart</h3>
             </div>
 
             <div class="modal-body">

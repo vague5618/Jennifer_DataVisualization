@@ -157,8 +157,6 @@ function dateChart(builder, time, domId, objSet, movable) {
             async: false,
             success: function (arg) {
 
-                console.log(arg);
-
                 endTime = (new Date()).getTime();
 
                 tookTime = endTime - startTime;
@@ -167,6 +165,19 @@ function dateChart(builder, time, domId, objSet, movable) {
 
                 for (var i = 0; i < arg.length; i++) {
                     getData(chartData, domain, arg[i]);
+                }
+
+                if(arg.length==0)
+                {
+                    var obj = new Object();
+                    obj[chartTime] = new Date().getTime();
+
+                    for(var i=0; i<chartValue.length; i++)
+                    {
+                        obj[chartValue[i]] = 0;
+                    }
+
+                    getData(chartData, domain, obj);
                 }
 
                 chart.axis(0).updateGrid("x", {domain: domain});
@@ -220,13 +231,16 @@ function dateChart(builder, time, domId, objSet, movable) {
 
     function createObject(timestamp, keyList, valueList, obj) {
 
-
         var jsonObject = new Object();
         var pattern  = /\[[0-9]*\]/;
 
         for (var i = 0; i < keyList.length; i++) {
 
             if(pattern.test(valueList[i])==false || obj[valueList[i]]!=null) {
+
+                console.log(typeof(obj[valueList[i]]));
+
+                console.log(obj[valueList[i]]);
 
                 if(typeof(obj[valueList[i]])=='number')
                     jsonObject[keyList[i]] = obj[valueList[i]];

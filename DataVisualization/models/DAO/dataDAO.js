@@ -246,5 +246,3 @@ function getTimeToIndex(tempHour, tempMinute, howLong) {
     return tempHour * (60 / howLong) + (tempMinute / howLong);
 }
 
-this.removeData();
-this.createData();

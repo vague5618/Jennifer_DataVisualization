@@ -156,14 +156,17 @@ function getField(field) {
 }
 
 
-function saveDashboard(chartArray) {
+function saveDashboard(chartArray, chartLayout, chartHash) {
 
     var ret = null;
 
     $.ajax({
         url: serverIp+"/dashboard/create",
         data :{
-            chartArray : JSON.stringify(chartArray)},
+            chartArray : JSON.stringify(chartArray),
+            chartLayout : chartLayout,
+            chartHash : chartHash
+        },
         method: 'POST',
         dataType: "json",
         async: false
@@ -174,3 +177,24 @@ function saveDashboard(chartArray) {
 
     return ret;
 }
+
+
+function modifyDashboard(formData, callback) {
+
+    var ret = null;
+
+    $.ajax({
+        url: serverIp+"/",
+        data :formData,
+        method: 'POST',
+        dataType: "json",
+        async: false
+    }).then(function (data) {
+        ret = data;
+        callback(data);
+    });
+
+    //return ret;
+}
+
+

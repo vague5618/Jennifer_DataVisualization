@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/drawer/bootstrap-drawer.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/drawer/bootstrap-drawer.min.css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="/lib/drawer/drawer.min.js"></script>
+
+</head>
+
+<body>
+
+<div id="drawerStruct" class="drawer drawer-right dw-md-8 fold in">
+    <div class="drawer-header" align="right" style="margin-right: 40px">
+        <button id="btnCloseDrawer" type="button" class="btn-outline glyphicon glyphicon-remove" data-toggle="drawer"
+                href="#drawerStruct" aria-hidden="true" style="position:absolute; z-index: 2;" ;></button>
+    </div>
+    <div id="jsonChart" style="position: absolute; z-index: 1;" class="drawer-contents"/>
+</div>
+</div>
+</body>
+
+</html>

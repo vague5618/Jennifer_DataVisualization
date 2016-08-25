@@ -2,9 +2,44 @@
 <html xmlns="http://www.w3.org/1999/html">
 <head>
     <title>DashBoard</title>
+
+    <link rel="stylesheet" href="../lib/jui/dist/ui.min.css"/>
+    <link rel="stylesheet" href="../lib/jui/dist/ui-jennifer.min.css"/>
+
+    <!-- Grid style components -->
+    <link rel="stylesheet" href="../lib/jui-grid/dist/grid.min.css"/>
+    <link rel="stylesheet" href="../lib/jui-grid/dist/grid-jennifer.min.css"/>
+
+
+    <!--Bootstrap CSS-->
+    <link rel='stylesheet' href='/stylesheets/sidebar.css'/>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 </head>
 
+
 <body>
+<nav class="navbar sidebar" role="navigation" style="z-index:2">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+
+                <li>
+                    <a id='aModified' data-toggle="modal">Modified Chart
+                        <span style="font-size:16px;"
+                              class="pull-right hidden-xs showopacity glyphicon glyphicon-scissors"></span></a>
+                </li>
+
+                <li>
+                    <a id="aHelp" data-toggle="modal" href="#modalHelp">Help
+                        <span style="font-size:16px;"
+                              class="pull-right hidden-xs showopacity glyphicon glyphicon-info-sign"></span></a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
 
 <div id="divChart" style="position : absolute; width:100%; height:100%">
 

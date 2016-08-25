@@ -4,24 +4,12 @@
 
 var form_data = new Object();
 var chartIndex = 0;
-//var token = "1af00d7e-c633-34c8-8b67-e0dcbc2db964";
 var token = "ba78f5af5afdf5eabfa4ec02609cbae0";
 var chartManage = [];
-
-//form_data = {
-//    title: "Jennifer",
-//    interval: 1000,
-//    timeCheck: false,
-//    apiKey: token,
-//    version: 1,
-//    lat: 37.5714000000,
-//    lon: 126.9658000000,
-//    q: "Seoul"
-//};
+var chartLayout = 0;
 
 
 jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, time) {
-
 
     function setColorpicker() {
         $.each($('div[name=divColorpicker]'), function (index, value) {
@@ -29,8 +17,7 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         });
     }
 
-    function setDroppable()
-    {
+    function setDroppable() {
         $('.panel-body').droppable({
             drop: function (event, ui) {
 
@@ -53,74 +40,6 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
     setColorpicker();
 
     $('.dropdown-toggle').dropdown();
-
-
-    $('#aDB').click(function () {
-        $('.collapse').collapse('hide');
-    });
-
-    $('#aURL').click(function () {
-        $('.collapse').collapse('hide');
-    });
-
-    //Add header
-
-    $("#btnAdd").click(function () {
-        if ($("#inputKey").val() != "" && $("inputValue").val() != "") {
-            var row = '<tr><td>' + $("#inputKey").val() + '</td><td>' + $("#inputValue").val() + '</td></tr>';
-
-            $("#tbodyTable").prepend(row);
-
-            $("#inputKey").val("");
-            $("#inputValue").val("");
-        }
-
-        else {
-            alert("입력 값에 공백이 들어갈 수 없습니다.");
-        }
-    });
-
-    //Minus header
-
-    $("#btnMinus").click(function () {
-        $("#tbodyTable > tr:first").remove();
-    });
-
-
-    //Save header
-
-    $("#btnSave").click(function () {
-
-        if ($('#ulTabs .active').text() == "URL")
-            setURL();
-        else
-            setDB();
-
-    });
-
-    //Add JSONPath
-
-    $("#btnJSON").click(function () {
-
-        if ($("#groupJSON input:last-child").val() == "$..path") {
-            // skip AddInput
-        }
-
-        else {
-            var row = '<input type="text" class="form-control" name="inputJSONPath" value="$..path" style="margin-top: 5px">';
-
-            $("#groupJSON").append(row);
-        }
-    });
-
-    //Submit Draw
-
-    //$("#inputPost").click(function () {
-    //
-    //    $('<input type="hidden" name="formData"/>').val(JSON.stringify(form_data)).appendTo('#formPost');
-    //
-    //    $('#formPost').submit();
-    //});
 
 
     //Setting Chart
@@ -150,22 +69,6 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         });
 
         $('#selectTitle').change();
-    });
-
-
-    //Struct JSON
-
-    $("#btnREST").click(function () {
-
-        document.getElementById('jsonChart').innerHTML = "";
-
-        var url = $('#inputUrl').val();
-
-        var data = getData(url, form_data);
-
-        var ppTable = prettyPrint(data);
-
-        document.getElementById('jsonChart').appendChild(ppTable);
     });
 
 
@@ -243,33 +146,6 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
     });
 
 
-    // set Register
-
-    $("#btnRegister").click(function () {
-
-        $('.collapse').collapse('hide');
-
-        document.getElementById('tblFoot').innerHTML = "";
-
-        $('#dbTblfoot').empty();
-
-        $.each($("#groupJSON input"), function (index, value) {
-
-            if (value.value == "$..path")
-                return;
-
-            var row =
-                "<tr><td><input type='text' placeholder='Key' class='form-control'onClick='this.setSelectionRange(0, this.value.length)'/>" +
-                "<td><input type='text' placeholder='Key' class='form-control' onClick='this.setSelectionRange(0, this.value.length)'"
-                + " value = " + value.value + " /></td></tr>";
-
-            $("#tblFoot").append(row);
-        });
-
-
-    });
-
-
     // change Select
 
     $('#selectTitle').change(function () {
@@ -342,130 +218,6 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         setColorpicker();
     });
 
-
-    function setURL() {
-        form_data = new Object();
-
-        var checkDup = false;
-        var title = $("#inputTitle").val();
-        var interVal = $("#inputInterval").val();
-        var url = $('#inputUrl').val();
-        var timeCheck = $("#inputTimeCheck").is(":checked");
-        var collectTarget = new Object();
-
-        $("#tblFoot").children('tr').each(function () {
-
-            var _key, _value = null;
-
-            $(this).children('td').each(function (index, value) {
-
-                if (index == 0)
-                    _key = $(value).children('input').val()
-                else
-                    _value = $(value).children('input').val();
-            });
-
-            if (collectTarget[_key] != null) {
-
-                alert("key중복 다시 설정해주세요");
-                checkDup = true;
-            }
-            else {
-                collectTarget[_key] = _value;
-            }
-        });
-
-        form_data['url'] = url;
-        form_data['title'] = title;
-        form_data['interval'] = interVal;
-        form_data['timeCheck'] = timeCheck;
-        form_data['collectTarget'] = JSON.stringify(collectTarget);
-        form_data['type'] = 'URL';
-
-        if (checkDup == false) {
-            setRegister(form_data);
-        }
-    }
-
-    $('#btnConnectDB').click(function () {
-
-        var obj = new Object();
-
-        obj['url'] = $('#inputDB').val();
-        obj['user'] = $('#inputUser').val();
-        obj['password'] = $('#inputPassword').val();
-        obj['port'] = $('#inputPort').val();
-        obj['database'] = $('#inputDatabase').val();
-        obj['table'] = $('#inputTable').val();
-
-        var fields = getConnectDB(obj);
-
-        var row = "<tr id='trDBrow'><th colspan='2'>" +
-            "<input id='inputDBKey' name='inputDBKey' class='form-control'/></th>" +
-            "<th colspan='2'><select id='selectDBValue' name='selectDBValue' class='form-control'></select></th></tr>";
-
-
-        $('#dbTblfoot').append(row);
-
-        for (var i = 0; i < fields.length; i++) {
-            $('#selectDBValue').append($("<option></option>")
-                .attr("value", fields[i])
-                .text(fields[i]));
-        }
-    });
-
-
-    $('#btnDBplus').click(function () {
-        $('#dbTblfoot').append($('#trDBrow').clone());
-    });
-
-
-    $('#btnDBminus').click(function () {
-        $('#dbTblfoot > tr:last').remove();
-    });
-
-    //DB Collect Register
-
-    function setDB() {
-        var form_data = new Object();
-
-        var url = $('#inputDB').val();
-        var title = $('#inputDBTitle').val();
-        var interVal = $("#inputDBInterval").val();
-        var timeCheck = $("#inputDBTimeCheck").is(":checked");
-        var table = $('#inputTable').val();
-        var timeType = $('#selectTimeType').val();
-
-        var collectTarget = new Object();
-
-        var keyList = [];
-        var valueList = [];
-
-        $.each($('input[name=inputDBKey]'), function (index, value) {
-            keyList.push($(value).val());
-        });
-
-
-        $.each($('select[name=selectDBValue]'), function (index, value) {
-            valueList.push($(value).val());
-        });
-
-        collectTarget['keyList'] = keyList;
-        collectTarget['valueList'] = valueList;
-
-        form_data['url'] = url;
-        form_data['title'] = title;
-        form_data['interval'] = interVal;
-        form_data['timeCheck'] = timeCheck;
-        form_data['collectTarget'] = JSON.stringify(collectTarget);
-        form_data['table'] = table;
-        form_data['type'] = 'DB';
-        form_data['timeType'] = timeType;
-
-        setRegister(form_data);
-    }
-
-
     //tabSnapShot Click
 
     $('#tabSnapShot').click(function () {
@@ -525,15 +277,16 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
             }
         }
 
-        location.href = saveDashboard(array);
+        location.href = saveDashboard(array, chartLayout, location.pathname.split('&')[2]);
     });
 
     $('#liLayout1').click(function () {
 
         chartManage = [];
 
-        $('#divChart').load('./layout/easyLayout1.html',function()
-        {
+        chartLayout = 1;
+
+        $('#divChart').load('./layout/easyLayout1.html', function () {
             setDroppable();
         });
     });
@@ -541,24 +294,78 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
     $('#selectChartTime').change(function () {
         var obj = $('#selectChartTime').val();
 
-        if(obj=="24hour")
-        {
+        if (obj == "24hour") {
 
-            $('#selectChartTime').css('float','left');
-            $('#selectChartTime').css('width','50%');
+            $('#selectChartTime').css('float', 'left');
+            $('#selectChartTime').css('width', '50%');
             $('#inputSetMean').show();
         }
-        else
-        {
-            $('#selectChartTime').css('float','');
-            $('#selectChartTime').css('width','100%');
+        else {
+            $('#selectChartTime').css('float', '');
+            $('#selectChartTime').css('width', '100%');
             $('#inputSetMean').hide();
         }
     });
 
 
+    if (location.pathname.split('&').length > 2) {
+        var obj = new Object();
+        obj['hash'] = location.pathname.split('&')[2];
 
+        var promise = new Promise(
+            function (resolve, reject) {
 
+                modifyDashboard(obj, function (result) {
+                    resolve(result);
+                });
+            }
+        );
+
+        promise.then(
+            // 이행값 기록
+            function (val) {
+
+                var chartInfo = val['value']['chartInfo'];
+                var chartLayout = val['value']['chartLayout'];
+
+                drawLayout(chartLayout);
+
+                for (var i = 0; i < chartInfo.length; i++) {
+                    var iDiv = document.createElement('div');
+                    iDiv.id = 'chartSection' + chartIndex++;
+
+                    $("#divChart").append(iDiv);
+
+                    $("#" + iDiv.id).css("left", chartInfo[i].left);
+                    $("#" + iDiv.id).css("top", chartInfo[i].top);
+                    $("#" + iDiv.id).width(chartInfo[i].width);
+                    $("#" + iDiv.id).height(chartInfo[i].height);
+
+                    setChart(builder, time, iDiv, chartInfo[i], true, chartManage, chartIndex);
+
+                    $("#" + iDiv.id).css("position", "absolute");
+                }
+            });
+
+        function drawLayout(target) {
+            var html = null;
+
+            switch (target) {
+                case "0":
+                    return;
+                case "1":
+                    html = './layout/easyLayout1.html';
+                    break;
+                case "2":
+                    html = './layout/easyLayout2.html';
+                    break;
+            }
+
+            $('#divChart').load(html, function () {
+                setDroppable();
+            });
+        }
+    }
 });
 
 

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+    <title>Test</title>
+
+    <% include drawer.ejs %>
+
+    <% include indexHeader.html %>
+</head>
+
+<body style="width:100%; height:100%;">
+
+<nav class="navbar sidebar" role="navigation" style="z-index:2">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a id='aURL' data-toggle="collapse">URL SET
+                        <span style="font-size:16px;"
+                              class="pull-right hidden-xs showopacity glyphicon glyphicon-globe"></span></a>
+                </li>
+
+                <li>
+                    <a id='aDB' data-toggle="collapse">DB SET
+                        <span style="font-size:16px;"
+                              class="pull-right hidden-xs showopacity glyphicon glyphicon glyphicon-tasks"></span></a>
+                </li>
+
+                <li>
+                    <a id="btnCollect">
+                        Collect
+                        <span style="font-size:16px;"
+                              class="pull-right hidden-xs showopacity glyphicon glyphicon glyphicon-refresh"></span></a>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<!--chartClass-->
+
+<div id="divChart" style="width:100%; height:100%; padding-left : 200px;">
+
+    <div class="panel panel-primary" id="divURL" style="width: 50%; display: none">
+        <div class="panel-heading">
+            <h3 class="panel-title">URL Collect Info</h3>
+        </div>
+        <div class="panel-body">
+
+            <div align="center" style="font-weight:bold">Target Url</div>
+
+            <div class="input-group">
+                <input id="inputUrl" name="inputUrl" type="text" class="form-control"
+                       value="http://support.jennifersoft.com:8000/api/realtime/domain"
+                       onClick="this.setSelectionRange(0, this.value.length)">
+    				  <span class="input-group-btn">
+       					 <a id="btnREST" class="btn btn-default" data-toggle="drawer" href="#drawerStruct"
+                            type="button">
+                             데이터 가져오기
+                         </a>
+     				 </span>
+            </div>
+            </br>
+            <div align="center" style="font-weight:bold">Data Title</div>
+
+            <input id="inputTitle" type="text" placeholder='String' class="form-control"
+                   onClick="this.setSelectionRange(0, this.value.length)"/>
+
+            </br>
+
+            <table class="table table-striped" id="tblGrid">
+                <thead id="tblHead">
+                <tr>
+                    <th>Interval</th>
+                    <th>Exist TimeColumn</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <td>
+                    <input id="inputInterval" type="text" placeholder='Number' class="form-control"
+                           onClick="this.setSelectionRange(0, this.value.length)"/>
+                </td>
+                <td>
+                    <div align="center">
+                        <input id="inputTimeCheck" type="checkbox" style="width:30px; height:30px;"/>
+                    </div>
+
+                </td>
+                </tbody>
+
+                <thead id="tblHead">
+                <tr>
+                    <th>key</th>
+                    <th>value</th>
+                </tr>
+                </thead>
+
+                <tbody id="tbodyTable">
+
+                </tbody>
+                <thead id="tblFoot">
+                </thead>
+            </table>
+            </br>
+
+            <div class="form-group">
+
+                <input id="btnMinus" type="button" class="btn btn-danger pull-right" value="-"
+                       style="margin-left: 3px;">
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="panel panel-success" id="divDB" style="width: 50%;">
+        <div class="panel-heading">
+            <h3 class="panel-title">DB Collect Info</h3>
+        </div>
+        <div class="panel-body">
+
+
+            <div align="center" style="font-weight:bold">Target IP</div>
+
+            <input id="inputDB" type="text" placeholder='String' class="form-control"
+                   value = "192.168.0.207"
+                   onClick="this.setSelectionRange(0, this.value.length)"/>
+
+            </br>
+
+            <div align="center" style="font-weight:bold">Data Title</div>
+
+            <input id="inputDBTitle" type="text" placeholder='String' class="form-control"
+                   onClick="this.setSelectionRange(0, this.value.length)"/>
+
+            <table class="table table-striped" id="tblGrid">
+                <thead id="tblHead">
+                <tr>
+                    <th colspan="2">Interval</th>
+                    <th colspan="2">Exist TimeColumn</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <td colspan="2">
+                    <input id="inputDBInterval" type="text" placeholder='Number' class="form-control"
+                           value="1000"
+                           onClick="this.setSelectionRange(0, this.value.length)"/>
+                </td>
+                <td colspan="2">
+                    <input id="inputDBTimeCheck" type="checkbox"
+                           style="float:left; margin-left:20px; width:30%; height:30px;"/>
+                    <select id="selectTimeType" class="form-control" style="width:50%;">
+                        <option>Date</option>
+                        <option>String</option>
+                        <option>Timestamp</option>
+                    </select>
+                </td>
+                </tbody>
+
+                <thead id="tblHead">
+                <tr>
+                    <th>connectionId</th>
+                    <th>password</th>
+                    <th>port</th>
+                    <th>targetDB</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                </br>
+                <td>
+                    <input id="inputUser" type="text" placeholder='id' class="form-control" value="root"
+                           onClick="this.setSelectionRange(0, this.value.length)"/>
+                </td>
+                <td>
+                    <input id="inputPassword" type="password" placeholder='password' class="form-control"
+                           value="111111"
+                           onClick="this.setSelectionRange(0, this.value.length)"/>
+                </td>
+                <td>
+                    <input id="inputPort" type="number" placeholder='port' class="form-control" value="3306"
+                           onClick="this.setSelectionRange(0, this.value.length)"/>
+                </td>
+                <td>
+                    <input id="inputDatabase" type="text" placeholder='name' class="form-control"
+                           value="user_sample"
+                           onClick="this.setSelectionRange(0, this.value.length)"/>
+                </td>
+                </tbody>
+
+                <thead>
+                <td colspan="3">
+                    <input id="inputTable" type="text" placeholder='Table' class="form-control"
+                           value="sample3_os"
+                           onClick="this.setSelectionRange(0, this.value.length)"/>
+                </td>
+                <td id="btnConnectDB" colspan="1" align="center">
+                    <button class="btn-primary">connection</button>
+                </td>
+                </thead>
+
+                <thead id="tblHead">
+                <tr>
+                    <th colspan="2">key</th>
+                    <th colspan="2">value</th>
+                </tr>
+                </thead>
+
+                <tbody id="tbodyTable">
+
+                </tbody>
+
+                <thead id="dbTblfoot">
+
+                </thead>
+            </table>
+
+            <div class="form-group">
+
+                <input id="btnDBminus" type="button" class="btn btn-danger pull-right" value="-"
+                       style="margin-left: 3px;">
+
+                <input id="btnDBplus" type="button" class="btn btn-warning pull-right" value="+">
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+
+<!--setting Header modal-->
+
+<div class="modal fade" id="modalHeader">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3 class="modal-title">Setting MetaData</h3>
+            </div>
+            <div class="modal-body">
+
+                <ul id="ulTabs" class="nav nav-tabs">
+                    <li class="active"><a href="#divURL" data-toggle="tab">URL</a></li>
+                    <li><a href="#divDB" data-toggle="tab">MySQL</a></li>
+                </ul>
+
+                <div class="tab-content clearfix">
+
+                    <div class="tab-pane active" id="divURL">
+
+                        <div align="center" style="font-weight:bold">Data Title</div>
+
+                        <input id="inputTitle" type="text" placeholder='String' class="form-control"
+                               onClick="this.setSelectionRange(0, this.value.length)"/>
+
+                        <table class="table table-striped" id="tblGrid">
+                            <thead id="tblHead">
+                            <tr>
+                                <th>Interval</th>
+                                <th>Exist TimeColumn</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+                            <td>
+                                <input id="inputInterval" type="text" placeholder='Number' class="form-control"
+                                       onClick="this.setSelectionRange(0, this.value.length)"/>
+                            </td>
+                            <td>
+                                <div align="center">
+                                    <input id="inputTimeCheck" type="checkbox" style="width:30px; height:30px;"/>
+                                </div>
+
+                            </td>
+                            </tbody>
+
+                            <thead id="tblHead">
+                            <tr>
+                                <th>key</th>
+                                <th>value</th>
+                            </tr>
+                            </thead>
+
+                            <tbody id="tbodyTable">
+
+                            </tbody>
+                            <thead id="tblFoot">
+                            </thead>
+                        </table>
+
+                        <div class="form-group">
+
+                            <input id="btnMinus" type="button" class="btn btn-danger pull-right" value="-"
+                                   style="margin-left: 3px;">
+
+                            <input id="btnAdd" type="button" class="btn btn-warning pull-right" value="+">
+
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+
+                    <div class="tab-pane" id="divDB">
+
+                        <div align="center" style="font-weight:bold">Data Title</div>
+
+                        <input id="inputDB" type="text" placeholder='String' class="form-control"
+                               onClick="this.setSelectionRange(0, this.value.length)"/>
+
+                        <table class="table table-striped" id="tblGrid">
+                            <thead id="tblHead">
+                            <tr>
+                                <th colspan="2">Interval</th>
+                                <th colspan="2">Exist TimeColumn</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+                            <td colspan="2">
+                                <input id="inputDBInterval" type="text" placeholder='Number' class="form-control"
+                                       value="1000"
+                                       onClick="this.setSelectionRange(0, this.value.length)"/>
+                            </td>
+                            <td colspan="2">
+                                <input id="inputDBTimeCheck" type="checkbox"
+                                       style="float:left; margin-left:20px; width:30%; height:30px;"/>
+                                <select id="selectTimeType" class="form-control" style="width:50%;">
+                                    <option>Date</option>
+                                    <option>String</option>
+                                    <option>Timestamp</option>
+                                </select>
+                            </td>
+                            </tbody>
+
+                            <thead id="tblHead">
+                            <tr>
+                                <th>connectionId</th>
+                                <th>password</th>
+                                <th>port</th>
+                                <th>targetDB</th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+
+                            <td>
+                                <input id="inputUser" type="text" placeholder='id' class="form-control" value="root"
+                                       onClick="this.setSelectionRange(0, this.value.length)"/>
+                            </td>
+                            <td>
+                                <input id="inputPassword" type="password" placeholder='password' class="form-control"
+                                       value="111111"
+                                       onClick="this.setSelectionRange(0, this.value.length)"/>
+                            </td>
+                            <td>
+                                <input id="inputPort" type="number" placeholder='port' class="form-control" value="3306"
+                                       onClick="this.setSelectionRange(0, this.value.length)"/>
+                            </td>
+                            <td>
+                                <input id="inputDatabase" type="text" placeholder='name' class="form-control"
+                                       value="user_sample"
+                                       onClick="this.setSelectionRange(0, this.value.length)"/>
+                            </td>
+                            </tbody>
+
+                            <thead>
+                            <td colspan="3">
+                                <input id="inputTable" type="text" placeholder='Table' class="form-control"
+                                       value="sample3_os"
+                                       onClick="this.setSelectionRange(0, this.value.length)"/>
+                            </td>
+                            <td id="btnConnectDB" colspan="1" align="center">
+                                <button class="btn-primary">connection</button>
+                            </td>
+                            </thead>
+
+                            <thead id="tblHead">
+                            <tr>
+                                <th colspan="2">key</th>
+                                <th colspan="2">value</th>
+                            </tr>
+                            </thead>
+
+                            <tbody id="tbodyTable">
+
+                            </tbody>
+
+                            <thead id="dbTblfoot">
+
+                            </thead>
+                        </table>
+
+                        <div class="form-group">
+
+                            <input id="btnDBminus" type="button" class="btn btn-danger pull-right" value="-"
+                                   style="margin-left: 3px;">
+
+                            <input id="btnDBplus" type="button" class="btn btn-warning pull-right" value="+">
+
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default " data-dismiss="modal">Close</button>
+                    <button id="btnSave" type="button" class="btn btn-primary" data-dismiss="modal">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" type="text/javascript"></script>
+
+<script src="lib/prettyprint/prettyprint.js" type="text/javascript"></script>
+<script src="lib/jsonPath/jsonPath.js" type="text/javascript"></script>
+<script src="lib/date/date.js"></script>
+
+<script src="javascripts/index.js" type="text/javascript"></script>
+<script src="javascripts/apiHelper.js" type="text/javascript"></script>
+
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

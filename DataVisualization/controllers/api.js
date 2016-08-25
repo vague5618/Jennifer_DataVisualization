@@ -15,7 +15,7 @@ module.exports.index = function (req, res) {
 
     if (type == "5minute") {    //title, timeColumn, minutes, callback
         dataDAO.find(title, timeColumn, time, function (result) {
-            res.send(result);
+                res.send(result);
         });
     }
 
