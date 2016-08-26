@@ -267,8 +267,8 @@ module.exports.createXview = function () {
     }
 }
 
-this.removeData();
+//this.removeData();
 //
 //this.createXview();
 //
-this.createData();
+//this.createData();
