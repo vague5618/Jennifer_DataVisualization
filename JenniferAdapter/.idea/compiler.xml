@@ -19,10 +19,8 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="JenniferAdapter_main" target="1.6" />
-      <module name="JenniferAdapter_test" target="1.6" />
-      <module name="testset_main" target="1.6" />
-      <module name="testset_test" target="1.6" />
+      <module name="JAY_main" target="1.6" />
+      <module name="JAY_test" target="1.6" />
     </bytecodeTargetLevel>
   </component>
 </project>

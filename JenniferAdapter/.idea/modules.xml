@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/JenniferAdapter.iml" filepath="$PROJECT_DIR$/.idea/modules/JenniferAdapter.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/JenniferAdapter_main.iml" filepath="$PROJECT_DIR$/.idea/modules/JenniferAdapter_main.iml" group="JenniferAdapter" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/JenniferAdapter_test.iml" filepath="$PROJECT_DIR$/.idea/modules/JenniferAdapter_test.iml" group="JenniferAdapter" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/testset.iml" filepath="$PROJECT_DIR$/.idea/modules/testset.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/testset_main.iml" filepath="$PROJECT_DIR$/.idea/modules/testset_main.iml" group="testset" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/testset_test.iml" filepath="$PROJECT_DIR$/.idea/modules/testset_test.iml" group="testset" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/JAY.iml" filepath="$PROJECT_DIR$/.idea/modules/JAY.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/JAY_main.iml" filepath="$PROJECT_DIR$/.idea/modules/JAY_main.iml" group="JAY" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/JAY_test.iml" filepath="$PROJECT_DIR$/.idea/modules/JAY_test.iml" group="JAY" />
     </modules>
   </component>
 </project>
