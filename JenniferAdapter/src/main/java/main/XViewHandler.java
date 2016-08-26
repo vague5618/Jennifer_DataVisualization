@@ -5,24 +5,70 @@ import com.jennifersoft.view.adapter.JenniferAdapter;
 import com.jennifersoft.view.adapter.JenniferModel;
 import com.jennifersoft.view.adapter.model.JenniferTransaction;
 
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 /**
  * Created by JAY on 2016. 8. 26..
  */
 public class XViewHandler implements JenniferAdapter {
+
     public void on(JenniferModel[] message) {
-        for(int i = 0; i < message.length; i++) {
-            JenniferTransaction model = (JenniferTransaction) message[i];
 
-            // 트랜잭션 모델을 참조하여 핸들러 구현하기
-            System.out.println("도메인 아이디: " + model.getDomainId());
-            System.out.println("인스턴스 이름: " + model.getInstanceName());
-            System.out.println("트랜잭션 아이디: " + model.getTxid());
-            System.out.println("응답시간: " + model.getResponseTime());
-            System.out.println("애플리케이션: " + model.getApplicationName());
+        Connection conn = null;
+        PreparedStatement preparedStatement = null;
+        try {
 
-            LogUtil.error("Domain ID : " + model.getDomainId());
+            Context ctx = new InitialContext();
+            DataSource ds = (DataSource) ctx.lookup("java:comp/env/jdbc/jenniferTest");
+            conn = ds.getConnection();
 
+            String insertTableSQL = "INSERT INTO xView"
+                    + "(DomainId, EndTime, ResponseTime)"
+                    + " VALUES (?,?,?)";
 
+            preparedStatement = conn.prepareStatement(insertTableSQL);
+
+            for (int i = 0; i < message.length; i++) {
+
+                JenniferTransaction model = (JenniferTransaction) message[i];
+
+                LogUtil.error("End time : " + model.getEndTime());
+                LogUtil.error("Domain ID : " + model.getDomainId());
+                LogUtil.error("ResponseTime : " + model.getResponseTime());
+
+                preparedStatement.setLong(1, model.getDomainId());
+                preparedStatement.setLong(2, model.getEndTime());
+                preparedStatement.setLong(3, model.getResponseTime());
+
+                preparedStatement.addBatch();
+            }
+
+            preparedStatement.executeBatch();
+
+        } catch (NamingException e) {
+            LogUtil.error(e);
+            e.printStackTrace();
+        } catch (SQLException e) {
+            LogUtil.error(e);
+            e.printStackTrace();
+        } finally {
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -12,6 +12,7 @@ function snapEqualChart(builder, time, domId, objSet, movable) {
     var chartData = [];
     var chartColors = objSet["chartColors"];
     var chartTitle = objSet["chartTitle"];
+    var targetTitle = objSet["targetTitle"];
     var chartKey = objSet["chartKey"];
     var chartValue = objSet["chartValue"];
     var chartTime = objSet["chartTime"];
@@ -110,7 +111,7 @@ function snapEqualChart(builder, time, domId, objSet, movable) {
 
         $.ajax({
             url: serverIp+"/api",
-            data: {title: chartTitle, timeColumn: chartTime, time: startTime, type: "snapEqual"},
+            data: {title: targetTitle, timeColumn: chartTime, time: startTime, type: "snapEqual"},
             type: 'GET',
             dataType: "json",
             async: false,
@@ -137,7 +138,7 @@ function snapEqualChart(builder, time, domId, objSet, movable) {
 
         if (updateManage == true) {
             setTimeout(function () {
-                update(chartTitle, normalCycle, chartTime);
+                update(targetTitle, normalCycle, chartTime);
             }, 3000 - tookTime);
         }
     }

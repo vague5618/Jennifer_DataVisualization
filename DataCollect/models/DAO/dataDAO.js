@@ -21,9 +21,6 @@ module.exports.save = function (title, data, timeCheck) {
     {
         //수정필요
 
-        if(typeof(data['time']=="object"))
-            newData.time = data['time'].getTime();
-
         //만약 time객체가 Date라면 -> timestamp
         if (typeof(data['time']) == "object")
             newData.time = data['time'].getTime();
@@ -144,19 +141,9 @@ module.exports.createData = function () {
     var current = (0).day().fromNow();
     var lim = Date.today();
 
-
     while (start < current) {
         var obj = new Object();
 
-        //if(start < lim)
-        //{
-        //    obj['tps'] = 0;
-        //}
-        //else
-        //{
-        //    obj['tps'] = 1;
-        //}
-        //
         obj['tps'] = [Math.random()];
 
         var newData = new dataDTO(obj);
@@ -280,8 +267,8 @@ module.exports.createXview = function () {
     }
 }
 
-//this.removeData();
-
-this.createXview();
-
+this.removeData();
+//
+//this.createXview();
+//
 this.createData();

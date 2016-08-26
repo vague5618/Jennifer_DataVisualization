@@ -44,6 +44,13 @@ module.exports.find = function (title, timeColumn, getTime, callback) {
     });
 }
 
+
+module.exports.removeOne = function (title) {
+
+    dataDTO.remove({title : title}, function (err, result) {
+        console.log(result);
+    });
+}
 module.exports.getOne = function (title, timeColumn, getTime, callback) {
 
     var query = {};
@@ -234,12 +241,12 @@ function getTimeToIndex(tempHour, tempMinute, howLong) {
 
 module.exports.createXview = function () {
     var start = (0).day().fromNow().addMinutes(-5);
-    var current = (0).day().fromNow().addMinutes(5);
+    var current = (0).day().fromNow().addMinutes(10);
     var lim = Date.today();
 
     while (start < current) {
 
-        for(var i=0; i<50; i++) {
+        for(var i=0; i<10; i++) {
 
             var obj = new Object();
 
@@ -260,5 +267,7 @@ module.exports.createXview = function () {
     }
 }
 //
+
+//this.removeOne("xView");
 //this.createXview();
 //this.createData();

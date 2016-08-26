@@ -113,7 +113,6 @@ module.exports.collectDB = function (title, ip, table, formData, interval, timeC
 
         mysqlDAO.query(ip, tempQuery, function (result) {
 
-
             console.log(result);
 
             var post_query = new Date().getTime();

@@ -89,12 +89,12 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         var valueList = [];
         var timeColumn = $('#selectTime').val();
         var brushType = $('#selectChartType').val();
-        var title = $("#selectTitle").val();
+        var targetTitle = $("#selectTitle").val();
         var howLong = $("#selectChartTime").val();
         var type = $("#ulChartTab .active").text();
         var distinct = $("#selectDistinct").val();
         var setMean = $("#inputSetMean").val();
-
+        var chartTitle = $("#inputChartTitle").val();
 
         $.each($('input[name=inputColor]'), function (index, value) {
             if ($(value).val() == "")
@@ -130,7 +130,6 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
                 valueList.push($(value).val());
         });
 
-
         var iDiv = document.createElement('div');
         iDiv.id = 'chartSection' + chartIndex;
 
@@ -138,7 +137,8 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
 
         var objSet = new Object();
 
-        objSet["chartTitle"] = title;
+        objSet["targetTitle"] = targetTitle;
+        objSet["chartTitle"] = chartTitle;
         objSet["chartKey"] = keyList;
         objSet["chartValue"] = valueList;
         objSet["chartTime"] = timeColumn;
@@ -149,6 +149,8 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         //iDiv, time, chartManage, chartIndex, objSet, howLong
 
         setClass(builder, time, iDiv, chartManage, chartIndex, objSet, howLong, type);
+
+        $("#" + iDiv.id).css("position", "absolute");
 
         chartIndex++;
 
@@ -361,7 +363,7 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
                 {
                     for (var i = 0; i < chartInfo.length; i++) {
                         var iDiv = document.createElement('div');
-                        iDiv.id = 'chartSection' + chartIndex++;
+                        iDiv.id = 'chartSection' + chartIndex;
 
                         $("#divChart").append(iDiv);
 
@@ -373,6 +375,8 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
                         setChart(builder, time, iDiv, chartInfo[i], true, chartManage, chartIndex);
 
                         $("#" + iDiv.id).css("position", "absolute");
+
+                        chartIndex++;
                     }
                 });
             });

@@ -4,12 +4,14 @@
 
 function dayChart(builder, time, domId, objSet, movable) {
 
-    var serverIp = "http://"+location.host;
+    var serverIp = "http://" + location.host;
     var chart = null;
+    var callNumber = 0;
     var tpsIndex = getTimeToIndex();
     var chartKey = objSet["chartKey"];
     var chartData = [];
     var chartTime = objSet["chartTime"];
+    var targetTitle = objSet["targetTitle"];
     var chartTitle = objSet["chartTitle"];
     var chartValue = objSet["chartValue"];
     var chartColors = objSet["chartColors"];
@@ -68,19 +70,6 @@ function dayChart(builder, time, domId, objSet, movable) {
                 data: chartData
             }],
 
-            brush: [{
-                type: "splitarea",
-                target: chartKey,
-                split: tpsIndex,
-                colors: chartColors,
-                axis: 0
-            },
-                {
-                    type: "pin",
-                    split: tpsIndex,
-                    axis: 0
-                }],
-
             widget: [{
                 type: "title",
                 size: 15,
@@ -117,9 +106,14 @@ function dayChart(builder, time, domId, objSet, movable) {
     };
 
     function initData() {
+
+        tpsIndex = getTimeToIndex();
+
+        addBrush(chartType,Math.round(tpsIndex),0);
+
         $.ajax({
-            url: serverIp+"/api",
-            data: {title: chartTitle, timeColumn: chartTime, value: chartValue, type: "1day", setMean : chartSetMean},
+            url: serverIp + "/api",
+            data: {title: targetTitle, timeColumn: chartTime, value: chartValue, type: "1day", setMean: chartSetMean},
             type: 'GET',
             dataType: "json",
             async: false,
@@ -149,15 +143,14 @@ function dayChart(builder, time, domId, objSet, movable) {
 
                 chart.axis(0).update(chartData);
 
-                chart.updateBrush(0, {split: Math.round(index)});
-                chart.updateBrush(1, {split: Math.round(index)});
+                updateBrush(chartType, index);
 
                 chart.render();
 
                 if (updateManage == true) {
                     setTimeout(function () {
                         update();
-                    }, chartSetMean * 10000);
+                    }, chartSetMean * 1000 * 60);
                 }
             }
         });
@@ -169,8 +162,14 @@ function dayChart(builder, time, domId, objSet, movable) {
             tookTime = null;
 
         $.ajax({
-            url: serverIp+"/api",
-            data: {title: chartTitle, timeColumn: chartTime, value: chartValue, type: "minuteMean",  setMean : chartSetMean},
+            url: serverIp + "/api",
+            data: {
+                title: targetTitle,
+                timeColumn: chartTime,
+                value: chartValue,
+                type: "minuteMean",
+                setMean: chartSetMean
+            },
             type: 'GET',
             dataType: "json",
             async: false,
@@ -194,20 +193,82 @@ function dayChart(builder, time, domId, objSet, movable) {
 
                 chart.axis(0).update(chartData);
 
-                console.log("take time : " + tookTime);
+                updateBrush(chartType, index);
 
-                chart.updateBrush(0, {split: Math.round(index)});
-                chart.updateBrush(1, {split: Math.round(index)});
+                console.log("take time : " + tookTime);
 
                 chart.render();
 
                 if (updateManage == true) {
                     setTimeout(function () {
                         update();
-                    }, chartSetMean *10000 - tookTime);
+                    }, chartSetMean  * 1000 * 60 - tookTime);
                 }
             }
         });
+    }
+
+
+    function addBrush(type, index) {
+
+        if (type == 'line') {
+
+            chart.addBrush(
+                {
+                    type: "splitarea",
+                    target: chartKey,
+                    split: index,
+                    colors: chartColors,
+                    axis: 0
+                }
+            );
+
+            chart.addBrush(
+                {
+                    type: "pin",
+                    split: index,
+                    axis: 0
+                }
+            );
+        }
+
+        if (type == 'column') {
+
+            chart.addBrush(
+                {
+                    type: type,
+                    target: chartKey,
+                    colors: chartColors,
+                    axis: 0,
+                    display : "max",
+                    animate : true
+                }
+            );
+            chart.addBrush(
+                {
+                    type: "focus",
+                    start: index-1,
+                    end: index
+                }
+            );
+
+
+        }
+    }
+
+    function updateBrush(type, index) {
+
+        if (type=='line')
+        {
+            chart.updateBrush(0, {split: Math.round(index)});
+            chart.updateBrush(1, {split: Math.round(index)});
+        }
+
+        if (type == 'column') {
+
+            callNumber=0;
+
+        }
     }
 
     function divSet(domId) {

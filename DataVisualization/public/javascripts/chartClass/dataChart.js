@@ -9,6 +9,7 @@ function dataChart(builder, time, domId, objSet, movable) {
     var colors = new Object();
     var chartDistinct = objSet["chartDistinct"];
     var chartColors = objSet["chartColors"];
+    var targetTitle = objSet["targetTitle"];
     var chartTitle = objSet["chartTitle"];
     var chartKey = objSet["chartKey"];
     var chartValue =  objSet["chartValue"];
@@ -38,7 +39,9 @@ function dataChart(builder, time, domId, objSet, movable) {
                     domain: getDomain(),
                     interval: 1000 * 60,
                     format: "hh:mm",
-                    key: "time"
+                    key: "time",
+                    interval: 1,
+                    realtime: "minutes"
                 },
                 y: {
                     type: "range",
@@ -99,7 +102,7 @@ function dataChart(builder, time, domId, objSet, movable) {
 
         $.ajax({
             url: serverIp+"/api",
-            data: {title: chartTitle, timeColumn: chartTime, time: initCycle, type: "5minute"},
+            data: {title: targetTitle, timeColumn: chartTime, time: initCycle, type: "5minute"},
             type: 'GET',
             dataType: "json",
             async: false,
@@ -142,19 +145,19 @@ function dataChart(builder, time, domId, objSet, movable) {
 
         if (updateManage == true) {
             setTimeout(function () {
-                update(chartTitle, normalCycle, chartTime);
+                update(targetTitle, normalCycle, chartTime);
             }, 3000 - tookTime);
         }
     }
 
-    function update(title, timeForGet, timeColumn) {
+    function update(targetTitle, timeForGet, timeColumn) {
         var startTime = (new Date()).getTime(),
             endTime,
             tookTime = null;
 
         $.ajax({
             url: serverIp+"/api",
-            data: {title: title, timeColumn : timeColumn, time: timeForGet, type: "5minute"},
+            data: {title: targetTitle, timeColumn : timeColumn, time: timeForGet, type: "5minute"},
             type: 'GET',
             dataType: "json",
             async: false,
@@ -171,6 +174,8 @@ function dataChart(builder, time, domId, objSet, movable) {
                 for (var i = 0; i < arg.length; i++) {
                     getData(chartData, domain, arg[i]);
                 }
+
+                shiftData(chartData,domain);
 
                 chart.axis(0).update(chartData);
 
@@ -193,7 +198,7 @@ function dataChart(builder, time, domId, objSet, movable) {
         return [new Date(new Date() - time.MINUTE * 5), new Date()];
     }
 
-    function getData(list, domain, obj) {
+    function shiftData(list, domain){
 
         for (var i = 0; i < list.length; i++) {
             if (list[i].time.getTime() < domain[0].getTime()) {
@@ -202,6 +207,11 @@ function dataChart(builder, time, domId, objSet, movable) {
                 break;
             }
         }
+    }
+
+    function getData(list, domain, obj) {
+
+        shiftData(list,domain);
 
         var timestamp = obj[chartTime];
 

@@ -8,6 +8,7 @@ function dateChart(builder, time, domId, objSet, movable) {
     var chart = null;
     var chartData = [];
     var chartColors = objSet["chartColors"];
+    var targetTitle = objSet["targetTitle"];
     var chartTitle = objSet["chartTitle"];
     var chartKey = objSet["chartKey"];
     var chartValue =  objSet["chartValue"];
@@ -102,7 +103,7 @@ function dateChart(builder, time, domId, objSet, movable) {
 
         $.ajax({
             url: serverIp+"/api",
-            data: {title: chartTitle, timeColumn: chartTime, time: initCycle, type: "5minute"},
+            data: {title: targetTitle, timeColumn: chartTime, time: initCycle, type: "5minute"},
             type: 'GET',
             dataType: "json",
             async: false,
@@ -139,19 +140,19 @@ function dateChart(builder, time, domId, objSet, movable) {
 
         if (updateManage == true) {
             setTimeout(function () {
-                update(chartTitle, normalCycle, chartTime);
+                update(targetTitle, normalCycle, chartTime);
             }, 3000 - tookTime);
         }
     }
 
-    function update(title, timeForGet, timeColumn) {
+    function update(targetTitle, timeForGet, timeColumn) {
         var startTime = (new Date()).getTime(),
             endTime,
             tookTime = null;
 
         $.ajax({
             url: serverIp+"/api",
-            data: {title: title, timeColumn : timeColumn, time: timeForGet, type: "5minute"},
+            data: {title: targetTitle, timeColumn : timeColumn, time: timeForGet, type: "5minute"},
             type: 'GET',
             dataType: "json",
             async: false,
@@ -190,7 +191,7 @@ function dateChart(builder, time, domId, objSet, movable) {
 
                 if(updateManage==true) {
                     setTimeout(function () {
-                        update(title, normalCycle, timeColumn);
+                        update(targetTitle, normalCycle, timeColumn);
                     }, 3000 - tookTime);
                 }
             }
