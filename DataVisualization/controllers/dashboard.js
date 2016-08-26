@@ -41,7 +41,7 @@ module.exports.create = function (req, res) {
         obj['chartInfo'] = chartInfo;
         obj['chartLayout'] = chartLayout;
 
-        chartDAO.chartSave(req.body.chartHash, obj);
+        chartDAO.chartSave(req.body.chartHash, req.body.dashboardName, obj);
 
         res.json(url);
     }
@@ -62,7 +62,7 @@ module.exports.create = function (req, res) {
 
             urlManage[randomID] = obj;
 
-            chartDAO.chartSave(randomID, obj);
+            chartDAO.chartSave(randomID, req.body.dashboardName, obj);
 
         } while (urlManage[req.params.id] != null);
 

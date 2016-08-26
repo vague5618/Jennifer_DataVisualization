@@ -3,6 +3,7 @@
  */
 
 var dataDAO = require('../models/DAO/dataDAO.js');
+var chartDAO = require('../models/DAO/chartDAO.js');
 
 module.exports.index = function (req, res) {
 
@@ -38,6 +39,14 @@ module.exports.index = function (req, res) {
                 res.send(null);
             else
                 res.send(result);
+        });
+    }
+
+    if(req.body.type=="dashboardName")
+    {
+        chartDAO.getTitle(function(result)
+        {
+           res.send(result);
         });
     }
 };

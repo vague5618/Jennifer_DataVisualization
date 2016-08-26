@@ -12,7 +12,6 @@ module.exports.post = function (req, res) {
 
     chartDAO.find(req.body.hash,function(result)
     {
-        console.log(result);
         res.send(result);
     });
 };

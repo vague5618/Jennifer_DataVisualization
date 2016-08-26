@@ -131,7 +131,6 @@ function saveDashboard(chartArray) {
         async: false
     }).then(function (data) {
         ret = data;
-
     });
 
     return ret;

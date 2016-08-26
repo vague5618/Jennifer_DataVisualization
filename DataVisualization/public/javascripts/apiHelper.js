@@ -156,7 +156,7 @@ function getField(field) {
 }
 
 
-function saveDashboard(chartArray, chartLayout, chartHash) {
+function saveDashboard(chartArray, chartLayout, chartHash, dashboardName) {
 
     var ret = null;
 
@@ -165,7 +165,8 @@ function saveDashboard(chartArray, chartLayout, chartHash) {
         data :{
             chartArray : JSON.stringify(chartArray),
             chartLayout : chartLayout,
-            chartHash : chartHash
+            chartHash : chartHash,
+            dashboardName : dashboardName
         },
         method: 'POST',
         dataType: "json",
@@ -195,6 +196,19 @@ function modifyDashboard(formData, callback) {
     });
 
     //return ret;
+}
+
+function getDashboardName(formData, callback)
+{
+    $.ajax({
+        url: serverIp+"/find",
+        data :formData,
+        method: 'POST',
+        dataType: "json",
+        async: false
+    }).then(function (data) {
+        callback(data);
+    });
 }
 
 

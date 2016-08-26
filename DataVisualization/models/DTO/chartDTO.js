@@ -7,7 +7,9 @@ var mongoose = require('mongoose');
 var chartSchema = mongoose.Schema(
     {
         _id : String,
-        value : JSON
+        value : JSON,
+        name : String,
+        time : Number
     },
     { _id: false , strict: false}
 );

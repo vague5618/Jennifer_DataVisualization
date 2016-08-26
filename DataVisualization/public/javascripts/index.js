@@ -11,6 +11,12 @@ var chartLayout = 0;
 
 jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, time) {
 
+    function setToolTip()
+    {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+
+
     function setColorpicker() {
         $.each($('div[name=divColorpicker]'), function (index, value) {
             $(value).colorpicker();
@@ -38,6 +44,8 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
     //setting colorpicker
 
     setColorpicker();
+
+    setToolTip();
 
     $('.dropdown-toggle').dropdown();
 
@@ -266,23 +274,40 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
 
     //btnClick Save
     $("#aSave").click(function () {
-        var array = [];
 
-        for (var key in chartManage) {
-            if (chartManage.hasOwnProperty(key)) {
+        BootstrapDialog.show({
+            title: 'Dashboard Name',
+            message: $('<input id="inputDashboardName" class="form-control" placeholder="Write this"> </input>'),
+            buttons: [{
+                label: 'Save',
+                cssClass: 'btn-primary',
+                hotkey: 13, // Enter.
+                action: function() {
 
-                var objSet = chartManage[key].getInfo();
+                    var dashboardName = $('#inputDashboardName').val();
 
-                objSet['left'] = $('#' + key).offset().left;
-                objSet['top'] = $('#' + key).offset().top;
-                objSet['width'] = $('#' + key).width();
-                objSet['height'] = $('#' + key).height();
+                    var array = [];
 
-                array.push(objSet);
-            }
-        }
+                    for (var key in chartManage) {
+                        if (chartManage.hasOwnProperty(key)) {
 
-        location.href = saveDashboard(array, chartLayout, location.pathname.split('&')[2]);
+                            var objSet = chartManage[key].getInfo();
+
+                            objSet['left'] = $('#' + key).offset().left;
+                            objSet['top'] = $('#' + key).offset().top;
+                            objSet['width'] = $('#' + key).width();
+                            objSet['height'] = $('#' + key).height();
+
+                            array.push(objSet);
+                        }
+                    }
+
+                    location.href = saveDashboard(array, chartLayout, location.pathname.split('&')[2], dashboardName);
+                }
+            }]
+        });
+
+
     });
 
     $('#liLayout1').click(function () {
@@ -375,11 +400,28 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
     }
 
 
+    $('#aLoad').click(function(){
 
+        var obj = new Object();
+        obj['type'] = 'dashboardName';
 
+        $('#tbodyDashboardName').empty();
 
+        getDashboardName(obj,function(data)
+        {
+            for(var i=0; i<data.length; i++)
+            {
+                var row = "<tr> <td class='text-left'>"+
+                    "<a href=/dashboard/"+data[i]._id+" data-toggle='tooltip' data-placement='auto' title='"+new Date(data[i].time)+"'><h5>"
+                    +data[i].name+"</h5></a></td>"+ "<td class='text-left'><h5>"+
+                    data[i]._id+"</h5></td></tr>";
 
+                $('#tbodyDashboardName').append(row);
+            }
 
+            setToolTip();
+        });
+    });
 
 });
 

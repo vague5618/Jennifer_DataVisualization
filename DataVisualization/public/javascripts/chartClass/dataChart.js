@@ -17,7 +17,7 @@ function dataChart(builder, time, domId, objSet, movable) {
     var initCycle = 60*5; //5분
     var normalCycle = 5; // 5초
     var updateManage = true;
-
+    var ret = 0;
     //title
     //keyList jsonPath
     //valueList jsonPath
@@ -30,6 +30,7 @@ function dataChart(builder, time, domId, objSet, movable) {
         updateManage = true;
 
         chart = builder(domId, {
+            canvas : true,
             padding: 10,
             axis: [{
                 x: {
@@ -42,14 +43,9 @@ function dataChart(builder, time, domId, objSet, movable) {
                 y: {
                     type: "range",
                     domain: function (data) {
-                        var ret = 0;
 
-                        for (var key in data) {
-                            if (data.hasOwnProperty(key)) {
-                                if (typeof(data[key]) == "number" && ret < data[key])
-                                    ret = data[key];
-                            }
-                        }
+                        ret = Math.max(ret, data.value);
+
                         return 1.2 * ret;
 
                     },
@@ -67,13 +63,14 @@ function dataChart(builder, time, domId, objSet, movable) {
                     height: "100%"
                 },
             }],
+
             widget: [{
                 type: "title",
                 text: chartTitle,
                 size: 15,
                 axis: 0
             }, {
-                type: "cross",
+                type : "cross",
                 yFormat: function (d) {
                     return d.toFixed(2);
                 },
@@ -208,14 +205,17 @@ function dataChart(builder, time, domId, objSet, movable) {
 
         var timestamp = obj[chartTime];
 
-        list.push(createObject(timestamp, chartKey, chartValue, obj));
+        if(chartKey.indexOf(obj[chartDistinct].toString())!=-1)
+        {
+            list.push(createObject(timestamp, chartKey, chartValue, obj));
+        }
     }
 
     function addBrush(type, colors) {
 
         chart.addBrush(
             {
-                type: "scatter",
+                type: "canvas.scatter",
                 symbol : "cross",
                 target: ["value"],
                 clip: true,

@@ -246,5 +246,37 @@ function getTimeToIndex(tempHour, tempMinute, howLong) {
     return tempHour * (60 / howLong) + (tempMinute / howLong);
 }
 
+
+module.exports.createXview = function () {
+    var start = (0).day().fromNow().addMinutes(-5);
+    var current = (0).day().fromNow().addMinutes(5);
+    var lim = Date.today();
+
+    while (start < current) {
+
+        for(var i=0; i<100; i++) {
+
+            var obj = new Object();
+
+            obj['distinctId'] = Math.floor(Math.random() * 100) + 1;
+            obj['tps'] = [Math.random()];
+
+            var newData = new dataDTO(obj);
+
+            newData.title = "xView";
+
+            newData.time = start.getTime();
+
+            newData.save(function(result)
+            {});
+        }
+
+        start.addSeconds(1).getTime();
+    }
+}
+
 //this.removeData();
-this.createData();
+
+this.createXview();
+
+//this.createData();
