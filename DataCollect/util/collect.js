@@ -113,6 +113,9 @@ module.exports.collectDB = function (title, ip, table, formData, interval, timeC
 
         mysqlDAO.query(ip, tempQuery, function (result) {
 
+
+            console.log(result);
+
             var post_query = new Date().getTime();
 
             if(result!=null) {
@@ -124,6 +127,8 @@ module.exports.collectDB = function (title, ip, table, formData, interval, timeC
                         obj[keyList[j]] = result[i][valueList[j]];
                     }
 
+                    console.log("title : "+title);
+
                     dataDAO.save(title, obj, timeCheck);
                 }
             }
@@ -132,7 +137,9 @@ module.exports.collectDB = function (title, ip, table, formData, interval, timeC
 
             fromTime = nowTime;
 
-            setTimeout(collect(title), 1000000 - tookTime);
+            setTimeout(function () {
+                collect(title);
+            }, 1000 - tookTime);
         });
     }
 };

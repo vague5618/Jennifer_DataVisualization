@@ -21,16 +21,22 @@ module.exports.save = function (title, data, timeCheck) {
     {
         //수정필요
 
+        if(typeof(data['time']=="object"))
+            newData.time = data['time'].getTime();
+
         //만약 time객체가 Date라면 -> timestamp
-        if (typeof(data['time'][0]) == "object")
+        if (typeof(data['time']) == "object")
             newData.time = data['time'].getTime();
 
         //만약 time객체가 string이라면
-        else if (typeof(data['time'][0]) == "string")
+        else if (typeof(data['time']) == "string")
             newData.time = Number(data['time']);
     }
 
-    newData.save();
+    newData.save(function(err,result)
+    {
+        console.log(err);
+    });
 };
 
 module.exports.find = function (title, timeColumn, getTime, callback) {
@@ -254,7 +260,7 @@ module.exports.createXview = function () {
 
     while (start < current) {
 
-        for(var i=0; i<100; i++) {
+        for(var i=0; i<50; i++) {
 
             var obj = new Object();
 
@@ -267,8 +273,7 @@ module.exports.createXview = function () {
 
             newData.time = start.getTime();
 
-            newData.save(function(result)
-            {});
+            newData.save();
         }
 
         start.addSeconds(1).getTime();
@@ -279,4 +284,4 @@ module.exports.createXview = function () {
 
 this.createXview();
 
-//this.createData();
+this.createData();

@@ -129,26 +129,15 @@ module.exports.getMinuteData = function (title, timeColumn, valueColumn, howLong
     );
 }
 
-
 module.exports.createData = function () {
     var start = (-1).day().fromNow();
     var current = (0).day().fromNow();
     var lim = Date.today();
 
-
     while (start < current) {
         var obj = new Object();
 
-        if(start < lim)
-        {
-            obj['tps'] = 0;
-        }
-        else
-        {
-            obj['tps'] = 1;
-        }
-
-        //obj['tps'] = [Math.random()];
+        obj['tps'] = [Math.random()];
 
         var newData = new dataDTO(obj);
 
@@ -243,3 +232,33 @@ function getTimeToIndex(tempHour, tempMinute, howLong) {
     return tempHour * (60 / howLong) + (tempMinute / howLong);
 }
 
+module.exports.createXview = function () {
+    var start = (0).day().fromNow().addMinutes(-5);
+    var current = (0).day().fromNow().addMinutes(5);
+    var lim = Date.today();
+
+    while (start < current) {
+
+        for(var i=0; i<50; i++) {
+
+            var obj = new Object();
+
+            obj['distinctId'] = Math.floor(Math.random() * 100) + 1;
+            obj['tps'] = [Math.random()];
+
+            var newData = new dataDTO(obj);
+
+            newData.title = "xView";
+
+            newData.time = start.getTime();
+
+            newData.save(function(result)
+            {});
+        }
+
+        start.addSeconds(1).getTime();
+    }
+}
+//
+//this.createXview();
+//this.createData();

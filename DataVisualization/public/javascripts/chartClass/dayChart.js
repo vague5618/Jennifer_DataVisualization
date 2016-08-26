@@ -157,7 +157,7 @@ function dayChart(builder, time, domId, objSet, movable) {
                 if (updateManage == true) {
                     setTimeout(function () {
                         update();
-                    }, chartSetMean * 1000);
+                    }, chartSetMean * 10000);
                 }
             }
         });
@@ -204,7 +204,7 @@ function dayChart(builder, time, domId, objSet, movable) {
                 if (updateManage == true) {
                     setTimeout(function () {
                         update();
-                    }, 1000 - tookTime);
+                    }, chartSetMean *10000 - tookTime);
                 }
             }
         });
