@@ -6,8 +6,14 @@ function setClass(builder, time, iDiv, chartManage, chartIndex, objSet, howLong,
 
     if (type == "SnapShot") {
 
-        if(objSet['chartType']=="equalizerBar")
-            chartManage[iDiv.id] = new snapEqualChart(builder, time, "#" + iDiv.id, objSet,true);
+        if(objSet['chartType']=="pie")
+            chartManage[iDiv.id] = new pieChart(builder, time, "#" + iDiv.id, objSet,true);
+
+        else if(objSet['chartType']=="equalizerColumn")
+            chartManage[iDiv.id] = new snapEqualColumnChart(builder, time, "#" + iDiv.id, objSet,true);
+
+        else if(objSet['chartType']=="equalizerBar")
+            chartManage[iDiv.id] = new snapEqualBarChart(builder, time, "#" + iDiv.id, objSet,true);
 
         else if (howLong == "5minute")
             chartManage[iDiv.id] = new dateChart(builder, time, "#" + iDiv.id, objSet, true);
@@ -39,8 +45,14 @@ function setChart(builder, time, iDiv, objSet, movable, chartManage, chartIndex)
         case 'dataChart':
             chartManage[iDiv.id] = new dataChart(builder, time, "#" + iDiv.id, objSet, movable);
             break;
-        case 'snapEqualChart':
-            chartManage[iDiv.id] = new snapEqualChart(builder, time, "#" + iDiv.id, objSet, movable);
+        case 'snapEqualBarChart':
+            chartManage[iDiv.id] = new snapEqualBarChart(builder, time, "#" + iDiv.id, objSet, movable);
+            break;
+        case 'snapEqualColumnChart':
+            chartManage[iDiv.id] = new snapEqualColumnChart(builder, time, "#" + iDiv.id, objSet, movable);
+            break;
+        case 'pieChart':
+            chartManage[iDiv.id] = new pieChart(builder, time, "#" + iDiv.id, objSet, movable);
             break;
     }
 

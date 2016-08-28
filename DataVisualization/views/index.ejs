@@ -8,20 +8,20 @@
 
 <body style="width:100%; height:100%;">
 
-<nav class="navbar sidebar" role="navigation" style="z-index:2">
+<nav class="navbar sidebar" role="navigation" style="z-index:3">
     <div class="container-fluid">
         <div class="collapse navbar-collapse" id="bs-sidebar-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li>
-                    <a id='aEasy' data-toggle="modal" href="#modalEasy">Easy Layout
-                        <span style="font-size:16px;"
-                              class="pull-right hidden-xs showopacity glyphicon glyphicon-th-large"></span></a>
-                </li>
-
-                <li>
                     <a id="aChart" data-toggle="modal" href="#modalChart">Draw
                         <span style="font-size:16px;"
                               class="pull-right hidden-xs showopacity glyphicon glyphicon glyphicon-edit"></span></a>
+                </li>
+
+                <li>
+                    <a id='aEasy' data-toggle="modal" href="#modalEasy">Easy Layout
+                        <span style="font-size:16px;"
+                              class="pull-right hidden-xs showopacity glyphicon glyphicon-th-large"></span></a>
                 </li>
 
                 <li>
@@ -56,6 +56,7 @@
 <!--chartClass-->
 
 <div id="divChart" style="width:100%; height:100%; padding-left : 30px">
+    <div id="divLayout" style="width: 100%; height:100%"></div>
 </div>
 
 <!--setting Chart modal-->
@@ -115,6 +116,8 @@
                                     <option>scatter</option>
                                     <option>column</option>
                                     <option>equalizerBar</option>
+                                    <option>equalizerColumn</option>
+                                    <option>pie</option>
                                 </select>
                             </td>
                             </tbody>
@@ -257,15 +260,13 @@
                         style="width: 10%; height:100%; border: solid 30px transparent; display: inline-block; float: left">
                         <img src="/images/easyLayout1.png" alt="Smiley face" height="100%" width="100%">
                     </li>
-                    <li style="width: 10%; height:100%; border: solid 30px transparent; display: inline-block; float: left">
+                    <li id="liLayout2"
+                        style="width: 10%; height:100%; border: solid 30px transparent; display: inline-block; float: left">
                         <img src="/images/easyLayout2.png" alt="Smiley face" height="100%" width="100%">
                     </li>
-                    <li style="width: 10%; height:100%; border: solid 30px transparent; display: inline-block; float: left">
+                    <li id="liLayout3"
+                        style="width: 10%; height:100%; border: solid 30px transparent; display: inline-block; float: left">
                         <img src="/images/easyLayout3.png" alt="Smiley face" height="100%" width="100%">
-                    </li>
-
-                    <li style="width: 10%; height:100%; border: solid 30px transparent; display: inline-block; float: left">
-                        <img src="/images/easyLayout1.png" alt="Smiley face" height="100%" width="100%">
                     </li>
 
                 </ul>
@@ -299,6 +300,38 @@
     </div>
 </div>
 
+<!--ChartInfo Dialog-->
+
+<div id="divDialog" title="ChartInfo">
+    <div id="divChartInfo">
+        <table class="table table-striped" id="tblGrid">
+            <thead id="tblHead">
+            <tr>
+                <th colspan="2">chartTitle</th>
+            </tr>
+            <tr>
+                <td>
+                    <h4 id='hChartTitle'>
+                    </h4>
+                </td>
+            </tr>
+        </table>
+
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>color</th>
+                <th>key</th>
+                <th>alias</th>
+            </tr>
+            </thead>
+            <tbody id="tbodyChartInfo">
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
 </div>
 
 
@@ -324,7 +357,9 @@
 <script src="javascripts/chartClass/dateChart.js" type="text/javascript"></script>
 <script src="javascripts/chartClass/dayChart.js" type="text/javascript"></script>
 <script src="javascripts/chartClass/dataChart.js" type="text/javascript"></script>
-<script src="javascripts/chartClass/snapEqualChart.js" type="text/javascript"></script>
+<script src="javascripts/chartClass/snapEqualBarChart.js" type="text/javascript"></script>
+<script src="javascripts/chartClass/snapEqualColumnChart.js" type="text/javascript"></script>
+<script src="javascripts/chartClass/pieChart.js" type="text/javascript"></script>
 
 <script src="javascripts/chartHelper.js" type="text/javascript"></script>
 <script src="javascripts/apiHelper.js" type="text/javascript"></script>

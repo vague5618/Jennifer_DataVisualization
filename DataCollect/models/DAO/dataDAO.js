@@ -19,8 +19,6 @@ module.exports.save = function (title, data, timeCheck) {
 
     else
     {
-        //수정필요
-
         //만약 time객체가 Date라면 -> timestamp
         if (typeof(data['time']) == "object")
             newData.time = data['time'].getTime();
@@ -28,11 +26,14 @@ module.exports.save = function (title, data, timeCheck) {
         //만약 time객체가 string이라면
         else if (typeof(data['time']) == "string")
             newData.time = Number(data['time']);
+
+        else if (typeof(data['time'][0]) == "string")
+            newData.time = Number(data['time']);
     }
 
     newData.save(function(err,result)
     {
-        console.log(err);
+        console.log(result);
     });
 };
 

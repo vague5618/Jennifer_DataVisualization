@@ -5,9 +5,9 @@
  * Created by JAY on 2016. 7. 29..
  */
 
-function snapEqualChart(builder, time, domId, objSet, movable) {
+function snapEqualColumnChart(builder, time, domId, objSet, movable) {
 
-    var serverIp = "http://"+location.host;
+    var serverIp = "http://" + location.host;
     var chart = null;
     var chartData = [];
     var chartColors = objSet["chartColors"];
@@ -18,7 +18,7 @@ function snapEqualChart(builder, time, domId, objSet, movable) {
     var chartTime = objSet["chartTime"];
     var chartType = objSet["chartType"];
     var initCycle = 60 * 6; //5분
-    var normalCycle = 3; // 5초
+    var normalCycle = 2; // 5초
     var updateManage = true;
 
     this.init = function () {
@@ -27,13 +27,13 @@ function snapEqualChart(builder, time, domId, objSet, movable) {
 
         chart = builder(domId, {
             padding: {
-                left : 10,
-                top : 10,
+                left: 10,
+                top: 10,
                 right: 10,
-                bottom : 0
+                bottom: 0
             },
             axis: [{
-                x: {
+                y: {
                     type: "range",
                     domain: function (data) {
                         var sum = 0;
@@ -41,7 +41,7 @@ function snapEqualChart(builder, time, domId, objSet, movable) {
                         for (var key in data) {
                             if (data.hasOwnProperty(key)) {
                                 if (typeof(data[key]) == "number")
-                                    sum+= data[key];
+                                    sum += data[key];
                             }
                         }
 
@@ -51,8 +51,8 @@ function snapEqualChart(builder, time, domId, objSet, movable) {
                     step: 5,
                     line: true
                 },
-                y: {
-                    domain: [""],
+                x: {
+                    domain: chartKey,
                     line: true
                 },
 
@@ -98,19 +98,9 @@ function snapEqualChart(builder, time, domId, objSet, movable) {
             //align: "center"
         });
 
-        chart.addWidget({
-            type: "tooltip"
-        });
-
-        chart.addWidget({
-            type: "legend",
-            filter : true,
-            dy : -10
-        });
-
 
         $.ajax({
-            url: serverIp+"/api",
+            url: serverIp + "/api",
             data: {title: targetTitle, timeColumn: chartTime, time: startTime, type: "snapEqual"},
             type: 'GET',
             dataType: "json",
@@ -133,8 +123,7 @@ function snapEqualChart(builder, time, domId, objSet, movable) {
             }
         });
 
-        if(movable!=false)
-            divSet(domId);
+        divSet(domId);
 
         if (updateManage == true) {
             setTimeout(function () {
@@ -150,7 +139,7 @@ function snapEqualChart(builder, time, domId, objSet, movable) {
             tookTime = null;
 
         $.ajax({
-            url: serverIp+"/api",
+            url: serverIp + "/api",
             data: {title: title, timeColumn: timeColumn, time: startTime, type: "snapEqual"},
             type: 'GET',
             dataType: "json",
@@ -182,21 +171,30 @@ function snapEqualChart(builder, time, domId, objSet, movable) {
 
     function getData(list, obj) {
 
-        if (list.length == 1)
+        for (var i = 0; i < chartKey.length; i++) {
             list.shift();
+        }
 
-        list.push(createObject(chartKey, chartValue, obj));
+        var obj = createObject(chartKey, chartValue, obj);
+
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                var temp = new Object();
+                temp['value'] = obj[key];
+                list.push(temp);
+            }
+        }
     }
 
     function addBrush(type, columns, colors) {
 
         chart.addBrush(
             {
-                type: "equalizerbar",
-                target: columns,
+                type: "equalizercolumn",
+                target: "value",
                 unit: 10,
                 clip: true,
-                colors: colors,
+                colors: chartColors,
                 axis: 0
             }
         );
@@ -226,33 +224,59 @@ function snapEqualChart(builder, time, domId, objSet, movable) {
             }
         }
 
-        console.log(jsonObject);
-
         return jsonObject;
     }
 
     function divSet(domId) {
 
-        $(domId).draggable({
-            stop: function (event, ui) {
-                chart.render(true);
+        $(domId).contextmenu(function()
+        {
+            $('#tbodyChartInfo').empty();
+            $('#hChartTitle').html(chartTitle);
+            for(var i=0; i<chartKey.length; i++)
+            {
+                var row = '<tr><th>'+chartColors[i]+'</th>'+
+                    '<th>'+chartValue[i]+'</th>'+
+                    '<th>'+chartKey[i]+'</th></tr>';
+
+                $("#tbodyChartInfo").append(row);
             }
+
+            $( "#divDialog" ).dialog( "open" );
         });
 
-        $(domId).resizable({
-            stop: function (event, ui) {
-                chart.render(true);
-            }
-        });
+
+        if(movable==true) {
+
+            $(domId).draggable({
+                stop: function (event, ui) {
+                    chart.render(true);
+                }
+            });
+
+            $(domId).resizable({
+                maxHeight: 600,
+                maxWidth: 1000,
+                minHeight: 200,
+                minWidth: 300,
+                stop: function (event, ui) {
+                    chart.render(true);
+                }
+            });
+        }
     }
 
     this.destroy = function () {
         updateManage = false;
     }
 
-    this.getInfo = function(){
+    this.render = function () {
+        chart.render(true);
+    }
 
-        objSet['type'] = "snapEqualChart";
+    this.getInfo = function () {
+
+        objSet['type'] = "snapEqualColumnChart";
 
         return objSet;
     }

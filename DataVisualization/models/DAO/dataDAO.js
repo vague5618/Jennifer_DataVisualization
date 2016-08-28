@@ -138,13 +138,13 @@ module.exports.getMinuteData = function (title, timeColumn, valueColumn, howLong
 
 module.exports.createData = function () {
     var start = (-1).day().fromNow();
-    var current = (0).day().fromNow();
+    var current = (1).day().fromNow();
     var lim = Date.today();
 
     while (start < current) {
         var obj = new Object();
 
-        obj['tps'] = [Math.random()];
+        obj['tps'] = [(Math.random() * 100) + 1];
 
         var newData = new dataDTO(obj);
 
@@ -268,6 +268,6 @@ module.exports.createXview = function () {
 }
 //
 
-//this.removeOne("xView");
+//this.removeOne("createTEST");
 //this.createXview();
-//this.createData();
+this.createData();

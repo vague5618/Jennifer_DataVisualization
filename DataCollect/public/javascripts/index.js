@@ -87,9 +87,6 @@ $(document).ready(function () {
         {
             setURL();
         }
-
-        $('#dbTblfoot').empty();
-        $('#tbodyTable').empty();
     });
 
 
@@ -147,6 +144,9 @@ $(document).ready(function () {
             if(setRegister(form_data)!=null)
                 alert("register Success");
         }
+
+        $('#dbTblfoot').empty();
+        $('#tbodyTable').empty();
     }
 
     $('#btnConnectDB').click(function () {
@@ -243,6 +243,10 @@ $(document).ready(function () {
 
         if(setRegister(form_data)!=null)
             alert("register Success");
+
+
+        $('#dbTblfoot').empty();
+        $('#tbodyTable').empty();
     }
 });
 

@@ -1,0 +1,5 @@
+.ui-dialog-titlebar-close{
+    background-image: url('../images/closeIcon.png');
+    background-size: contain;
+}
+

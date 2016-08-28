@@ -9,6 +9,19 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
     var pathArray = window.location.pathname.split( '/' );
     var chartLayout = null;
 
+    function setDialog(){
+        $( "#divDialog" ).dialog({
+            modal: true,
+            autoOpen: false,
+            width: 600,
+            height: 'auto',
+            show: {
+                effect: "blind",
+                duration: 1000
+            }
+        }).prev(".ui-dialog-titlebar").css("background","#00bbbb");
+    }
+
     $.get(window.location.href+"?type=getChartInfo", function( result ) {
 
         chartData = result;
@@ -49,6 +62,8 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
                     setChart(builder, time, iDiv, data[i], false, chartManage, chartIndex);
 
                     $("#" + iDiv.id).css("position", "absolute");
+
+                    setDialog();
                 }
             });
         }
@@ -73,14 +88,16 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
 
                 $("#" + iDiv.id).css("position", "absolute");
 
+                setDialog();
+
             }
         }
     });
 
+
     //modified Chart
 
     $('#aModified').click(function(){
-
         location.href = "/&modify&"+pathArray[2];
     });
 

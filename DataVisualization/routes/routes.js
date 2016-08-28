@@ -14,6 +14,7 @@ module.exports = function (app) {
 
     app.post('/', index.post);
 
+    // Dashboard modify
     app.get('/&modify*', index.index);
 
     // REST API, Register Monitor
@@ -25,7 +26,9 @@ module.exports = function (app) {
     // Inspect Data
     app.post('/find', find.index);
 
+    //Dashboard Create
     app.post('/dashboard/create', dashboard.create);
 
+    //Dashboard connect
     app.get('/dashboard/:id', dashboard.index);
 }

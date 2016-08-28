@@ -11,11 +11,22 @@ var chartLayout = 0;
 
 jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, time) {
 
-    function setToolTip()
-    {
-        $('[data-toggle="tooltip"]').tooltip();
+    function setDialog(){
+        $( "#divDialog" ).dialog({
+            modal:true,
+            autoOpen: false,
+            width: 600,
+            height: 'auto',
+            show: {
+                effect: "blind",
+                duration: 1000
+            }
+        }).prev(".ui-dialog-titlebar").css("background","#00bbbb");
     }
 
+    function setToolTip() {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
 
     function setColorpicker() {
         $.each($('div[name=divColorpicker]'), function (index, value) {
@@ -41,7 +52,9 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         });
     }
 
-    //setting colorpicker
+    //setting
+
+    setDialog();
 
     setColorpicker();
 
@@ -132,8 +145,10 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
 
         var iDiv = document.createElement('div');
         iDiv.id = 'chartSection' + chartIndex;
-
-        $("#divChart").append(iDiv);
+        $("#divChart").prepend(iDiv);
+        $('#' + iDiv.id).css('width', 500);
+        $('#' + iDiv.id).css('height', 300);
+        $('#' + iDiv.id).attr('name', 'divSection');
 
         var objSet = new Object();
 
@@ -151,6 +166,10 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         setClass(builder, time, iDiv, chartManage, chartIndex, objSet, howLong, type);
 
         $("#" + iDiv.id).css("position", "absolute");
+        $("#" + iDiv.id).css("top", "30");
+        $("#" + iDiv.id).css("left", "60");
+
+        $("#" + iDiv.id).css("z-index", "2");
 
         chartIndex++;
 
@@ -210,7 +229,7 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         }
 
 
-        $('#selectTime').val("time").attr('selected','selected');
+        $('#selectTime').val("time").attr('selected', 'selected');
     });
 
     //chart Column Add
@@ -243,7 +262,7 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
         $('#thChange').html('How long');
         $('#inputKey').show();
         $('#selectKey').hide();
-        $('#selectChartTime').val("5minute").attr("selected","selected");
+        $('#selectChartTime').val("5minute").attr("selected", "selected");
     });
 
     //tabDataClick
@@ -284,7 +303,7 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
                 label: 'Save',
                 cssClass: 'btn-primary',
                 hotkey: 13, // Enter.
-                action: function() {
+                action: function () {
 
                     var dashboardName = $('#inputDashboardName').val();
 
@@ -314,13 +333,143 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
 
     $('#liLayout1').click(function () {
 
-        chartManage = [];
-
         chartLayout = 1;
 
-        $('#divChart').load('./layout/easyLayout1.html', function () {
-            setDroppable();
+        var promise = new Promise(
+            function (resolve, reject) {
+
+                $('div[name=divSection]').each(function (index, value) {
+                    $('#divChart').prepend(value);
+                    $(value).css('width', 500);
+                    $(value).css('height', 300);
+                });
+
+                resolve(null);
+            }
+        );
+
+        promise.then(
+            function (val){
+            $('#divLayout').load('./layout/easyLayout1.html', function () {
+
+                if ($('.panel-body').length < $('div[name=divSection]').length) {
+                    alert("배치가능한 수를 초과하였습니다.");
+                    $('#divLayout').empty();
+                    return;
+                }
+
+                var divSections = $('div[name=divSection]');
+
+                $('.panel-body').each(function (index, value) {
+
+                    if (index < $('div[name=divSection]').length) {
+
+                        console.info(index);
+
+                        console.log(divSections);
+
+                        $(divSections[index]).css({
+                            height: '100%',
+                            width: '100%',
+                            top: 0,
+                            left: 0
+                        });
+
+                        $(divSections[index]).prependTo($($('.panel-body')[index]));
+
+                        chartManage[divSections[index].id].render();
+                    }
+                });
+                setDroppable();
+
+            });
         });
+    });
+
+    $('#liLayout2').click(function () {
+
+        chartLayout = 2;
+
+        var promise = new Promise(
+            function (resolve, reject) {
+
+                $('div[name=divSection]').each(function (index, value) {
+                    $('#divChart').prepend(value);
+                    $(value).css('width', 500);
+                    $(value).css('height', 300);
+                });
+
+                resolve(null);
+            }
+        );
+
+        promise.then(
+            function (val){
+                $('#divLayout').load('./layout/easyLayout2.html', function () {
+
+                    if ($('.panel-body').length < $('div[name=divSection]').length) {
+                        alert("배치가능한 수를 초과하였습니다.");
+                        $('#divLayout').empty();
+                        return;
+                    }
+
+                    var divSections = $('div[name=divSection]');
+
+                    $('.panel-body').each(function (index, value) {
+
+                        if (index < $('div[name=divSection]').length) {
+
+                            $(divSections[index]).css({
+                                height: '100%',
+                                width: '100%',
+                                top: 0,
+                                left: 0
+                            });
+
+                            $(divSections[index]).prependTo($($('.panel-body')[index]));
+
+                            chartManage[divSections[index].id].render();
+                        }
+                    });
+                    setDroppable();
+
+                });
+            });
+    });
+
+    $('#liLayout3').click(function () {
+
+        chartLayout = 3;
+
+        var promise = new Promise(
+            function (resolve, reject) {
+
+                $('div[name=divSection]').each(function (index, value) {
+
+                    var position = $(value).offset();
+
+                    $('#divChart').prepend(value);
+
+                    $(value).css('left',position.left);
+                    $(value).css('top',position.top);
+                    $(value).css('width', 400);
+                    $(value).css('height', 300);
+
+                    chartManage[value.id].render();
+                });
+
+                resolve(null);
+            }
+        );
+
+        promise.then(
+            function (val) {
+
+                $('#divLayout').empty();
+
+                setDroppable();
+
+            });
     });
 
     $('#selectChartTime').change(function () {
@@ -359,8 +508,7 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
                 var chartInfo = val['value']['chartInfo'];
                 chartLayout = val['value']['chartLayout'];
 
-                drawLayout(chartLayout,function()
-                {
+                drawLayout(chartLayout, function () {
                     for (var i = 0; i < chartInfo.length; i++) {
                         var iDiv = document.createElement('div');
                         iDiv.id = 'chartSection' + chartIndex;
@@ -371,6 +519,7 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
                         $("#" + iDiv.id).css("top", chartInfo[i].top);
                         $("#" + iDiv.id).width(chartInfo[i].width);
                         $("#" + iDiv.id).height(chartInfo[i].height);
+                        $('#' + iDiv.id).attr('name', 'divSection');
 
                         setChart(builder, time, iDiv, chartInfo[i], true, chartManage, chartIndex);
 
@@ -394,9 +543,12 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
                 case "2":
                     html = './layout/easyLayout2.html';
                     break;
+                default :
+                    callback(null);
+                    break;
             }
 
-            $('#divChart').load(html, function () {
+            $('#divLayout').load(html, function () {
                 setDroppable();
                 callback(null);
             });
@@ -404,21 +556,19 @@ jui.ready(["chart.builder", "util.base", "util.time"], function (builder, _, tim
     }
 
 
-    $('#aLoad').click(function(){
+    $('#aLoad').click(function () {
 
         var obj = new Object();
         obj['type'] = 'dashboardName';
 
         $('#tbodyDashboardName').empty();
 
-        getDashboardName(obj,function(data)
-        {
-            for(var i=0; i<data.length; i++)
-            {
-                var row = "<tr> <td class='text-left'>"+
-                    "<a href=/dashboard/"+data[i]._id+" data-toggle='tooltip' data-placement='auto' title='"+new Date(data[i].time)+"'><h5>"
-                    +data[i].name+"</h5></a></td>"+ "<td class='text-left'><h5>"+
-                    data[i]._id+"</h5></td></tr>";
+        getDashboardName(obj, function (data) {
+            for (var i = 0; i < data.length; i++) {
+                var row = "<tr> <td class='text-left'>" +
+                    "<a href=/dashboard/" + data[i]._id + " data-toggle='tooltip' data-placement='auto' title='" + new Date(data[i].time) + "'><h5>"
+                    + data[i].name + "</h5></a></td>" + "<td class='text-left'><h5>" +
+                    data[i]._id + "</h5></td></tr>";
 
                 $('#tbodyDashboardName').append(row);
             }

@@ -135,8 +135,7 @@ function dateChart(builder, time, domId, objSet, movable) {
 
         chart.addWidget({type: "tooltip", brush: 0});
 
-        if(movable!=false)
-            divSet(domId);
+        divSet(domId);
 
         if (updateManage == true) {
             setTimeout(function () {
@@ -239,10 +238,6 @@ function dateChart(builder, time, domId, objSet, movable) {
 
             if(pattern.test(valueList[i])==false || obj[valueList[i]]!=null) {
 
-                console.log(typeof(obj[valueList[i]]));
-
-                console.log(obj[valueList[i]]);
-
                 if(typeof(obj[valueList[i]])=='number')
                     jsonObject[keyList[i]] = obj[valueList[i]];
                 else
@@ -266,22 +261,50 @@ function dateChart(builder, time, domId, objSet, movable) {
 
     function divSet(domId) {
 
-        $(domId).draggable({
-            stop: function( event, ui ) {
-                chart.render(true);
+        $(domId).contextmenu(function()
+        {
+            $('#tbodyChartInfo').empty();
+            $('#hChartTitle').html(chartTitle);
+            for(var i=0; i<chartKey.length; i++)
+            {
+                var row = '<tr><th>'+chartColors[i]+'</th>'+
+                    '<th>'+chartValue[i]+'</th>'+
+                    '<th>'+chartKey[i]+'</th></tr>';
+
+                $("#tbodyChartInfo").append(row);
             }
+
+            $( "#divDialog" ).dialog( "open" );
         });
 
-        $(domId).resizable({
-            stop: function (event, ui) {
-                chart.render(true);
-            }
-        });
+
+        if(movable==true) {
+
+            $(domId).draggable({
+                stop: function (event, ui) {
+                    chart.render(true);
+                }
+            });
+
+            $(domId).resizable({
+                maxHeight: 600,
+                maxWidth: 1000,
+                minHeight: 200,
+                minWidth: 300,
+                stop: function (event, ui) {
+                    chart.render(true);
+                }
+            });
+        }
     }
 
     this.destroy = function()
     {
         updateManage = false;
+    }
+
+    this.render = function () {
+        chart.render(true);
     }
 
     this.getInfo = function(){

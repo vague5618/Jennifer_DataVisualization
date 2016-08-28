@@ -42,6 +42,12 @@ module.exports.index = function (req, res) {
             res.send(result);
         });
     }
+
+    if(type == "snapPie"){
+        dataDAO.getOne(title, timeColumn, time, function (result) {
+            res.send(result);
+        });
+    }
 };
 
 

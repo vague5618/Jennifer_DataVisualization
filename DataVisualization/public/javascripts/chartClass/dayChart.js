@@ -52,7 +52,7 @@ function dayChart(builder, time, domId, objSet, movable) {
                                     ret = data[key];
                             }
                         }
-                        return 1.3 * ret;
+                        return 1.2 * ret;
                     },
                     step: 4
                 },
@@ -99,8 +99,7 @@ function dayChart(builder, time, domId, objSet, movable) {
 
         });
 
-        if (movable != false)
-            divSet(domId);
+        divSet(domId);
 
         initData();
     };
@@ -109,7 +108,7 @@ function dayChart(builder, time, domId, objSet, movable) {
 
         tpsIndex = getTimeToIndex();
 
-        addBrush(chartType,Math.round(tpsIndex),0);
+        addBrush(chartType, Math.round(tpsIndex), 0);
 
         $.ajax({
             url: serverIp + "/api",
@@ -202,7 +201,7 @@ function dayChart(builder, time, domId, objSet, movable) {
                 if (updateManage == true) {
                     setTimeout(function () {
                         update();
-                    }, chartSetMean  * 1000 * 60 - tookTime);
+                    }, chartSetMean * 1000 * 60 - tookTime);
                 }
             }
         });
@@ -240,14 +239,14 @@ function dayChart(builder, time, domId, objSet, movable) {
                     target: chartKey,
                     colors: chartColors,
                     axis: 0,
-                    display : "max",
-                    animate : true
+                    display: "max",
+                    animate: true
                 }
             );
             chart.addBrush(
                 {
                     type: "focus",
-                    start: index-1,
+                    start: index - 1,
                     end: index
                 }
             );
@@ -258,36 +257,61 @@ function dayChart(builder, time, domId, objSet, movable) {
 
     function updateBrush(type, index) {
 
-        if (type=='line')
-        {
+        if (type == 'line') {
             chart.updateBrush(0, {split: Math.round(index)});
             chart.updateBrush(1, {split: Math.round(index)});
         }
 
         if (type == 'column') {
 
-            callNumber=0;
+            callNumber = 0;
 
         }
     }
 
     function divSet(domId) {
 
-        $(domId).draggable({
-            stop: function (event, ui) {
-                chart.render(true);
+        $(domId).contextmenu(function () {
+            $('#tbodyChartInfo').empty();
+            $('#hChartTitle').html(chartTitle);
+            for (var i = 0; i < chartKey.length; i++) {
+                var row = '<tr><th>' + chartColors[i] + '</th>' +
+                    '<th>' + chartValue[i] + '</th>' +
+                    '<th>' + chartKey[i] + '</th></tr>';
+
+                $("#tbodyChartInfo").append(row);
             }
+
+            $("#divDialog").dialog("open");
         });
 
-        $(domId).resizable({
-            stop: function (event, ui) {
-                chart.render(true);
-            }
-        });
+
+        if (movable == true) {
+
+            $(domId).draggable({
+                stop: function (event, ui) {
+                    chart.render(true);
+                }
+            });
+
+            $(domId).resizable({
+                maxHeight: 600,
+                maxWidth: 1000,
+                minHeight: 200,
+                minWidth: 300,
+                stop: function (event, ui) {
+                    chart.render(true);
+                }
+            });
+        }
     }
 
     this.destroy = function () {
         updateManage = false;
+    }
+
+    this.render = function () {
+        chart.render(true);
     }
 
     function getTimeToIndex() {

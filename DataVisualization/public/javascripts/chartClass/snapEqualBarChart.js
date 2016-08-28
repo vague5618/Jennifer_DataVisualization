@@ -1,83 +1,73 @@
 /**
- * Created by JAY on 2016. 8. 16..
+ * Created by JAY on 2016. 8. 22..
  */
-function dataChart(builder, time, domId, objSet, movable) {
+/**
+ * Created by JAY on 2016. 7. 29..
+ */
 
-    var serverIp = "http://"+location.host;
+function snapEqualBarChart(builder, time, domId, objSet, movable) {
+
+    var serverIp = "http://" + location.host;
     var chart = null;
     var chartData = [];
-    var colors = new Object();
-    var chartDistinct = objSet["chartDistinct"];
     var chartColors = objSet["chartColors"];
-    var targetTitle = objSet["targetTitle"];
     var chartTitle = objSet["chartTitle"];
+    var targetTitle = objSet["targetTitle"];
     var chartKey = objSet["chartKey"];
-    var chartValue =  objSet["chartValue"];
+    var chartValue = objSet["chartValue"];
     var chartTime = objSet["chartTime"];
     var chartType = objSet["chartType"];
-    var initCycle = 60*5; //5분
-    var normalCycle = 5; // 5초
+    var initCycle = 60 * 6; //5분
+    var normalCycle = 2; // 5초
     var updateManage = true;
-    var ret = 0;
-    //title
-    //keyList jsonPath
-    //valueList jsonPath
-    //timeForGet 얼마큼가져올것인가
-    //timeColumn jsonPath
-    //graph 몇분그래프인지
 
     this.init = function () {
 
         updateManage = true;
 
         chart = builder(domId, {
-            canvas : true,
-            padding: 10,
+            padding: {
+                left: 10,
+                top: 10,
+                right: 10,
+                bottom: 0
+            },
             axis: [{
                 x: {
-                    type: "date",
-                    domain: getDomain(),
-                    interval: 1000 * 60,
-                    format: "hh:mm",
-                    key: "time",
-                    interval: 1,
-                    realtime: "minutes"
-                },
-                y: {
                     type: "range",
                     domain: function (data) {
+                        var sum = 0;
 
-                        ret = Math.max(ret, data.value);
+                        for (var key in data) {
+                            if (data.hasOwnProperty(key)) {
+                                if (typeof(data[key]) == "number")
+                                    sum += data[key];
+                            }
+                        }
 
-                        return 1.2 * ret;
-
+                        return sum;
                     },
-                    step: 4,
-                    line: "solid"
+
+                    step: 5,
+                    line: true
                 },
+                y: {
+                    domain: [""],
+                    line: true
+                },
+
                 padding: {
                     left: 50,
                     top: 50,
                     right: 20,
-                    bottom: 25
+                    bottom: 50
                 },
+
                 area: {
                     width: "100%",
                     height: "100%"
                 },
-            }],
 
-            widget: [{
-                type: "title",
-                text: chartTitle,
-                size: 15,
-                axis: 0
-            }, {
-                type : "cross",
-                yFormat: function (d) {
-                    return d.toFixed(2);
-                },
-                axis: 0
             }],
 
             style: {
@@ -86,9 +76,7 @@ function dataChart(builder, time, domId, objSet, movable) {
                 axisBorderRadius: 5,
                 titleFontSize: 12,
                 titleFontWeight: 700
-            },
-
-            render: false
+            }
         });
 
         settingData();
@@ -100,9 +88,30 @@ function dataChart(builder, time, domId, objSet, movable) {
             endTime,
             tookTime = null;
 
+        addBrush(chartType, chartKey, chartColors);
+
+        chart.addWidget({
+            type: "title",
+            text: chartTitle,
+            size: 15,
+            dy: 20
+            //align: "center"
+        });
+
+        chart.addWidget({
+            type: "tooltip"
+        });
+
+        chart.addWidget({
+            type: "legend",
+            filter: true,
+            dy: -10
+        });
+
+
         $.ajax({
-            url: serverIp+"/api",
-            data: {title: targetTitle, timeColumn: chartTime, time: initCycle, type: "5minute"},
+            url: serverIp + "/api",
+            data: {title: targetTitle, timeColumn: chartTime, time: startTime, type: "snapEqual"},
             type: 'GET',
             dataType: "json",
             async: false,
@@ -114,31 +123,15 @@ function dataChart(builder, time, domId, objSet, movable) {
 
                 tookTime = endTime - startTime;
 
-                var domain = getDomain();
-
-                for (var i = 0; i < arg.length; i++) {
-                    getData(chartData, domain, arg[i]);
-                }
+                getData(chartData, arg);
 
                 chart.axis(0).update(chartData);
 
-                chart.axis(0).updateGrid("x", {domain: domain});
-
                 console.log("take time : " + tookTime);
 
-                chart.render();
+                chart.render(true);
             }
         });
-
-
-        for(var i=0; i<chartKey.length; i++)
-        {
-            colors[chartKey[i]] = chartColors[i];
-        }
-
-        addBrush(chartType, colors);
-
-        chart.addWidget({type: "tooltip", brush: 0});
 
         divSet(domId);
 
@@ -149,14 +142,15 @@ function dataChart(builder, time, domId, objSet, movable) {
         }
     }
 
-    function update(targetTitle, timeForGet, timeColumn) {
+    function update(title, timeForGet, timeColumn) {
+
         var startTime = (new Date()).getTime(),
             endTime,
             tookTime = null;
 
         $.ajax({
-            url: serverIp+"/api",
-            data: {title: targetTitle, timeColumn : timeColumn, time: timeForGet, type: "5minute"},
+            url: serverIp + "/api",
+            data: {title: title, timeColumn: timeColumn, time: startTime, type: "snapEqual"},
             type: 'GET',
             dataType: "json",
             async: false,
@@ -168,23 +162,15 @@ function dataChart(builder, time, domId, objSet, movable) {
 
                 tookTime = endTime - startTime;
 
-                var domain = getDomain();
-
-                for (var i = 0; i < arg.length; i++) {
-                    getData(chartData, domain, arg[i]);
-                }
-
-                shiftData(chartData,domain);
+                getData(chartData, arg);
 
                 chart.axis(0).update(chartData);
-
-                chart.axis(0).updateGrid("x", {domain: domain});
 
                 console.log("take time : " + tookTime);
 
                 chart.render();
 
-                if(updateManage==true) {
+                if (updateManage == true) {
                     setTimeout(function () {
                         update(title, normalCycle, timeColumn);
                     }, 3000 - tookTime);
@@ -193,57 +179,53 @@ function dataChart(builder, time, domId, objSet, movable) {
         });
     };
 
-    function getDomain() {
-        return [new Date(new Date() - time.MINUTE * 5), new Date()];
+    function getData(list, obj) {
+
+        if (list.length == 1)
+            list.shift();
+
+        list.push(createObject(chartKey, chartValue, obj));
     }
 
-    function shiftData(list, domain){
-
-        for (var i = 0; i < list.length; i++) {
-            if (list[i].time.getTime() < domain[0].getTime()) {
-                list.shift();
-            } else {
-                break;
-            }
-        }
-    }
-
-    function getData(list, domain, obj) {
-
-        shiftData(list,domain);
-
-        var timestamp = obj[chartTime];
-
-        if(chartKey.indexOf(obj[chartDistinct].toString())!=-1)
-        {
-            list.push(createObject(timestamp, chartKey, chartValue, obj));
-        }
-    }
-
-    function addBrush(type, colors) {
+    function addBrush(type, columns, colors) {
 
         chart.addBrush(
             {
-                type: "canvas.scatter",
-                symbol : "cross",
-                target: ["value"],
+                type: "equalizerbar",
+                target: columns,
+                unit: 10,
                 clip: true,
-                colors: function(d)
-                {
-                    return colors[d.distinct];
-                },
+                colors: colors,
                 axis: 0
             }
         );
     }
 
-    function createObject(timestamp, keyList, valueList, obj) {
+    function createObject(keyList, valueList, obj) {
 
         var jsonObject = new Object();
+        var pattern = /\[[0-9]*\]/;
 
-        jsonObject['time'] = new Date(timestamp);
-        jsonObject['value'] = obj[valueList[0]];
-        jsonObject['distinct'] = obj[chartDistinct];
+        for (var i = 0; i < keyList.length; i++) {
+
+            if (pattern.test(valueList[i]) == false || obj[valueList[i]] != null) {
+
+                if (typeof(obj[valueList[i]]) == 'number')
+                    jsonObject[keyList[i]] = obj[valueList[i]];
+                else
+                    jsonObject[keyList[i]] = obj[valueList[i]][0];
+            } else {
+                var tempKey = valueList[i].split('[')[0];
+                var tempIndex = valueList[i].match(pattern)[0].replace("[", "").replace("]", "");
+
+                for (var j = 0; j < obj[tempKey].length; j++) {
+                    if (j == tempIndex)
+                        jsonObject[keyList[i]] = obj[tempKey][tempIndex];
+                }
+            }
+        }
+
+        console.log(jsonObject);
 
         return jsonObject;
     }
@@ -287,8 +269,7 @@ function dataChart(builder, time, domId, objSet, movable) {
         }
     }
 
-    this.destroy = function()
-    {
+    this.destroy = function () {
         updateManage = false;
     }
 
@@ -296,9 +277,9 @@ function dataChart(builder, time, domId, objSet, movable) {
         chart.render(true);
     }
 
-    this.getInfo = function(){
+    this.getInfo = function () {
 
-        objSet['type'] = "dataChart";
+        objSet['type'] = "snapEqualBarChart";
 
         return objSet;
     }
