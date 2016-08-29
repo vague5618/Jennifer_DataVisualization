@@ -3,6 +3,7 @@
  */
 var dataDAO = require('../models/DAO/dataDAO.js');
 var mysqlDAO = require('../models/DAO/mysqlDAO.js');
+var collect = require('../util/collect.js');
 var request = require('request');
 var jsonPath = require('JSONPath');
 var moment = require( 'moment' );
@@ -42,12 +43,13 @@ collectData = function (value) {
 
 module.exports.collectURL = function (title, url, formData, interval, timeCheck, collectTarget) {
 
-
-
     //수집기에 대한 중복 요청이 접근시에
-    if (recordIntervals[title] != null)
+    if (recordIntervals[title] != null) {
         recordIntervals[title]._idleTimeout = interval;
-
+        clearInterval(recordIntervals[title]);
+        recordIntervals[title]=null;
+        collect.collectURL(title,url,formData,interval,timeCheck,collectTarget);
+    }
     else {
 
         recordIntervals[title] = setInterval(function (title, url, formData, timeCheck) {

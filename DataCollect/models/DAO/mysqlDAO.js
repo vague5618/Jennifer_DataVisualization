@@ -21,6 +21,8 @@ module.exports.query = function(ip, query, callback) {
 
         connection = connectManager[ip];
 
+        console.log(query);
+
         connection.query(query, function (err, result) {
             console.log(result);
 

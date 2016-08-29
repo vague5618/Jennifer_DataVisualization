@@ -79,7 +79,16 @@ function dateChart(builder, time, domId, objSet, movable) {
                         return d.toFixed(2);
                     },
                     axis: 0
-                }],
+                }, {
+                    type:"tooltip",
+                    format : function(data, k) {
+                        return {
+                            key: k,
+                            value: data[k]
+                        }
+                    }
+                    }
+                ],
 
                 style: {
                     axisBorderColor: "#dcdcdc",
@@ -167,18 +176,18 @@ function dateChart(builder, time, domId, objSet, movable) {
                     getData(chartData, domain, arg[i]);
                 }
 
-                if(arg.length==0)
-                {
-                    var obj = new Object();
-                    obj[chartTime] = new Date().getTime();
-
-                    for(var i=0; i<chartValue.length; i++)
-                    {
-                        obj[chartValue[i]] = 0;
-                    }
-
-                    getData(chartData, domain, obj);
-                }
+                //if(arg.length==0)
+                //{
+                //    var obj = new Object();
+                //    obj[chartTime] = new Date().getTime();
+                //
+                //    for(var i=0; i<chartValue.length; i++)
+                //    {
+                //        obj[chartValue[i]] = 0;
+                //    }
+                //
+                //    getData(chartData, domain, obj);
+                //}
 
                 chart.axis(0).updateGrid("x", {domain: domain});
 

@@ -239,7 +239,6 @@ function dayChart(builder, time, domId, objSet, movable) {
                     target: chartKey,
                     colors: chartColors,
                     axis: 0,
-                    display: "max",
                     animate: true
                 }
             );

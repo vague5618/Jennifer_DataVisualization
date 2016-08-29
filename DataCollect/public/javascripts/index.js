@@ -102,15 +102,6 @@ $(document).ready(function () {
 
         var list = getTitle(form_data);
 
-        for(var i=0; i<list.length; i++)
-        {
-            if(title==list[i])
-            {
-                alert("title이 중복됩니다.");
-                return;
-            }
-        }
-
         $("#tbodyTable").children('tr').each(function () {
 
             var _key, _value = null;
@@ -206,14 +197,14 @@ $(document).ready(function () {
 
         var list = getTitle(form_data);
 
-        for(var i=0; i<list.length; i++)
-        {
-            if(title==list[i])
-            {
-                alert("title이 중복됩니다.");
-                return;
-            }
-        }
+        //for(var i=0; i<list.length; i++)
+        //{
+        //    if(title==list[i])
+        //    {
+        //        alert("title이 중복됩니다.");
+        //        return;
+        //    }
+        //}
 
         var collectTarget = new Object();
 

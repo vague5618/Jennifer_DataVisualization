@@ -120,6 +120,8 @@ function dataChart(builder, time, domId, objSet, movable) {
                     getData(chartData, domain, arg[i]);
                 }
 
+                shiftData(chartData,domain);
+
                 chart.axis(0).update(chartData);
 
                 chart.axis(0).updateGrid("x", {domain: domain});
@@ -186,7 +188,7 @@ function dataChart(builder, time, domId, objSet, movable) {
 
                 if(updateManage==true) {
                     setTimeout(function () {
-                        update(title, normalCycle, timeColumn);
+                        update(targetTitle, normalCycle, timeColumn);
                     }, 3000 - tookTime);
                 }
             }
@@ -202,8 +204,6 @@ function dataChart(builder, time, domId, objSet, movable) {
         for (var i = 0; i < list.length; i++) {
             if (list[i].time.getTime() < domain[0].getTime()) {
                 list.shift();
-            } else {
-                break;
             }
         }
     }
@@ -222,9 +222,12 @@ function dataChart(builder, time, domId, objSet, movable) {
 
     function addBrush(type, colors) {
 
+        if(type=='scatter')
+            type = "canvas.scatter";
+
         chart.addBrush(
             {
-                type: "canvas.scatter",
+                type: type,
                 symbol : "cross",
                 target: ["value"],
                 clip: true,

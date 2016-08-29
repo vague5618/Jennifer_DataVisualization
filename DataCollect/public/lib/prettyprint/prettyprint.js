@@ -156,7 +156,8 @@ var prettyPrint = (function(){
 						//$("#groupJSON input:last-child").val(path);
 
 						var row =
-							"<tr><td><input type='text' placeholder='Key' class='form-control'onClick='this.setSelectionRange(0, this.value.length)'/>" +
+							"<tr><td><input type='text' placeholder='Key' class='form-control'onClick='this.setSelectionRange(0, this.value.length)'"
+							+"value = "+cell.toString()+">" +
 							"<td><input type='text' placeholder='Key' class='form-control' onClick='this.setSelectionRange(0, this.value.length)'"
 							+ " value = " + path + " /></td></tr>";
 

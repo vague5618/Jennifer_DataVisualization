@@ -63,7 +63,10 @@ module.exports.getOne = function (title, timeColumn, getTime, callback) {
 
 
 module.exports.findOne = function (title, callback) {
-    dataDTO.findOne({title: title}, function (err, result) {
+
+    var query={};
+    query['natural'] = -1;
+    dataDTO.findOne({title : title}).sort(query).exec(function(err, result) {
         callback(result);
     });
 }

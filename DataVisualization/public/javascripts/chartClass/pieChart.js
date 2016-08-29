@@ -191,7 +191,7 @@ function pieChart(builder, time, domId, objSet, movable) {
                 type : "pie",
                 showText : "inside",
                 format : function(k, v) {
-                    return (v/chartSum).toFixed(2)*100 + "%";
+                    return ((v/chartSum).toFixed(2))*100 + "%";
                 },
                 colors: colors
             }
