@@ -13,6 +13,28 @@ module.exports.connection = function(req,res) {
     });
 };
 
+
+module.exports.connectDB = function(ip, user, password, port, database, callback) {
+
+    var obj = new Object();
+    var list = getArgs(this.connectDB);
+
+    for(var i=0; i<list.length; i++)
+    {
+        obj[list[i]] = arguments[i];
+    }
+
+    mysql.connect(obj, function(connection)
+    {
+        if(connection==null)
+            callback(null);
+
+        connectManager[ip] = connection;
+
+        callback(connection);
+    });
+};
+
 module.exports.query = function(ip, query, callback) {
 
     var connection = null;
@@ -21,12 +43,15 @@ module.exports.query = function(ip, query, callback) {
 
         connection = connectManager[ip];
 
-        console.log(query);
-
         connection.query(query, function (err, result) {
-            console.log(result);
 
-            callback(result);
+            if(err) {
+                console.log("mysqlDAO");
+                console.err(err);
+                callback(null);
+            }
+            else
+                callback(result);
         });
     }
     else
@@ -51,3 +76,13 @@ module.exports.getFields = function(query, callback) {
             callback(null);
     });
 };
+
+function getArgs(func) {
+    var args = func.toString().match(/function\s.*?\(([^)]*)\)/)[1];
+
+    return args.split(',').map(function(arg) {
+        return arg.replace(/\/\*.*\*\//, '').trim();
+    }).filter(function(arg) {
+        return arg;
+    });
+}

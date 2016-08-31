@@ -7,7 +7,7 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/routes.js');
 var cors = require('cors');
 var mongo = require('./util/mongo.js');
-
+var collect = require('./util/collect.js');
 
 var app = express();
 
@@ -27,5 +27,6 @@ require('./routes/routes')(app);
 
 
 mongo.connect("127.0.0.1");
+collect.loadCollect();
 
 module.exports = app;

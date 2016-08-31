@@ -151,6 +151,7 @@ $(document).ready(function () {
         obj['database'] = $('#inputDatabase').val();
         obj['table'] = $('#inputTable').val();
 
+
         var fields = getConnectDB(obj);
 
         if (fields == null) {
@@ -195,17 +196,6 @@ $(document).ready(function () {
 
         form_data['type'] = "title";
 
-        var list = getTitle(form_data);
-
-        //for(var i=0; i<list.length; i++)
-        //{
-        //    if(title==list[i])
-        //    {
-        //        alert("title이 중복됩니다.");
-        //        return;
-        //    }
-        //}
-
         var collectTarget = new Object();
 
         var keyList = [];
@@ -231,6 +221,10 @@ $(document).ready(function () {
         form_data['table'] = table;
         form_data['type'] = 'DB';
         form_data['timeType'] = timeType;
+        form_data['user'] = $('#inputUser').val();
+        form_data['password'] = $('#inputPassword').val();
+        form_data['port'] = $('#inputPort').val();
+        form_data['database'] = $('#inputDatabase').val();
 
         if(setRegister(form_data)!=null)
             alert("register Success");

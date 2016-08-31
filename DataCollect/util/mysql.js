@@ -6,7 +6,12 @@ var connection;
 
 module.exports.connect = function (obj, callback) {
 
-    var url = obj.url;
+    var url = null;
+    if(obj.url!=null)
+        url = obj.url;
+    else
+        url = obj.ip;
+
     var port = obj.port;
     var user = obj.user;
     var password = obj.password;

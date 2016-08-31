@@ -58,7 +58,6 @@ module.exports.getOne = function (title, timeColumn, getTime, callback) {
     });
 }
 
-
 module.exports.findOne = function (title, callback) {
     dataDTO.findOne({title: title}, function (err, result) {
         callback(result);
