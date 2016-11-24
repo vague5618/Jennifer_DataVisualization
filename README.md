@@ -33,3 +33,8 @@ v 1.1
 # Developer
 
 Jay
+
+# Reference
+
+https://www.youtube.com/watch?v=DzNxGtwmeig
+https://www.youtube.com/watch?v=vI_NF5XYNuY
